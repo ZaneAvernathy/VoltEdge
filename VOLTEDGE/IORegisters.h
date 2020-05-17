@@ -1387,7 +1387,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; or WRMPYA/WRMPYB.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.02
     JOY1 .word ? ; $004218
     JOY2 .word ? ; $00421A
     JOY3 .word ? ; $00421C
@@ -1410,7 +1410,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       JOY_X      = bits(%0000000001000000)
       JOY_L      = bits(%0000000000100000)
       JOY_R      = bits(%0000000000010000)
-      JOY_Unused = bits(%0000000000001111)
+      JOY_ID     = bits(%0000000000001111)
 
       ; Helpers:
 
