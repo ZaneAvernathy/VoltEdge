@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_TILES :?= false
 .if (!GUARD_VOLTEDGE_TILES)
   GUARD_VOLTEDGE_TILES := true
 
-  VoltEdge.Tiles .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Tiles_Created = 0.01
+  VoltEdge_Tiles_Updated = 0.02
 
   ; Tile constants
 

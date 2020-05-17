@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 .if (!GUARD_VOLTEDGE_IO_REGISTERS)
   GUARD_VOLTEDGE_IO_REGISTERS := true
 
-  VoltEdge.IORegisters .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_IORegisters_Created = 0.01
+  VoltEdge_IORegisters_Updated = 0.02
 
   ; Names, values, information, etc. are taken from fullsnes
   ; https://problemkaputt.de/fullsnes.htm

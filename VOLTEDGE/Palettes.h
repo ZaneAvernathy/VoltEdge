@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_PALETTES :?= false
 .if (!GUARD_VOLTEDGE_PALETTES)
   GUARD_VOLTEDGE_PALETTES := true
 
-  VoltEdge.Palettes .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Palettes_Created = 0.01
+  VoltEdge_Palettes_Updated = 0.02
 
   ; Palette constants
 

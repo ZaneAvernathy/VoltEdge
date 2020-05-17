@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_SAVE :?= false
 .if (!GUARD_VOLTEDGE_SAVE)
   GUARD_VOLTEDGE_SAVE := true
 
-  VoltEdge.Save .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Save_Created = 0.01
+  VoltEdge_Save_Updated = 0.02
 
   ; Created: 0.01
   ; Updated: 0.01

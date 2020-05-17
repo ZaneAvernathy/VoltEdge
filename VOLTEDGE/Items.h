@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_ITEMS :?= false
 .if (!GUARD_VOLTEDGE_ITEMS)
   GUARD_VOLTEDGE_ITEMS := true
 
-  VoltEdge.Items .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Items_Created = 0.01
+  VoltEdge_Items_Updated = 0.02
 
   ; Created: 0.01
   ; Updated: 0.01

@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_DMA :?= false
 .if (!GUARD_VOLTEDGE_DMA)
   GUARD_VOLTEDGE_DMA := true
 
-  VoltEdge.DMA .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_DMA_Created = 0.01
+  VoltEdge_DMA_Updated = 0.02
 
   ; DMA constants
 

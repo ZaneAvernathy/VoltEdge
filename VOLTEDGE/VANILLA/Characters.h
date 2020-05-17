@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_VANILLA_CHARACTERS :?= false
 .if (!GUARD_VOLTEDGE_VANILLA_CHARACTERS)
   GUARD_VOLTEDGE_VANILLA_CHARACTERS := true
 
-  VoltEdge.Vanilla.Characters .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Vanilla_Characters_Created = 0.01
+  VoltEdge_Vanilla_Characters_Updated = 0.02
 
   ; This is a list of the characters
   ; in vanilla FE5. Many of the generic

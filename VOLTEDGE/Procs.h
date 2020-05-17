@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_PROCS :?= false
 .if (!GUARD_VOLTEDGE_PROCS)
   GUARD_VOLTEDGE_PROCS := true
 
-  VoltEdge.Procs .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Procs_Created = 0.01
+  VoltEdge_Procs_Updated = 0.02
 
   ; Proc helpers
 

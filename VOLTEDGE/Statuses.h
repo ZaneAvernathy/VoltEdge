@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_STATUSES :?= false
 .if (!GUARD_VOLTEDGE_STATUSES)
   GUARD_VOLTEDGE_STATUSES := true
 
-  VoltEdge.Statuses .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Statuses_Created = 0.01
+  VoltEdge_Statuses_Updated = 0.02
 
   ; Created: 0.01
   ; Updated: 0.01

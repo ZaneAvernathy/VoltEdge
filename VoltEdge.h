@@ -3,11 +3,7 @@ GUARD_VOLTEDGE :?= false
 .if (!GUARD_VOLTEDGE)
   GUARD_VOLTEDGE := true
 
-  VoltEdge .namespace
-
-    Version = 0.01
-
-  .endn
+  VoltEdge_Version = 0.02
 
   .weak
 

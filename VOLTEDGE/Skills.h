@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_SKILLS :?= false
 .if (!GUARD_VOLTEDGE_SKILLS)
   GUARD_VOLTEDGE_SKILLS := true
 
-  VoltEdge.Skills .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Skills_Created = 0.01
+  VoltEdge_Skills_Updated = 0.02
 
   ; Created: 0.01
   ; Updated: 0.01

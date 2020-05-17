@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_VANILLA_ITEMS :?= false
 .if (!GUARD_VOLTEDGE_VANILLA_ITEMS)
   GUARD_VOLTEDGE_VANILLA_ITEMS := true
 
-  VoltEdge.Vanilla.Items .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Vanilla_Items_Created = 0.01
+  VoltEdge_Vanilla_Items_Updated = 0.02
 
   ; This is a list of the items in
   ; vanilla FE5.

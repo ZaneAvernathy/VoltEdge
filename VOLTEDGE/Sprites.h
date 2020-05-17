@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_SPRITES :?= false
 .if (!GUARD_VOLTEDGE_SPRITES)
   GUARD_VOLTEDGE_SPRITES := true
 
-  VoltEdge.Sprites .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Sprites_Created = 0.01
+  VoltEdge_Sprites_Updated = 0.02
 
   ; Created: 0.01
   ; Updated: 0.01

@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_VANILLA_TEMPORARY_FLAGS :?= false
 .if (!GUARD_VOLTEDGE_VANILLA_TEMPORARY_FLAGS)
   GUARD_VOLTEDGE_VANILLA_TEMPORARY_FLAGS := true
 
-  VoltEdge.TemporaryFlags .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_TemporaryFlags_Created = 0.01
+  VoltEdge_TemporaryFlags_Updated = 0.02
 
   ; Created: 0.01
   ; Updated: 0.01

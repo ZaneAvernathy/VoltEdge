@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_VANILLA_PERMANENT_FLAGS :?= false
 .if (!GUARD_VOLTEDGE_VANILLA_PERMANENT_FLAGS)
   GUARD_VOLTEDGE_VANILLA_PERMANENT_FLAGS := true
 
-  VoltEdge.Vanilla.PermanentFlags .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Vanilla_PermanentFlags_Created = 0.01
+  VoltEdge_Vanilla_PermanentFlags_Updated = 0.02
 
   ; This is a list of permanent event
   ; flags in vanilla FE5.

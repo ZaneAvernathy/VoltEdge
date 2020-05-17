@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_WRAM :?= false
 .if (!GUARD_VOLTEDGE_WRAM)
   GUARD_VOLTEDGE_WRAM := true
 
-  VoltEdge.WRAM .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_WRAM_Created = 0.01
+  VoltEdge_WRAM_Updated = 0.02
 
   ; This is a work-in-progress RAM map of FE5.
 

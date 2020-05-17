@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_VANILLA_CHAPTERS :?= false
 .if (!GUARD_VOLTEDGE_VANILLA_CHAPTERS)
   GUARD_VOLTEDGE_VANILLA_CHAPTERS := true
 
-  VoltEdge.Vanilla.Chapters .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Vanilla_Chapters_Created = 0.01
+  VoltEdge_Vanilla_Chapters_Updated = 0.02
 
   ; This is a list of the chapters in
   ; vanilla FE5.

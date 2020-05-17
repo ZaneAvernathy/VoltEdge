@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
 .if (!GUARD_VOLTEDGE_CHARACTERS)
   GUARD_VOLTEDGE_CHARACTERS := true
 
-  VoltEdge.Characters .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Characters_Created = 0.01
+  VoltEdge_Characters_Updated = 0.02
 
   ; Character helpers
 

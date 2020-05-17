@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_SRAM :?= false
 .if (!GUARD_VOLTEDGE_SRAM)
   GUARD_VOLTEDGE_SRAM := true
 
-  VoltEdge.SRAM .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_SRAM_Created = 0.01
+  VoltEdge_SRAM_Updated = 0.02
 
   .virtual $700000
 

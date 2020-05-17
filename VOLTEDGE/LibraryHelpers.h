@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
 .if (!GUARD_VOLTEDGE_LIBRARY_HELPERS)
   GUARD_VOLTEDGE_LIBRARY_HELPERS := true
 
-  VoltEdge.LibraryHelpers .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_LibraryHelpers_Created = 0.01
+  VoltEdge_LibraryHelpers_Updated = 0.02
 
   ; Library helper values
 

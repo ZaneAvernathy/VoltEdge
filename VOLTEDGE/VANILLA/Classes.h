@@ -3,12 +3,8 @@ GUARD_VOLTEDGE_VANILLA_CLASSES :?= false
 .if (!GUARD_VOLTEDGE_VANILLA_CLASSES)
   GUARD_VOLTEDGE_VANILLA_CLASSES := true
 
-  VoltEdge.Vanilla.Classes .namespace
-
-    Created = 0.01
-    Updated = 0.01
-
-  .endn
+  VoltEdge_Vanilla_Classes_Created = 0.01
+  VoltEdge_Vanilla_Classes_Updated = 0.02
 
   ; This is a list of the classes in
   ; vanilla FE5.
