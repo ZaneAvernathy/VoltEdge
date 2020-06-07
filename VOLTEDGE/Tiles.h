@@ -41,7 +41,7 @@ GUARD_VOLTEDGE_TILES :?= false
   ; Tile helpers
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.02
     ; TilemapEntry
 
       ; This function creates a hardware
@@ -54,8 +54,8 @@ GUARD_VOLTEDGE_TILES :?= false
 
       ; lda #TilemapEntry($012, 3, false, true, true)
 
-      TilemapEntry .function TileIndex, Palette, Priority, XFlip, YFlip
-      .endf bits((int(YFlip) << 15) | (int(XFlip) << 14) | (int(Priority) << 13) | ((Palette << 10) & TM_Palette) | (TileIndex & TM_TileIndex))
+      TilemapEntry .function TileIndex, Pal, Priority, XFlip, YFlip
+      .endf bits((int(YFlip) << 15) | (int(XFlip) << 14) | (int(Priority) << 13) | ((Pal << 10) & TM_Palette) | (TileIndex & TM_TileIndex))
 
     ; Created: 0.01
     ; Updated: 0.01

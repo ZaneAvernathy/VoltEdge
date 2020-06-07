@@ -57,9 +57,9 @@ GUARD_VOLTEDGE_SPRITES :?= false
     .ends
 
     ; Created: 0.01
-    ; Updated: 0.01
-    OAMTileAndAttr .function TileIndex, Palette, Priority, XFlip, YFlip
-    .endf ((int(YFlip) << 15) | (int(XFlip) << 14) | ((Priority & $3) << 12) | ((Palette & $7) << 9) | TileIndex)
+    ; Updated: 0.02
+    OAMTileAndAttr .function TileIndex, Pal, Priority, XFlip, YFlip
+    .endf ((int(YFlip) << 15) | (int(XFlip) << 14) | ((Priority & $3) << 12) | ((Pal & $7) << 9) | TileIndex)
 
     ; Created: 0.01
     ; Updated: 0.01
