@@ -206,12 +206,25 @@ GUARD_VOLTEDGE_WRAM :?= false
     ; These are used for NMI and IRQ
     ; interrupts.
 
-    wUnknown0000D3 .word ? ; $0000D3 0.01
-    wUnknown0000D5 .word ? ; $0000D5 0.01
-    wUnknown0000D7 .word ? ; $0000D7 0.01
-    wUnknown0000D9 .word ? ; $0000D9 0.01
-    wUnknown0000DB .word ? ; $0000DB 0.01
-    wUnknown0000DD .word ? ; $0000DD 0.01
+    wVBlankPointer            .word ? ; $0000D3 0.02
+      ; This is a short pointer to a routine
+      ; in bank $80 to run every VBlank.
+    wIRQPointer               .word ? ; $0000D5 0.02
+      ; This is a short pointer to a routine
+      ; in bank $80 to run during an IRQ.
+    wMainLoopPointer          .word ? ; $0000D7 0.02
+      ; This is a short pointer to a routine
+      ; in bank $80 to run every mainloop cycle.
+    wVBlankFlag               .word ? ; $0000D9 0.02
+      ; When its upper bit is set, don't run
+      ; the routine pointed to wVBlankPointer
+      ; during this VBlank.
+    wVBlankEnabledFramecount  .word ? ; $0000DB 0.02
+      ; This is a counter for frames where a
+      ; wVBlankPointer routine is run.
+    wVBlankDisabledFramecount .word ? ; $0000DD 0.02
+      ; This is a counter for frames where a
+      ; wVBlankPointer routine is not run.
 
   .endv
 
@@ -765,6 +778,28 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endv
 
+  .virtual $0015A1
+
+    aMapBattleMapSpriteActiveOffsetArray .fill (2 * size(word)) ; $0015A1 0.02
+
+  .endv
+
+  .virtual $0015BF
+
+    aMapBattleRangedFlag .word ?                                    ; $0015BF 0.02
+    aMapBattleMapSpriteIndexArray .fill (2 * size(word))            ; $0015C1 0.02
+    aMapBattleActionStructArray .fill (2 * size(addr))              ; $0015C5 0.02
+    aMapBattleDirectionArray .fill (2 * size(word))                 ; $0015C9 0.02
+    aMapBattleXCoordArray .fill (2 * size(word))                    ; $0015CD 0.02
+    aMapBattleYCoordArray .fill (2 * size(word))                    ; $0015D1 0.02
+    aMapBattleTargetXCoordArray .fill (2 * size(word))              ; $0015D5 0.02
+    aMapBattleTargetYCoordArray .fill (2 * size(word))              ; $0015D9 0.02
+    aMapBattleWeaponAndWeaponTypeArray .fill (2 * (2 * size(byte))) ; $0015DD 0.02
+    aMapBattleWeaponArray .fill (2 * size(word))                    ; $0015E1 0.02
+    aMapBattleActiveSpriteIndexArray .fill (2 * size(word))         ; $0015E5 0.02
+
+  .endv
+
   .virtual $00172C
 
     wEventEngineStatus .word ? ; $00172C 0.01
@@ -793,6 +828,20 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is the offset of the next
       ; free sprite in aSpriteBuffer.
     wUnknown001E22 .word ?                              ; $001E22 0.01
+
+    ; This is the space allotted to the stack.
+
+    aStackSpace .block                      ; $001E24 0.02
+      aTop .fill ($001FF8 - size(byte) - *) ; $001E24 0.02
+      bFirstFree .byte ?                    ; $001FF7 0.02
+      aBottom                               ; $001FF8 0.02
+    .bend
+
+    ; These are for identifying the engine
+    ; and are used on reset.
+
+    aEngineUnknown .fill 4 ; $001FF8 0.02
+    aEngineName    .fill 4 ; $001FFC 0.02
 
   .endv
 
@@ -924,6 +973,32 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     lGold .long ? ; $7E4F93 0.01
 
+    wUnknown7E4F96 .word ? ; $7E4F96 0.02
+    wUnknown7E4F98 .word ? ; $7E4F98 0.02
+
+  .endv
+
+  .virtual $7E50E6
+
+    aClassDataBuffer .dstruct structClassDataEntry            ; $7E50E6 0.02
+      ; This buffer is filled with a ROM class data struct.
+    aCharacterDataBuffer .dstruct structCharacterDataROMEntry ; $7E510A 0.02
+      ; This buffer is filled with a ROM character data struct.
+    aItemStatBonusBuffer .dstruct structItemStatBonuses       ; $7E513A 0.02
+      ; This buffer is filled with an item's stat bonuses.
+
+  .endv
+
+  .virtual $7E51CC
+
+    wCurrentRegisteringMapSpriteID .word ? ; $7E51CC 0.02
+
+  .endv
+
+  .virtual $7E520C
+
+    aTerrainMovementCostBuffer .dstruct structTerrainEntry ; $7E520C 0.02
+
   .endv
 
   .virtual $7E524C
@@ -937,7 +1012,34 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endv
 
-  .virtual $7E6FCB
+  .virtual $7E528C
+
+    aAllegianceInfo     .block  ; $7E528C 0.02
+      bAlliedAllegiance .byte ? ; $7E528C 0.02
+      bEnemyAllegiance  .byte ? ; $7E528D 0.02
+      bNPCAllegiance    .byte ? ; $7E528E 0.02
+                        .byte ? ; $7E528F 0.02
+    .bend
+
+    aPhaseControllerInfo     .block  ; $7E5290 0.02
+      bPlayerPhaseController .byte ? ; $7E5290 0.02
+      bEnemyPhaseController  .byte ? ; $7E5291 0.02
+      bNPCPhaseController    .byte ? ; $7E5292 0.02
+                             .byte ? ; $7E5293 0.02
+    .bend
+
+    aAllegianceTargets            .block  ; $7E5294 0.02
+      bAlliedAllegianceTargetable .byte ? ; $7E5294 0.02
+      bEnemyAllegianceTargetable  .byte ? ; $7E5295 0.02
+      bNPCAllegianceTargetable    .byte ? ; $7E5296 0.02
+                                  .byte ? ; $7E5297 0.02
+    .bend
+
+    ; These arrays are for units.
+
+    aPlayerUnits .fill (size(structCharacterDataRAM) * 48) ; $7E5298 0.02
+    aEnemyUnits  .fill (size(structCharacterDataRAM) * 51) ; $7E5EC8 0.02
+    aNPCUnits    .fill (size(structCharacterDataRAM) * 16) ; $7E6BBB 0.02
 
     ; These arrays are for units/tiles
     ; on the map.
@@ -957,6 +1059,15 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endv
 
+  .virtual $7E7BCB
+
+    aTerrainMap .fill $600 ; $7E7BCB 0.02
+      ; This map is filled with the
+      ; terrain IDs of all tiles on
+      ; the map.
+
+  .endv
+
   .virtual $7EA4EA
 
     wCapturingFlag     .word ? ; $7EA4EA 0.01
@@ -970,6 +1081,19 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; These structs are filled with
       ; character-related data during
       ; certain actions, like battles.
+
+  .endv
+
+  .virtual $7EA937
+
+    lUNITGroupLoadingPointer .long ?        ; $7EA937 0.02
+      ; This points to the current UNIT struct entry
+      ; being loaded.
+    wUNITGroupLoadingCount          .word ? ; $7EA93A 0.02
+      ; This is the count of the number of units to be loaded.
+    wUNITGroupLoadingInventoryIndex .word ? ; $7EA93C 0.02
+      ; This is a counter for the current item to
+      ; be added from a UNIT struct.
 
   .endv
 
@@ -1026,6 +1150,27 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; This is set to 1 during
         ; map sprite battles.
 
+    wActiveMapSpriteCurrentSpriteOffset .word ? ; $7FAA16 0.02
+
+  .endv
+
+  .virtual $7FAA5A
+
+    aUnknown7FAA5A .fill (size(word) * 4) ; $7FAA5A 0.02
+
+  .endv
+
+  .virtual $7FAA7A
+
+    aActiveMapSpriteScreenXMetatileOffsetArray .fill (size(word) * 4) ; $7FAA7A 0.02
+    aActiveMapSpriteScreenYMetatileOffsetArray .fill (size(word) * 4) ; $7FAA82 0.02
+
+  .endv
+
+  .virtual $7FAA92
+
+    aUnknown7FAA92 .fill (size(word) * 4) ; $7FAA92 0.02
+
   .endv
 
   .virtual $7FAA42
@@ -1045,6 +1190,12 @@ GUARD_VOLTEDGE_WRAM :?= false
     aActiveMapSpriteMovementSpeedArray .fill (size(word) * 4) ; $7FAAAA 0.01
       ; These control the movement speed
       ; of active moving map sprites.
+
+  .endv
+
+  .virtual $7FAAF3
+
+    lUnknown7FAAF3 .long ? ; $7FAAF3 0.02
 
   .endv
 
