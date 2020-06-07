@@ -81,6 +81,7 @@ GUARD_VOLTEDGE :?= false
   ; Library definitions
 
     .include "VOLTEDGE/Characters.h"
+    .include "VOLTEDGE/Classes.h"
     .include "VOLTEDGE/DMA.h"
     .include "VOLTEDGE/Items.h"
     .include "VOLTEDGE/Palettes.h"
