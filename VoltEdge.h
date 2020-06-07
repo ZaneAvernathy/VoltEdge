@@ -91,6 +91,7 @@ GUARD_VOLTEDGE :?= false
     .include "VOLTEDGE/Sprites.h"
     .include "VOLTEDGE/Statuses.h"
     .include "VOLTEDGE/TemporaryFlags.h"
+    .include "VOLTEDGE/Terrain.h"
     .include "VOLTEDGE/Tiles.h"
 
     .include "VOLTEDGE/SRAM.h"
