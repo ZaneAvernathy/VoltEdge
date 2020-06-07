@@ -29,7 +29,7 @@ GUARD_VOLTEDGE_VANILLA_ITEMS :?= false
   ; appears in game.
 
   ; Created: 0.01
-  ; Updated: 0.01
+  ; Updated: 0.02
   IronSword       = $01
   SteelSword      = $02
   SilverSword     = $03
@@ -144,7 +144,7 @@ GUARD_VOLTEDGE_VANILLA_ITEMS :?= false
   SilenceStaff    = $70
   Sleep           = $71
   TorchStaff      = $72
-  Return          = $73
+  ReturnStaff     = $73
   Hammerne        = $74
   ThiefStaff      = $75
   Watch           = $76
