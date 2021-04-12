@@ -841,7 +841,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
 
         ; Created: 0.03
         ; Updated: 0.03
-        rlASMCSetCharacterDataByteIfCharacterByte ?= address($8CB2B6)
+        rlASMCSetCharacterDataByteIfCharacterByte :?= address($8CB2B6)
           ; Inputs:
           ;   wEventEngineParameter1: character data byte offset
           ;   wEventEngineParameter2: value to store
