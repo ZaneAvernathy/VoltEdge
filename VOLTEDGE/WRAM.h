@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.02
+  VoltEdge_WRAM_Updated = 0.03
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -808,6 +808,89 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endv
 
+  .virtual $001982
+
+    lBattleAnimationScriptPointer .long ? ; $001982 0.03
+
+  .endv
+
+  .virtual $001993
+
+    lBattleAnimationSubsheetPointer .long ? ; $001993 0.03
+
+  .endv
+
+  .virtual $001AA1
+
+    wBattleAnimationUnit1TerrainBackground .word ? ; $001AA1 0.03
+    wBattleAnimationUnit2TerrainBackground .word ? ; $001AA3 0.03
+    bBattleAnimationDistanceBetweenUnits .byte ?   ; $001AA5 0.03
+    wBattleAnimationStartingExperience .word ?     ; $001AA6 0.03
+    wBattleAnimationGainedExperience .word ?       ; $001AA8 0.03
+    bBattleAnimationEndLevel .byte ?               ; $001AAA 0.03
+
+    aBattleAnimationUnit1Info .block ; $001AAB 0.03
+      wClass .word ?                 ; $001AAB 0.03
+      wAdjustedCharacter .word ?     ; $001AAD 0.03
+        ; This is either the lower byte of the
+        ; unit's character ID or it is set to a default.
+      wCharacter .word ?             ; $001AAF 0.03
+      wWeapon .word ?                ; $001AB1 0.03
+      wWeaponAfter .word ?           ; $001AB3 0.03
+        ; This is the unit's weapon after combat,
+        ; with the upper byte being the remaining
+        ; durability.
+      bHPChangeProgress .byte ?      ; $001AB5 0.03
+        ; When a unit's HP is changing, this is
+        ; the progress toward the next point.
+      bCurrentHP .byte ?             ; $001AB6 0.03
+      bMaxHP .byte ?                 ; $001AB7 0.03
+      wHPChangeIncrement .word ?     ; $001AB8 0.03
+        ; This is the value to change
+        ; bHPChangeProgress by every tick.
+      bHPChangeTarget .byte ?        ; $001ABA 0.03
+        ; This is the target HP for a unit's
+        ; HP change.
+      bGender .byte ?                ; $001ABB 0.03
+      bWeaponStyle .byte ?           ; $001ABC 0.03
+        ; This is a packed byte, where the
+        ; upper nybble is the battle animation
+        ; weapon type, lower nybble is
+        ; unknown.
+    .bend
+
+    aBattleAnimationUnit2Info .block ; $001ABD 0.03
+      wClass .word ?                 ; $001ABD 0.03
+      wAdjustedCharacter .word ?     ; $001ABF 0.03
+        ; This is either the lower byte of the
+        ; unit's character ID or it is set to a default.
+      wCharacter .word ?             ; $001AC1 0.03
+      wWeapon .word ?                ; $001AC3 0.03
+      wWeaponAfter .word ?           ; $001AC5 0.03
+        ; This is the unit's weapon after combat,
+        ; with the upper byte being the remaining
+        ; durability.
+      bHPChangeProgress .byte ?      ; $001AC7 0.03
+        ; When a unit's HP is changing, this is
+        ; the progress toward the next point.
+      bCurrentHP .byte ?             ; $001AC8 0.03
+      bMaxHP .byte ?                 ; $001AC9 0.03
+      wHPChangeIncrement .word ?     ; $001ACA 0.03
+        ; This is the value to change
+        ; bHPChangeProgress by every tick.
+      bHPChangeTarget .byte ?        ; $001ACC 0.03
+        ; This is the target HP for a unit's
+        ; HP change.
+      bGender .byte ?                ; $001ACD 0.03
+      bWeaponStyle .byte ?           ; $001ACE 0.03
+        ; This is a packed byte, where the
+        ; upper nybble is the battle animation
+        ; weapon type, lower nybble is
+        ; unknown.
+    .bend
+
+  .endv
+
   .virtual $001C00
 
     ; These are a sprite buffer that
@@ -842,6 +925,19 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     aEngineUnknown .fill 4 ; $001FF8 0.02
     aEngineName    .fill 4 ; $001FFC 0.02
+
+  .endv
+
+  .virtual $7E41AE
+
+    bBattleDistance .byte ? ; $7E41AE 0.03
+      ; This is the distance between battling units.
+
+  .endv
+
+  .virtual $7E428C
+
+    aBattleRoundsData .fill $200
 
   .endv
 
@@ -1084,6 +1180,24 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endv
 
+  .virtual $7EA69B
+
+    ; These are used for leveling units.
+
+    aUnitAdjustedGrowths .block ; $7EA69B 0.03
+      wHP .word ?               ; $7EA69B 0.03
+      wSTR .word ?              ; $7EA69D 0.03
+      wMAG .word ?              ; $7EA69F 0.03
+      wSKL .word ?              ; $7EA6A1 0.03
+      wSPD .word ?              ; $7EA6A3 0.03
+      wDEF .word ?              ; $7EA6A5 0.03
+      wCON .word ?              ; $7EA6A7 0.03
+      wLUK .word ?              ; $7EA6A9 0.03
+      wMOV .word ?              ; $7EA6AB 0.03
+    .bend
+
+  .endv
+
   .virtual $7EA937
 
     lUNITGroupLoadingPointer .long ?        ; $7EA937 0.02
@@ -1196,6 +1310,75 @@ GUARD_VOLTEDGE_WRAM :?= false
   .virtual $7FAAF3
 
     lUnknown7FAAF3 .long ? ; $7FAAF3 0.02
+
+  .endv
+
+  .virtual $7FE1B7
+
+    .union
+
+      .struct
+
+        ; These values are copied from aBattleAnimationUnit1Info
+        ; and aBattleAnimationUnit2Info when filling in
+        ; aBattleAnimationUnit1Data and aBattleAnimationUnit2Data.
+
+        aBattleAnimationCurrentUnitTemp .block ; $7FE1B7 0.03
+          bClass .byte ?                       ; $7FE1B7 0.03
+          bWeaponType .byte ?                  ; $7FE1B8 0.03
+          bAdjustedCharacter .byte ?           ; $7FE1B9 0.03
+          bGender .byte ?                      ; $7FE1BA 0.03
+        .bend
+
+        .fill ($7FE1BF - *)
+
+        ; These values control distances at which
+        ; parts of a battle animation happen.
+
+        bBattleAnimationUnit1MovementDataIndex .byte ? ; $7FE1BF 0.03
+        bBattleAnimationUnit2MovementDataIndex .byte ? ; $7FE1C0 0.03
+
+      .ends
+
+      .struct
+
+        ; These values will be copied into one of
+        ; aBattleAnimationUnit1Data or
+        ; aBattleAnimationUnit2Data.
+
+        aBattleAnimationCurrentUnitDataTemp .block ; $7FE1B7 0.03
+          bScriptIndex .byte ?                     ; $7FE1B7 0.03
+          bUnderlayIndex .byte ?                   ; $7FE1B8 0.03
+          bOverlayIndex .byte ?                    ; $7FE1B9 0.03
+          bPaletteIndex .byte ?                    ; $7FE1BA 0.03
+        .bend
+
+      .ends
+
+      .struct
+
+        .byte ?
+
+        ; These are used for displaying animations
+        ; during a battle.
+
+        aBattleAnimationUnit1Data .block ; $7FE1B8 0.03
+          bUnderlayIndex .byte ?         ; $7FE1B8 0.03
+          bOverlayIndex .byte ?          ; $7FE1B9 0.03
+          bPaletteIndex .byte ?          ; $7FE1BA 0.03
+          bScriptIndex .byte ?           ; $7FE1BB 0.03
+        .bend
+
+        aBattleAnimationUnit2Data .block ; $7FE1BC 0.03
+          bUnderlayIndex .byte ?         ; $7FE1BC 0.03
+          bOverlayIndex .byte ?          ; $7FE1BD 0.03
+          bPaletteIndex .byte ?          ; $7FE1BE 0.03
+          bScriptIndex .byte ?           ; $7FE1BF 0.03
+        .bend
+
+      .ends
+
+    .endu
 
   .endv
 
