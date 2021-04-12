@@ -802,9 +802,55 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $00172C
 
+    ; Event engine variables
+
     wEventEngineStatus .word ? ; $00172C 0.01
       ; This is a status bitfield
       ; that controls the event engine.
+
+  .endv
+
+  .virtual $001734
+
+    wEventEngineCharacterStructParameter .word ?                  ; $001734 0.03
+      ; This is used as a parameter for
+      ; events that access the character data
+      ; struct. It is set to the struct field
+      ; offset that is being accessed.
+    wEventEngineCharacterTarget .word ?                           ; $001736 0.03
+      ; This is used as a parameter for
+      ; events that search for or affect
+      ; units with a specific character ID.
+    wEventEngineXCoordinate .word ?                               ; $001738 0.03
+    wEventEngineYCoordinate .word ?                               ; $00173A 0.03
+      ; These are used as parameters
+      ; for events that target specific
+      ; coordinates.
+    wEventEngineXCoordinateAlt .word ?                            ; $00173C 0.03
+    wEventEngineYCoordinateAlt .word ?                            ; $00173E 0.03
+      ; Similar to wEventEngineXCoordinate
+      ; and wEventEngineYCoordinate, used
+      ; rarely if an event needs two
+      ; pairs of coordinates.
+    wEventEngineParameter1 .word ?                                ; $001740 0.03
+    wEventEngineParameter2 .word ?                                ; $001742 0.03
+    wEventEngineParameter3 .word ?                                ; $001744 0.03
+      ; These are used as general
+      ; purpose parameters for events.
+    lEventEngineLongParameter .word ?                             ; $001746 0.03
+      ; This is a general purpose
+      ; long parameter for events.
+    wEventEngineSavedTile .word ?                                 ; $001749 0.03
+      ; This is set to the map
+      ; metatile of the original
+      ; tile of the single tile change
+      ; when using rlASMCSingleTileChangeSaved.
+    wEventEngineTruthFlag .word ?                                 ; $00174B 0.03
+      ; Used as a return value for events.
+      ; Zero if false, nonzero if true.
+    aEventCharacterBuffer .dstruct structExpandedCharacterDataRAM ; $00174D 0.03
+      ; This is rarely written to internally
+      ; by events.
 
   .endv
 
