@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.03
+  VoltEdge_Events_Helpers_Updated = 0.04
 
   ; Misc. helpers for various
   ; event-related things.
@@ -40,6 +40,41 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
           .word \ItemList
         .endu
         .word $0000
+      .endm
+
+  ; Vanilla chests
+
+    ; Each chest in vanilla FE5 has its own
+    ; block of data that includes its coordinates,
+    ; item, and a chunk of events.
+
+    ; For use with the macroECVanillaChest macro.
+
+    ; There isn't really a reason to use this
+    ; yourself, as repeating this is a waste of space.
+
+      ; Created: 0.04
+      ; Updated: 0.04
+      VANILLA_CHEST .macro Item, Coordinates
+        _Coordinates .byte \Coordinates
+        _Item .word \Item
+        _Events
+          STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
+          STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
+          STORE_WORD wEventEngineParameter1, $0026 ; TODO: tile definitions
+
+          CALL_ASM_LOOP rlASMCSingleTileChangeByCoords
+          YIELD_UNK
+
+          STORE_WORD_FROM wEventEngineParameter1, _Item
+          CALL_ASM_LOOP rlASMCGiveActiveUnitItem
+          YIELD_UNK
+
+          CALL_ASM_LOOP rlASMCSetupGiveItemPopup
+          CALL_ASM_LOOP rlASMCWaitWhileGiveItemPopup
+          CALL_ASM_LOOP rlASMCSetupGiveToConvoyIfInventoryFull
+          CALL_ASM_LOOP rlASMCWaitWhileGiveToConvoyIfInventoryFull
+        END2
       .endm
 
   ; Unit groups

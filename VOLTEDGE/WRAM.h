@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.03
+  VoltEdge_WRAM_Updated = 0.04
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -1117,6 +1117,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     wUnknown7E4F96 .word ? ; $7E4F96 0.02
     wUnknown7E4F98 .word ? ; $7E4F98 0.02
+    wUnknown7E4F9A .word ? ; $7E4F9A 0.04
+    wUnknown7E4F9C .word ? ; $7E4F9C 0.04
+    wUnknown7E4F9E .word ? ; $7E4F9E 0.04
+
+    wActiveTileXCoordinate .word ? ; $7E4FA0 0.04
+    wActiveTileYCoordinate .word ? ; $7E4FA2 0.04
+      ; These are the coordinates of the tile
+      ; that the active unit has stopped on.
 
   .endv
 

@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.03
+  VoltEdge_Events_Macros_Updated = 0.04
 
   ; Condition macros
 
@@ -42,10 +42,44 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endm
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.04
     macroECBossQuote .macro EventFlag, Character
-      EVENT \EventFlag, 
+      EVENT \EventFlag, eventBattleQuoteDummyEvent
+        CHECK_SINGLE \Character
+      END_DEFINITION
+    .endm
 
+    ; Created: 0.04
+    ; Updated: 0.04
+    macroECDoor .macro EventFlag, Coordinates, EventPointer
+      EVENT \EventFlag, \EventPointer
+        CMP_BYTE wActiveTileXCoordinate, \Coordinates[0]
+        CMP_BYTE wActiveTileYCoordinate, \Coordinates[1]
+      END_DEFINITION
+    .endm
 
+    ; Created: 0.04
+    ; Updated: 0.04
+    macroECVanillaChest .macro EventFlag, ChestDataPointer
+      ; This macro mimics the way vanilla
+      ; FE5 does chests: each chest gets a
+      ; unique chunk of events and its coordinates
+      ; are part of this chunk rather than the
+      ; EC definition.
+      ; For use with the VANILLA_CHEST helper.
+      EVENT \EventFlag, \ChestDataPointer._Events
+        CMP_BYTE_AT wCursorXCoord, \ChestDataPointer._Coordinates
+        CMP_BYTE_AT wCursorYCoord, \ChestDataPointer._Coordinates+size(byte)
+      END_DEFINITION
+    .endm
+
+    ; Created: 0.04
+    ; Updated: 0.04
+    macroECChest .macro EventFlag, Coordinates, EventPointer
+      EVENT \EventFlag, \EventPointer
+        CMP_BYTE wCursorXCoord, \Coordinates[0]
+        CMP_BYTE wCursorYCoord, \Coordinates[1]
+      END_DEFINITION
+    .endm
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS
