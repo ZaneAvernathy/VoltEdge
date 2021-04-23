@@ -70,8 +70,8 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; specified character ID to the player allegiance.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCChangeAllegianceToEnergy :?= address($8CA189)
+        ; Updated: 0.05
+        rlASMCChangeAllegianceToEnemy :?= address($8CA189)
           ; Inputs:
           ;   wEventEngineCharacterTarget: target character ID
           ; Changes the first unit found with the
