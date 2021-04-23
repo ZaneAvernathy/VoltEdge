@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.03
+  VoltEdge_Events_Values_Updated = 0.05
 
   ; Useful vanilla pointers
 
@@ -852,6 +852,371 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; to a specified unit ID. You could use this to
           ; affect all units rescuing a certain character ID,
           ; for instance.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCSetCharacterDataByteIfCharacterWord :?= address($8CB2FC)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data byte offset
+          ;   wEventEngineParameter2: value to store
+          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterStructParameter: character data word offset to check
+          ; Sets a character data byte to a specified value
+          ; for all units with some character data word set
+          ; to a specified unit ID. You could use this to
+          ; affect all units rescuing a certain character ID,
+          ; for instance.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCSetCharacterDataWordBitsIfCharacterWord :?= address($8CB33F)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data word offset
+          ;   wEventEngineParameter2: value to combine
+          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterStructParameter: character data word offset to check
+          ; rlASMCSetCharacterDataByteIfCharacterWord but
+          ; instead sets the bits specified by wEventEngineParameter2
+          ; in the character data word specified by
+          ; wEventEngineParameter1.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCUnsetCharacterDataWordBitsIfCharacterWord :?= address($8CB381)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data word offset
+          ;   wEventEngineParameter2: value to strip
+          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterStructParameter: character data word offset to check
+          ; rlASMCSetCharacterDataWordBitsIfCharacterWord but
+          ; instead unsets the bits.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsWithCharacterDataByte :?= address($8CB3C6)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data byte offset
+          ;   wEventEngineParameter2: value to check for
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit with value found, failure otherwise
+          ; Counts all units with a character data
+          ; byte set to a specific value. Also overwrites
+          ; wEventEngineParameter3 with the unit count,
+          ; so be careful. It's recommended that you
+          ; use wEventEngineParameter1 as the return
+          ; value out of convention.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountPlayerUnitsWithCharacterDataByte :?= address($8CB410)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data byte offset
+          ;   wEventEngineParameter2: value to check for
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit with value found, failure otherwise
+          ; Same as rlASMCCountAllUnitsWithCharacterDataByte
+          ; but only for player units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsWithCharacterDataWord :?= address($8CB442)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data word offset
+          ;   wEventEngineParameter2: value to check for
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit with value found, failure otherwise
+          ; Same as rlASMCCountAllUnitsWithCharacterDataByte
+          ; but for character data words.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsWithCharacterDataWordBitsSet :?= address($8CB488)
+          ; Inputs:
+          ;   wEventEngineParameter1: character data word offset
+          ;   wEventEngineParameter2: bits to check for
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit with value found, failure otherwise
+          ; Same as rlASMCCountAllUnitsWithCharacterDataWord
+          ; but counts the unit if their character data
+          ; word has any bits set in common with the value.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsUncapturedAlive :?= address($8CB4CE)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: character to count
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts living units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountPlayerUnitsUncapturedAlive :?= address($8CB4FA)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: character to count
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts living player units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountEnemyUnitsUncapturedAlive :?= address($8CB526)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: character to count
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts living enemy units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountNPCUnitsUncapturedAlive :?= address($8CB552)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: character to count
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts living NPC units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsUncapturedAliveWithActing :?= address($8CB5C3)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: character to count
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts living units, including those that are
+          ; currently acting (moving, fighting?, etc.).
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsUncapturedAliveByTable :?= address($8CB5DC)
+          ; Inputs:
+          ;   lEventEngineLongParameter: long pointer to table
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Same as rlASMCCountAllUnitsUncapturedAlive
+          ; but takes a long pointer to a null-terminated
+          ; list of character ID words.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsRescuedByPlayerOrNPCByTable :?= address($8CB621)
+          ; Inputs:
+          ;   lEventEngineLongParameter: long pointer to table
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts the number of units whose
+          ; character IDs are specified by a null-terminated
+          ; list of character ID words that are currently
+          ; being held by player or NPC units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsRescuedByPlayerOrNPC :?= address($8CB666)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: target character ID
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts the number of units whose
+          ; character ID matches the given ID who is
+          ; being held by player or NPC units.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCheckConomoreOnMap :?= address($8CB6EC)
+          ; Outputs:
+          ;  wEventEngineTruthFlag: success if
+          ;    Conomore survived, failure otherwise
+          ; Used in vanilla at the end of chapter 16A.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCountAllUnitsAlive :?= address($8CB70C)
+          ; Inputs:
+          ;   wEventEngineCharacterTarget: target character ID
+          ; Outputs:
+          ;   wEventEngineParameter1: number of units
+          ;   wEventEngineTruthFlag: success if at least one
+          ;     unit found, failure otherwise
+          ; Counts living units with a given character ID.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCSetUnitsLeftBehindAsCaptured :?= address($8CB789)
+          ; Used at the end of escape chapter
+          ; ending events to remove units from
+          ; the party when left behind.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCChapter21xDisplaceUnitsLeftBehind :?= address($8CB7E6)
+          ; Names are hard.
+          ; Used in vanilla to move units
+          ; left behind at the end of chapter 21x
+          ; to [1, 1] so that they're offscreen
+          ; during Julius and Ishtar's cutscene.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCreateRandomChestItemArrayFromUnitInventories :?= address($8CB82B)
+          ; Transfers items from deployed
+          ; player units into an array for
+          ; generating randomized chests.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCAddFixedItemsToRandomChestArray :?= address($8CB964)
+          ; Adds a rapier, iron sword,
+          ; steel sword, and a vulnerary
+          ; to the randomized chest array.
+          ; Used in chapter 4.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCreateRandomChestTiles :?= address($8CB9BA)
+          ; Creates up to 16 randomized
+          ; chests from items in the
+          ; randomized chest array. Called
+          ; after rlASMCCreateRandomChestItemArrayFromUnitInventories.
+          ; The coordinates for these
+          ; chests are fixed in vanilla,
+          ; based on a table in chapter 4's events.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCCheckForcedBlank :?= address($8CBA9F)
+          ; Outputs:
+          ;   wEventEngineTruthFlag: success if forced
+          ;     blank, failure otherwise
+          ; Checks to see if the screen is off.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCFinalChapterFlash :?= address($8CBB9B)
+          ; Triggers the green flashy
+          ; effect after seizing the final
+          ; chapter's throne.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCDialogueContinue :?= address($8CBBAD)
+          ; Continues ongoing dialogue,
+          ; typically after running events
+          ; or changing lEventEngineLongParameter
+          ; to new dialogue. Useful for
+          ; conditional dialogue.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCSetBattleQuoteMusic :?= address($8CBDB7)
+          ; Inputs:
+          ;   wEventEngineCharacterStructParameter: target
+          ;     character ID
+          ; Used internally by the battle
+          ; quote handler. Sets the music
+          ; based on the battle music table.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCGetChapterTurncount :?= address($8CBDDC)
+          ; Inputs:
+          ;   wEventEngineParameter1: chapter number
+          ; Outputs:
+          ;   wEventEngineParameter1: turncount for that chapter
+          ;   wEventEngineTruthFlag: success if turncount
+          ;     is nonzero, failure otherwise
+          ; Typically used to see if a gaiden chapter
+          ; was completed. A chapter that was not
+          ; visited has a turncount of 0 and thus returns
+          ; a failure.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCPrepActiveUnitPortrait :?= address($8CC731)
+          ; Fetches the active unit's
+          ; portrait ID to be used in upcoming
+          ; dialogue.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCFinalChapterFadeToWhite :?= address($8CC73E)
+          ; Fades out the final chapter.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCDialogueWithBGEndFadeOut :?= address($8CC78C)
+          ; Ends dialogue with backgrounds
+          ; after a fade, typically at the end of
+          ; a chapter.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCWorldMapDialogue :?= address($8CCAD4)
+          ; Inputs:
+          ;   lEventEngineLongParameter: long pointer to dialogue
+          ; Used for text on the world map.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCClearOlwenWinsLosses :?= address($8CCD87)
+          ; Used in vanilla to clear
+          ; Olwen's wins/losses when recruiting
+          ; Ilios.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCDialogueWithBGStart :?= address($8CD0C3)
+          ; Inputs:
+          ;   lEventEngineLongParameter: long pointer to dialogue
+          ; Begins dialogue with a BG. Requires
+          ; rlASMCDialogueWithBGSetup beforehand.
+          ; Afterwards must be ended with rlASMCDialogueWithBGEnd.
+          ; Should be immediately followed by 3 YIELD_UNKs.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCDialogueWithBGEnd :?= address($8CD0E5)
+          ; Used to end dialogue with a BG.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCChangeMapMusic :?= address($8CD0ED)
+          ; Inputs:
+          ;   lR18: song ID
+          ; Changes the map music. Used
+          ; with CALL_ASM_LONG_SKIPPABLE.
+
+        ; Created: 0.05
+        ; Updated: 0.05
+        rlASMCDialogueWithBGSetup :?= address($8CD0FB)
+          ; Argument: short pointer to handler in bank $80
+          ; Inputs:
+          ;   wEventEngineParameter1: background ID
+          ; Sets up a dialogue background.
+          ; The handler is always <>$80A23A in vanilla.
 
     .endweak
 
