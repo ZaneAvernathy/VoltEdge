@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.05
+  VoltEdge_Events_Values_Updated = 0.06
 
   ; Useful vanilla pointers
 
@@ -15,6 +15,34 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
       eventBattleQuoteDummyEvent :?= address($998024)
         ; Used by boss quote EVENTs, although
         ; the pointer isn't actually read.
+
+      ; Vanilla quote table locations
+
+        ; Created: 0.06
+        ; Updated: 0.06
+        aBattleQuoteTable :?= address($8CDA07)
+
+        ; Created: 0.06
+        ; Updated: 0.06
+        aDeathQuoteTable :?= address($8CDBC9)
+
+        ; Created: 0.06
+        ; Updated: 0.06
+        aReleaseQuoteTable :?= address($8CDF60)
+
+        ; Created: 0.06
+        ; Updated: 0.06
+        aRetreatQuoteTable :?= address($8CE0FF)
+
+      ; Dialogue with BG handler function
+
+        ; Used with rlASMCDialogueWithBGSetup.
+
+        ; This is the only handler used in
+        ; vanilla. Custom handlers must be in
+        ; bank $80. Needs more research.
+
+        rsDialogueWitBGHandler :?= address($80A23A)
 
       ; For use with the RUN_ASM event condition
 
@@ -59,7 +87,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
         ; Updated: 0.03
         rlASMCUpdateMapSprites :?= address($8CA0C0)
           ; Re-registers all standing map
-          ; sprites.
+          ; sprites. Used with CALL_ASM_SKIPPABLE.
 
         ; Created: 0.03
         ; Updated: 0.03
@@ -314,24 +342,24 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; for all units.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCActiveUnitSetTurnStatus :?= address($8CA613)
+        ; Updated: 0.06
+        rlASMCActiveUnitSetUnitState :?= address($8CA613)
           ; Inputs:
           ;   aSelectedCharacterBuffer: filled with target unit
           ;   wEventEngineParameter1: unit state bitfield
           ; Sets the unit state bits for the target unit.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCActiveUnitUnsetTurnStatus :?= address($8CA62E)
+        ; Updated: 0.06
+        rlASMCActiveUnitUnsetUnitState :?= address($8CA62E)
           ; Inputs:
           ;   aSelectedCharacterBuffer: filled with target unit
           ;   wEventEngineParameter1: unit state bitfield
           ; Unsets the unit state bits for the target unit.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCActiveUnitCheckTurnStatus :?= address($8CA652)
+        ; Updated: 0.06
+        rlASMCActiveUnitCheckUnitState :?= address($8CA652)
           ; Inputs:
           ;   aSelectedCharacterBuffer: filled with target unit
           ;   wEventEngineParameter1: unit state bitfield
@@ -840,55 +868,55 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; with a specified value.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCSetCharacterDataByteIfCharacterByte :?= address($8CB2B6)
+        ; Updated: 0.06
+        rlASMCSetCharacterDataByteIfCharacterDataByte :?= address($8CB2B6)
           ; Inputs:
           ;   wEventEngineParameter1: character data byte offset
           ;   wEventEngineParameter2: value to store
-          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterTarget: value to check for
           ;   wEventEngineCharacterStructParameter: character data byte offset to check
           ; Sets a character data byte to a specified value
           ; for all units with some character data byte set
-          ; to a specified unit ID. You could use this to
+          ; to a specified value. You could use this to
           ; affect all units rescuing a certain character ID,
           ; for instance.
 
         ; Created: 0.05
-        ; Updated: 0.05
-        rlASMCSetCharacterDataByteIfCharacterWord :?= address($8CB2FC)
+        ; Updated: 0.06
+        rlASMCSetCharacterDataByteIfCharacterDataWord :?= address($8CB2FC)
           ; Inputs:
           ;   wEventEngineParameter1: character data byte offset
           ;   wEventEngineParameter2: value to store
-          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterTarget: value to check for
           ;   wEventEngineCharacterStructParameter: character data word offset to check
           ; Sets a character data byte to a specified value
           ; for all units with some character data word set
-          ; to a specified unit ID. You could use this to
+          ; to a specified value. You could use this to
           ; affect all units rescuing a certain character ID,
           ; for instance.
 
         ; Created: 0.05
-        ; Updated: 0.05
-        rlASMCSetCharacterDataWordBitsIfCharacterWord :?= address($8CB33F)
+        ; Updated: 0.06
+        rlASMCSetCharacterDataWordBitsIfCharacterDataWord :?= address($8CB33F)
           ; Inputs:
           ;   wEventEngineParameter1: character data word offset
           ;   wEventEngineParameter2: value to combine
-          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterTarget: value to check for
           ;   wEventEngineCharacterStructParameter: character data word offset to check
-          ; rlASMCSetCharacterDataByteIfCharacterWord but
+          ; rlASMCSetCharacterDataByteIfCharacterDataWord but
           ; instead sets the bits specified by wEventEngineParameter2
           ; in the character data word specified by
           ; wEventEngineParameter1.
 
         ; Created: 0.05
-        ; Updated: 0.05
+        ; Updated: 0.06
         rlASMCUnsetCharacterDataWordBitsIfCharacterWord :?= address($8CB381)
           ; Inputs:
           ;   wEventEngineParameter1: character data word offset
           ;   wEventEngineParameter2: value to strip
-          ;   wEventEngineCharacterTarget: target unit ID
+          ;   wEventEngineCharacterTarget: value to check for
           ;   wEventEngineCharacterStructParameter: character data word offset to check
-          ; rlASMCSetCharacterDataWordBitsIfCharacterWord but
+          ; rlASMCUnsetCharacterDataWordBitsIfCharacterWord but
           ; instead unsets the bits.
 
         ; Created: 0.05
@@ -1178,6 +1206,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Inputs:
           ;   lEventEngineLongParameter: long pointer to dialogue
           ; Used for text on the world map.
+          ; Used with CALL_ASM_SKIPPABLE.
 
         ; Created: 0.05
         ; Updated: 0.05
@@ -1189,12 +1218,12 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
         ; Created: 0.05
         ; Updated: 0.05
         rlASMCDialogueWithBGStart :?= address($8CD0C3)
-          ; Inputs:
-          ;   lEventEngineLongParameter: long pointer to dialogue
+          ; Argument: long pointer to dialogue
           ; Begins dialogue with a BG. Requires
           ; rlASMCDialogueWithBGSetup beforehand.
           ; Afterwards must be ended with rlASMCDialogueWithBGEnd.
           ; Should be immediately followed by 3 YIELD_UNKs.
+          ; Used with CALL_ASM_LONG_SKIPPABLE.
 
         ; Created: 0.05
         ; Updated: 0.05
@@ -1202,10 +1231,9 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Used to end dialogue with a BG.
 
         ; Created: 0.05
-        ; Updated: 0.05
+        ; Updated: 0.06
         rlASMCChangeMapMusic :?= address($8CD0ED)
-          ; Inputs:
-          ;   lR18: song ID
+          ; Argument: song ID
           ; Changes the map music. Used
           ; with CALL_ASM_LONG_SKIPPABLE.
 
@@ -1216,7 +1244,9 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Inputs:
           ;   wEventEngineParameter1: background ID
           ; Sets up a dialogue background.
-          ; The handler is always <>$80A23A in vanilla.
+          ; Used with CALL_ASM_SKIPPABLE.
+          ; The handler is always <>rsDialogueWitBGHandler
+          ; ($80A23A) in vanilla.
 
     .endweak
 

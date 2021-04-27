@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
   GUARD_VOLTEDGE_EVENTS_MAIN := true
 
   VoltEdge_Events_Main_Created = 0.03
-  VoltEdge_Events_Main_Updated = 0.03
+  VoltEdge_Events_Main_Updated = 0.06
 
   ; Psuedo-end code YIELD
 
@@ -178,26 +178,29 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endm
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.06
     STORE_BYTE .segment Address, Value
       ; Stores the Value byte to Address.
       .byte $0F
+      .long \Address
       .byte \Value
     .endm
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.06
     STORE_WORD .segment Address, Value
       ; Stores the Value word to Address.
       .byte $10
+      .long \Address
       .word \Value
     .endm
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.06
     STORE_LONG .segment Address, Value
       ; Stores the Value long to Address.
       .byte $11
+      .long \Address
       .long \Value
     .endm
 

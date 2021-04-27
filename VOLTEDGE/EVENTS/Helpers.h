@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.04
+  VoltEdge_Events_Helpers_Updated = 0.06
 
   ; Misc. helpers for various
   ; event-related things.
@@ -146,6 +146,33 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
           .ends
         .endu
       .ends
+
+  ; MOVE_UNIT helpers
+
+    ; These are shorthands for variants
+    ; of the MOVE_UNIT event code.
+
+    ; Remember to include a dummy byte,
+    ; such as a YIELD_UNK, after using one
+    ; of these.
+
+    ; Created: 0.06
+    ; Updated: 0.06
+    MOVE_CHAR .segment Character, MoveCoordinates, Speed, Movestring
+      MOVE_UNIT \Character, [0, 0], \MoveCoordinates, \Speed, \Movestring
+    .endm
+
+    ; Created: 0.06
+    ; Updated: 0.06
+    MOVE_ACTIVE_UNIT .segment MoveCoordinates, Speed, Movestring
+      MOVE_CHAR narrow(-1, size(word)), \MoveCoordinates, \Speed, \Movestring
+    .endm
+
+    ; Created: 0.06
+    ; Updated: 0.06
+    MOVE_COORDS .segment TargetCoordinates, MoveCoordinates, Speed, Movestring
+      MOVE_UNIT None, \TargetCoordinates, \MoveCoordinates, \Speed, \Movestring
+    .endm
 
   ; Movestrings
 
