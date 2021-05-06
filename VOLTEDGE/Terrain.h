@@ -4,12 +4,12 @@ GUARD_VOLTEDGE_TERRAIN :?= false
   GUARD_VOLTEDGE_TERRAIN := true
 
   VoltEdge_Terrain_Created = 0.02
-  VoltEdge_Terrain_Updated = 0.02
+  VoltEdge_Terrain_Updated = 0.07
 
   ; Terrain macros
 
   ; Created: 0.02
-  ; Updated: 0.02
+  ; Updated: 0.07
   structTerrainEntry .struct MapEdge=?, Peak=?, Thicket=?, Cliff=?, Plains=?, Forest=?, Sea=?, River=?, Mountain=?, SandyLand=?, Castle=?, Fort=?, House1=?, Gate=?, Unknown1=?, Wasteland=?, Bridge=?, Lake=?, Village=?, Ruins=?, Unknown2=?, Unknown3=?, Convoy=?, Church1=?, House2=?, Road=?, Armory=?, Vendor=?, Arena=?, Floor=?, Unknown4=?, Throne=?, Door=?, Chest1=?, Exit=?, Pillar=?, Drawbridge=?, SecretShop=?, Unknown5=?, SandySoil=?, MagicFloor1=?, MagicFloor2=?, Church2=?, Chest2=?
     MapEdge     .char \MapEdge
     Peak        .char \Peak
@@ -55,6 +55,6 @@ GUARD_VOLTEDGE_TERRAIN :?= false
     MagicFloor2 .char \MagicFloor2
     Church2     .char \Church2
     Chest2      .char \Chest2
-  .ends
+  .endstruct
 
 .endif ; GUARD_VOLTEDGE_TERRAIN

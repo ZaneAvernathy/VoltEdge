@@ -4,12 +4,12 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
   GUARD_VOLTEDGE_EVENTS_CONDITIONS := true
 
   VoltEdge_Events_Conditions_Created = 0.03
-  VoltEdge_Events_Conditions_Updated = 0.03
+  VoltEdge_Events_Conditions_Updated = 0.07
 
   ; Event definition helper
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     EVENT .segment Flag, Address
       ; Runs events at Address if conditions
       ; between it and the next END_DEFINITION
@@ -17,7 +17,7 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       ; before running the events.
       .byte \Flag
       .long \Address
-    .endm
+    .endsegment
 
   ; Event definition conditions.
 
@@ -25,7 +25,7 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
     ; identical; vanilla only uses CHECK_CHARS2.
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_CHARS1 .segment Character1, Character2
       ; Unused in vanilla.
       ; Returns true if:
@@ -37,19 +37,19 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       .byte $00
       .word \Character1
       .word \Character2
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_CHARS2 .segment Character1, Character2
       ; Identical to CHECK_CHARS1.
       .byte $01
       .word \Character1
       .word \Character2
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_SINGLE .segment Character
       ; Returns true if:
       ; Character in wEventEngineCharacterStructParameter
@@ -64,19 +64,19 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       ; regardless of wEventEngineCharacterStructParameter's contents.
       .byte $02
       .word \Character
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_COORDS .segment Coordinates
       ; Returns true if:
       ; Coordinates match [wEventEngineXCoordinate, wEventEngineYCoordinate]
       .byte $03
       .word pack(\Coordinates, 2)
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_BITS .segment Address, Value
       ; Returns true if:
       ; (The word at Address) & Value != 0
@@ -88,70 +88,70 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       .byte $04
       .long \Address
       .word \Value
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_BYTE .segment Address, Value
       ; Returns true if:
       ; (The byte at Address) == Value
       .byte $05
       .long \Address
       .byte \Value
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_WORD .segment Address, Value
       ; Returns true if:
       ; (The word at Address) == Value
       .byte $06
       .long \Address
       .word \Value
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_LONG .segment Address, Value
       ; Returns true if:
       ; (The long at Address) == Value
       .byte $07
       .long \Address
       .long \Value
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_WORD_FALSE .segment Address, Value
       ; Returns true if:
       ; (The word at Address) != Value
       .byte $08
       .long \Address
       .word \Value
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_BYTE_AT .segment Address1, Address2
       ; Returns true if:
       ; (The byte at Address1) == (The byte at Address2)
       .byte $09
       .long \Address1
       .long \Address2
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_WORD_AT .segment Address1, Address2
       ; Returns true if:
       ; (The word at Address1) == (The word at Address2)
       .byte $0A
       .long \Address1
       .long \Address2
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_BYTE_RANGE .segment Address, Minimum, Maximum
       ; Returns true if:
       ; Minimum <= (The byte at Address) <= Maximum
@@ -159,10 +159,10 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       .long \Address
       .byte \Minimum
       .byte \Maximum
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_WORD_RANGE .segment Address, Minimum, Maximum
       ; Returns true if:
       ; Minimum <= (The word at Address) <= Maximum
@@ -170,57 +170,57 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       .long \Address
       .word \Minimum
       .word \Maximum
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     TEST_FLAG_SET .segment Flag
       ; Returns true if:
       ; The specified flag is set
       .byte $0D
       .byte \Flag
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     TEST_FLAG_UNSET .segment Flag
       ; Returns true if:
       ; The specified flag is set
       .byte $0E
       .byte \Flag
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     RUN_ASM .segment Address
       ; Returns true if:
       ; ASM at Address returns true (carry set)
       .byte $0F
       .long \Address
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_UNITSTATE_SET .segment Character, State
       ; Returns true if:
       ; ((Character's unit state) & State) == State
       .byte $10
       .word \Character
       .word \State
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CMP_UNITSTATE_UNSET .segment Character, State
       ; Returns true if:
       ; ((Character's unit state) & State) != State
       .byte $11
       .word \Character
       .word \State
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_HOLDING_ITEM .segment Item
       ; Unused in vanilla.
       ; Don't use this: a programming error
@@ -234,10 +234,10 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       ; one of Item.
       .byte $12
       .byte \Item
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_ACTIVE_HOLDING_ITEM .segment Item
       ; Unused in vanilla.
       ; Returns true if:
@@ -245,20 +245,20 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       ; is holding at least one of Item.
       .byte $13
       .byte \Item
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_ACTIVE_CARRYING .segment Character
       ; Returns true if:
       ; The active unit (in aSelectedCharacterBuffer)
       ; is rescuing/capturing Character.
       .byte $14
       .word \Character
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_RESCUED_BY_ENEMY .segment Character
       ; Unused in vanilla.
       ; Name is a guess, as this is most
@@ -268,10 +268,10 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       ; being carried.
       .byte $15
       .word \Character
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_NUM_UNITS_LTE .segment Character, Number
       ; Returns true if:
       ; The number of uncaptured alive units with
@@ -279,10 +279,10 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       .byte $16
       .word \Character
       .byte \Number
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_NUM_UNITS_GTE .segment Character, Number
       ; Returns true if:
       ; The number of uncaptured alive units with
@@ -290,43 +290,43 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
       .byte $17
       .word \Character
       .byte \Number
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     ROLL_RNG .segment PercentChance
       ; Returns true if:
       ; Number rolled is less than PercentChance.
       .byte $18
       .byte \PercentChance
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_IF_RANDOM_CHEST .segment
       ; Returns true if:
       ; There is a randomized chest at [wCursorXCoord, wCursorYCoord].
       .byte $19
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     CHECK_IF_BOSS_DEAD .segment Character
       ; Returns true if:
       ; Character is dead.
       ; Also sets FlagBossDeath.
       .byte $1A
       .word \Character
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     KILLED_IN_BATTLE .segment Character
       ; Unused in vanilla.
       ; Returns true if:
       ; Character was killed in last(?) battle.
       .byte $1B
       .word \Character
-    .endm
+    .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_CONDITIONS

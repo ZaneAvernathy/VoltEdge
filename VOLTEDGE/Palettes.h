@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_PALETTES :?= false
   GUARD_VOLTEDGE_PALETTES := true
 
   VoltEdge_Palettes_Created = 0.01
-  VoltEdge_Palettes_Updated = 0.02
+  VoltEdge_Palettes_Updated = 0.07
 
   ; Palette constants
 
@@ -18,17 +18,17 @@ GUARD_VOLTEDGE_PALETTES :?= false
   ; Palette helpers
 
     ; Created = 0.01
-    ; Updated = 0.01
+    ; Updated = 0.07
     Color .struct
       .fill len(bytes(Color_Red | Color_Green | Color_Blue))
-    .ends
+    .endstruct
 
     ; Created = 0.01
-    ; Updated = 0.01
+    ; Updated = 0.07
     Palette .struct
       Colors .brept 16
         .dstruct Color
-      .next
-    .ends
+      .endrept
+    .endstruct
 
 .endif ; GUARD_VOLTEDGE_PALETTES

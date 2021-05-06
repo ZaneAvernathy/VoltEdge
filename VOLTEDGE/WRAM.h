@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.04
+  VoltEdge_WRAM_Updated = 0.07
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -42,8 +42,8 @@ GUARD_VOLTEDGE_WRAM :?= false
           bVar0 .byte ?           ; $000003 0.01
           bVar1 .byte ?           ; $000004 0.01
           bMethodCount .byte ?    ; $000005 0.01
-        .ends
-      .endu
+        .endstruct
+      .endunion
       lTemp .long ?               ; $000006 0.01
         ; This is a temporary long
         ; pointer used by special
@@ -54,7 +54,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       bFlag .byte ?               ; $00000A 0.01
         ; This flag is set during
         ; a special decompression method.
-    .bend
+    .endblock
 
     ; These are a set of variables
     ; that are used like CPU registers
@@ -187,7 +187,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     bBufferCOLDATA_3 .byte ? ; $0000AA 0.01
     bBufferSETINI    .byte ? ; $0000AB 0.01
 
-  .endv
+  .endvirtual
 
   .virtual $0000BC
 
@@ -199,7 +199,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     bBufferHDMAEN   .byte ? ; $0000C1 0.01
     bBufferMEMSEL   .byte ? ; $0000C2 0.01
 
-  .endv
+  .endvirtual
 
   .virtual $0000D3
 
@@ -226,7 +226,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is a counter for frames where a
       ; wVBlankPointer routine is not run.
 
-  .endv
+  .endvirtual
 
   .virtual $0000E0
 
@@ -289,7 +289,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       aPalette5 .dstruct Palette ; $0001A0 0.01
       aPalette6 .dstruct Palette ; $0001C0 0.01
       aPalette7 .dstruct Palette ; $0001E0 0.01
-    .bend
+    .endblock
 
     aOAMPaletteBuffer .block     ; $000200 0.01
       aPalette0 .dstruct Palette ; $000200 0.01
@@ -300,7 +300,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       aPalette5 .dstruct Palette ; $0002A0 0.01
       aPalette6 .dstruct Palette ; $0002C0 0.01
       aPalette7 .dstruct Palette ; $0002E0 0.01
-    .bend
+    .endblock
 
     ; These affect control flow for menus,
     ; although their exact purpose is
@@ -415,7 +415,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     rsBlockCopyMVNRAM .block      ; $0004AE 0.01
       mvn #$00,#$00
       rts
-    .bend
+    .endblock
       ; This is a block memory copy
       ; routine that is copied to RAM
       ; and has the parameters of the
@@ -424,7 +424,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     rsBlockCopyMVPRAM .block      ; $0004B2 0.01
       mvp #$00,#$00
       rts
-    .bend
+    .endblock
       ; This is a block memory copy
       ; routine that is copied to RAM
       ; and has the parameters of the
@@ -483,9 +483,9 @@ GUARD_VOLTEDGE_WRAM :?= false
             ; IDs/parameters that will be fed to the
             ; sound system in order. This one is
             ; for multiple note (?) sounds.
-        .ends
-      .endu
-    .bend
+        .endstruct
+      .endunion
+    .endblock
 
     ; These are for managing the proc
     ; system, which is used for
@@ -575,7 +575,7 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; Needs research. This status bitfield is
         ; similar to aHeaderBitfield but its use is
         ; unknown.
-    .bend
+    .endblock
 
     ; These are for managing certain map sprite actions.
 
@@ -618,9 +618,9 @@ GUARD_VOLTEDGE_WRAM :?= false
       aUnknown000A24 .fill (size(word) * 16) ; $000A24 0.01
       aUnknown000A44 .fill (size(word) * 16) ; $000A44 0.01
       aUnknown000A64 .fill (size(word) * 16) ; $000A64 0.01
-    .bend
+    .endblock
 
-  .endv
+  .endvirtual
 
   .virtual $000DDE
 
@@ -630,7 +630,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     wUnknown000DE7 .word ? ; $000DE7 0.01
     wUnknown000DE9 .word ? ; $000DE9 0.01
 
-  .endv
+  .endvirtual
 
   .virtual $000E05
 
@@ -731,7 +731,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     wCursorXOffset .word ?               ; $000E59 0.01
     wCursorYOffset .word ?               ; $000E5B 0.01
 
-  .endv
+  .endvirtual
 
   .virtual $000E6F
 
@@ -776,13 +776,13 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; item skills a character
       ; currently has.
 
-  .endv
+  .endvirtual
 
   .virtual $0015A1
 
     aMapBattleMapSpriteActiveOffsetArray .fill (2 * size(word)) ; $0015A1 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $0015BF
 
@@ -798,7 +798,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     aMapBattleWeaponArray .fill (2 * size(word))                    ; $0015E1 0.02
     aMapBattleActiveSpriteIndexArray .fill (2 * size(word))         ; $0015E5 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $00172C
 
@@ -808,7 +808,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is a status bitfield
       ; that controls the event engine.
 
-  .endv
+  .endvirtual
 
   .virtual $001734
 
@@ -852,19 +852,19 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is rarely written to internally
       ; by events.
 
-  .endv
+  .endvirtual
 
   .virtual $001982
 
     lBattleAnimationScriptPointer .long ? ; $001982 0.03
 
-  .endv
+  .endvirtual
 
   .virtual $001993
 
     lBattleAnimationSubsheetPointer .long ? ; $001993 0.03
 
-  .endv
+  .endvirtual
 
   .virtual $001AA1
 
@@ -903,7 +903,7 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; upper nybble is the battle animation
         ; weapon type, lower nybble is
         ; unknown.
-    .bend
+    .endblock
 
     aBattleAnimationUnit2Info .block ; $001ABD 0.03
       wClass .word ?                 ; $001ABD 0.03
@@ -933,9 +933,9 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; upper nybble is the battle animation
         ; weapon type, lower nybble is
         ; unknown.
-    .bend
+    .endblock
 
-  .endv
+  .endvirtual
 
   .virtual $001C00
 
@@ -964,7 +964,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       aTop .fill ($001FF8 - size(byte) - *) ; $001E24 0.02
       bFirstFree .byte ?                    ; $001FF7 0.02
       aBottom                               ; $001FF8 0.02
-    .bend
+    .endblock
 
     ; These are for identifying the engine
     ; and are used on reset.
@@ -972,20 +972,20 @@ GUARD_VOLTEDGE_WRAM :?= false
     aEngineUnknown .fill 4 ; $001FF8 0.02
     aEngineName    .fill 4 ; $001FFC 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7E41AE
 
     bBattleDistance .byte ? ; $7E41AE 0.03
       ; This is the distance between battling units.
 
-  .endv
+  .endvirtual
 
   .virtual $7E428C
 
     aBattleRoundsData .fill $200
 
-  .endv
+  .endvirtual
 
   .virtual $7E4E18
 
@@ -1017,7 +1017,7 @@ GUARD_VOLTEDGE_WRAM :?= false
           ; intensity is 24. These select
           ; the color at the bottom of
           ; the window.
-      .next
+      .endrept
       wAnimation .word ?         ; $7E4E56 0.01
         ; This controls the battle
         ; animation setting:
@@ -1067,9 +1067,9 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; 1 - Medium volume
         ; 2 - Low volume
         ; 3 - Muted
-    .bend
+    .endblock
 
-  .endv
+  .endvirtual
 
   .virtual $7E4F83
 
@@ -1126,7 +1126,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; These are the coordinates of the tile
       ; that the active unit has stopped on.
 
-  .endv
+  .endvirtual
 
   .virtual $7E50E6
 
@@ -1137,19 +1137,19 @@ GUARD_VOLTEDGE_WRAM :?= false
     aItemStatBonusBuffer .dstruct structItemStatBonuses       ; $7E513A 0.02
       ; This buffer is filled with an item's stat bonuses.
 
-  .endv
+  .endvirtual
 
   .virtual $7E51CC
 
     wCurrentRegisteringMapSpriteID .word ? ; $7E51CC 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7E520C
 
     aTerrainMovementCostBuffer .dstruct structTerrainEntry ; $7E520C 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7E524C
 
@@ -1160,7 +1160,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; Needs research. Normally 0,
       ; incremented during battles?
 
-  .endv
+  .endvirtual
 
   .virtual $7E528C
 
@@ -1169,21 +1169,21 @@ GUARD_VOLTEDGE_WRAM :?= false
       bEnemyAllegiance  .byte ? ; $7E528D 0.02
       bNPCAllegiance    .byte ? ; $7E528E 0.02
                         .byte ? ; $7E528F 0.02
-    .bend
+    .endblock
 
     aPhaseControllerInfo     .block  ; $7E5290 0.02
       bPlayerPhaseController .byte ? ; $7E5290 0.02
       bEnemyPhaseController  .byte ? ; $7E5291 0.02
       bNPCPhaseController    .byte ? ; $7E5292 0.02
                              .byte ? ; $7E5293 0.02
-    .bend
+    .endblock
 
     aAllegianceTargets            .block  ; $7E5294 0.02
       bAlliedAllegianceTargetable .byte ? ; $7E5294 0.02
       bEnemyAllegianceTargetable  .byte ? ; $7E5295 0.02
       bNPCAllegianceTargetable    .byte ? ; $7E5296 0.02
                                   .byte ? ; $7E5297 0.02
-    .bend
+    .endblock
 
     ; These arrays are for units.
 
@@ -1207,7 +1207,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; at that tile, the value in
       ; the map is 00.
 
-  .endv
+  .endvirtual
 
   .virtual $7E7BCB
 
@@ -1216,7 +1216,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; terrain IDs of all tiles on
       ; the map.
 
-  .endv
+  .endvirtual
 
   .virtual $7EA4EA
 
@@ -1232,7 +1232,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; character-related data during
       ; certain actions, like battles.
 
-  .endv
+  .endvirtual
 
   .virtual $7EA69B
 
@@ -1248,9 +1248,9 @@ GUARD_VOLTEDGE_WRAM :?= false
       wCON .word ?              ; $7EA6A7 0.03
       wLUK .word ?              ; $7EA6A9 0.03
       wMOV .word ?              ; $7EA6AB 0.03
-    .bend
+    .endblock
 
-  .endv
+  .endvirtual
 
   .virtual $7EA937
 
@@ -1263,7 +1263,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is a counter for the current item to
       ; be added from a UNIT struct.
 
-  .endv
+  .endvirtual
 
   .virtual $7EB5F7
 
@@ -1292,7 +1292,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is the Y coordinate of
       ; the burst window's name text.
 
-  .endv
+  .endvirtual
 
   .virtual $7EC1AF
 
@@ -1310,7 +1310,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     aBG2TilemapBuffer .fill $1000 ; $7ED77C 0.01
     aBG3TilemapBuffer .fill $1000 ; $7EE77C 0.01
 
-  .endv
+  .endvirtual
 
   .virtual $7FAA14
 
@@ -1320,26 +1320,26 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     wActiveMapSpriteCurrentSpriteOffset .word ? ; $7FAA16 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7FAA5A
 
     aUnknown7FAA5A .fill (size(word) * 4) ; $7FAA5A 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7FAA7A
 
     aActiveMapSpriteScreenXMetatileOffsetArray .fill (size(word) * 4) ; $7FAA7A 0.02
     aActiveMapSpriteScreenYMetatileOffsetArray .fill (size(word) * 4) ; $7FAA82 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7FAA92
 
     aUnknown7FAA92 .fill (size(word) * 4) ; $7FAA92 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7FAA42
 
@@ -1351,7 +1351,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; for controlling the active
       ; map sprites.
 
-    .endv
+    .endvirtual
 
   .virtual $7FAAAA
 
@@ -1359,13 +1359,13 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; These control the movement speed
       ; of active moving map sprites.
 
-  .endv
+  .endvirtual
 
   .virtual $7FAAF3
 
     lUnknown7FAAF3 .long ? ; $7FAAF3 0.02
 
-  .endv
+  .endvirtual
 
   .virtual $7FE1B7
 
@@ -1382,7 +1382,7 @@ GUARD_VOLTEDGE_WRAM :?= false
           bWeaponType .byte ?                  ; $7FE1B8 0.03
           bAdjustedCharacter .byte ?           ; $7FE1B9 0.03
           bGender .byte ?                      ; $7FE1BA 0.03
-        .bend
+        .endblock
 
         .fill ($7FE1BF - *)
 
@@ -1392,7 +1392,7 @@ GUARD_VOLTEDGE_WRAM :?= false
         bBattleAnimationUnit1MovementDataIndex .byte ? ; $7FE1BF 0.03
         bBattleAnimationUnit2MovementDataIndex .byte ? ; $7FE1C0 0.03
 
-      .ends
+      .endstruct
 
       .struct
 
@@ -1405,9 +1405,9 @@ GUARD_VOLTEDGE_WRAM :?= false
           bUnderlayIndex .byte ?                   ; $7FE1B8 0.03
           bOverlayIndex .byte ?                    ; $7FE1B9 0.03
           bPaletteIndex .byte ?                    ; $7FE1BA 0.03
-        .bend
+        .endblock
 
-      .ends
+      .endstruct
 
       .struct
 
@@ -1421,19 +1421,19 @@ GUARD_VOLTEDGE_WRAM :?= false
           bOverlayIndex .byte ?          ; $7FE1B9 0.03
           bPaletteIndex .byte ?          ; $7FE1BA 0.03
           bScriptIndex .byte ?           ; $7FE1BB 0.03
-        .bend
+        .endblock
 
         aBattleAnimationUnit2Data .block ; $7FE1BC 0.03
           bUnderlayIndex .byte ?         ; $7FE1BC 0.03
           bOverlayIndex .byte ?          ; $7FE1BD 0.03
           bPaletteIndex .byte ?          ; $7FE1BE 0.03
           bScriptIndex .byte ?           ; $7FE1BF 0.03
-        .bend
+        .endblock
 
-      .ends
+      .endstruct
 
-    .endu
+    .endunion
 
-  .endv
+  .endvirtual
 
 .endif ; GUARD_VOLTEDGE_WRAM

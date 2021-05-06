@@ -4,29 +4,29 @@ GUARD_VOLTEDGE_TILES :?= false
   GUARD_VOLTEDGE_TILES := true
 
   VoltEdge_Tiles_Created = 0.01
-  VoltEdge_Tiles_Updated = 0.02
+  VoltEdge_Tiles_Updated = 0.07
 
   ; Tile constants
 
     ; Tile sizes
 
       ; Created: 0.01
-      ; Updated: 0.01
+      ; Updated: 0.07
       Tile2bpp .struct
         .fill ((2 * 64) / 8)
-      .ends
+      .endstruct
 
       ; Created: 0.01
-      ; Updated: 0.01
+      ; Updated: 0.07
       Tile4bpp .struct
         .fill ((4 * 64) / 8)
-      .ends
+      .endstruct
 
       ; Created: 0.01
-      ; Updated: 0.01
+      ; Updated: 0.07
       Tile8bpp .struct
         .fill ((8 * 64) / 8)
-      .ends
+      .endstruct
 
     ; Tilemap entry bitmasks
 
@@ -41,7 +41,7 @@ GUARD_VOLTEDGE_TILES :?= false
   ; Tile helpers
 
     ; Created: 0.01
-    ; Updated: 0.02
+    ; Updated: 0.07
     ; TilemapEntry
 
       ; This function creates a hardware
@@ -55,17 +55,16 @@ GUARD_VOLTEDGE_TILES :?= false
       ; lda #TilemapEntry($012, 3, false, true, true)
 
       TilemapEntry .function TileIndex, Pal, Priority, XFlip, YFlip
-      .endf bits((int(YFlip) << 15) | (int(XFlip) << 14) | (int(Priority) << 13) | ((Pal << 10) & TM_Palette) | (TileIndex & TM_TileIndex))
+      .endfunction bits((int(YFlip) << 15) | (int(XFlip) << 14) | (int(Priority) << 13) | ((Pal << 10) & TM_Palette) | (TileIndex & TM_TileIndex))
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; VRAMToTile
 
       ; This function converts an actual
       ; VRAM address to its offset past a base
       ; address in word steps.
 
-      VRAMToTile .function Offset, Base, TileSize=size(Tile4bpp)
-      .endf ((Offset - Base) / TileSize)
+      VRAMToTile .sfunction Offset, Base, TileSize=size(Tile4bpp), ((Offset - Base) / TileSize)
 
 .endif ; GUARD_VOLTEDGE_TILES

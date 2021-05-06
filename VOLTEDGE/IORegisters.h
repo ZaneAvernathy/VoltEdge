@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
   GUARD_VOLTEDGE_IO_REGISTERS := true
 
   VoltEdge_IORegisters_Created = 0.01
-  VoltEdge_IORegisters_Updated = 0.02
+  VoltEdge_IORegisters_Updated = 0.07
 
   ; Names, values, information, etc. are taken from fullsnes
   ; https://problemkaputt.de/fullsnes.htm
@@ -23,7 +23,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
   .virtual PPU_REG_BASE
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     INIDISP .byte ? ; $002100
 
       ; This controls the screen's brightness
@@ -48,15 +48,14 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      INIDISP_Setting .function ForcedBlank=false, Brightness=0
-      .endf bits((int(ForcedBlank) << 7) | (Brightness & INIDISP_Brightness))
+      INIDISP_Setting .sfunction ForcedBlank=false, Brightness=0, bits((int(ForcedBlank) << 7) | (Brightness & INIDISP_Brightness))
 
         ; Example:
         ; lda #INIDISP_Setting(true, 0)  ; Screen off, brightness 0
         ; lda #INIDISP_Setting(false, 8) ; Screen on, half brightness
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     OBSEL .byte ? ; $002101
 
       ; This controls the size of objects (sprites),
@@ -118,13 +117,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
         .endif
         Base := ((Base1 >> 14) & OBSEL_Base)
         Gap := (((Base2 - Base1 - $2000) >> 10) & OBSEL_Gap)
-      .endf bits(Size | Base | Gap)
+      .endfunction bits(Size | Base | Gap)
 
         ; Example:
         ; lda #OBSEL_Setting(ObjSize16x16And32x32, $0000, $4000)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     OAMADD .word ? ; $002102
 
       ; This register has two purposes:
@@ -153,11 +152,9 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      OAMADD_Priority_Setting .function Priority=true, Object
-      .endf bits((int(Priority) << 15) | ((Object << 1) & OAMADD_Prio_Num))
+      OAMADD_Priority_Setting .sfunction Priority=true, Object, bits((int(Priority) << 15) | ((Object << 1) & OAMADD_Prio_Num))
 
-      OAMADD_Setting .function Address
-      .endf bits(Address & OAMADD_Address)
+      OAMADD_Setting .sfunction Address, bits(Address & OAMADD_Address)
 
         ; Examples:
 
@@ -173,7 +170,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; the write address automatically.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     BGMODE .byte ? ; $002105
 
       ; This register determines the size of tiles
@@ -220,14 +217,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       BG_Mode6 = 6 ; 4bpp  ---   OPT  ---  hires+OPT
       BG_Mode7 = 7 ; 8bpp  EXTBG ---  ---  rot/scaling
 
-      BGMODE_Setting .function Mode, isBG1Large, isBG2Large, isBG3Large, isBG4Large, isBG3Priority
-      .endf bits((int(isBG4Large) << 7) | (int(isBG3Large) << 6) | (int(isBG2Large) << 5) | (int(isBG1Large) << 4) | (int(isBG3Priority) << 3) | Mode)
+      BGMODE_Setting .sfunction Mode, isBG1Large, isBG2Large, isBG3Large, isBG4Large, isBG3Priority, bits((int(isBG4Large) << 7) | (int(isBG3Large) << 6) | (int(isBG2Large) << 5) | (int(isBG1Large) << 4) | (int(isBG3Priority) << 3) | Mode)
 
         ; Example:
         ; lda #BGMODE_Setting(BG_Mode0, false, false, false, false, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     MOSAIC .byte ? ; $002106
 
       ; Setting this will create a mosaic
@@ -254,15 +250,14 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      MOSAIC_Setting .function Size, BG1Enable, BG2Enable, BG3Enable, BG4Enable
-      .endf bits((((Size - 1) << 4) & MOSAIC_Size) | (int(BG4Enable) << 3) | (int(BG3Enable) << 2) | (int(BG2Enable) << 1) | int(BG1Enable))
+      MOSAIC_Setting .sfunction Size, BG1Enable, BG2Enable, BG3Enable, BG4Enable, bits((((Size - 1) << 4) & MOSAIC_Size) | (int(BG4Enable) << 3) | (int(BG3Enable) << 2) | (int(BG2Enable) << 1) | int(BG1Enable))
 
         ; Example:
         ; Turns BG1 tiles into solid 8x8 blocks of color
         ; lda #MOSAIC_Setting(8, true, false, false, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     BG1SC .byte ? ; $002107
     BG2SC .byte ? ; $002108
     BG3SC .byte ? ; $002109
@@ -289,14 +284,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       BGSC_32x64 = 2
       BGSC_64x64 = 3
 
-      BGSC_Setting .function Address, Size
-      .endf bits((((Address >> 11) << 2) & BGSC_Address) | (Size & BGSC_Size))
+      BGSC_Setting .sfunction Address, Size, bits((((Address >> 11) << 2) & BGSC_Address) | (Size & BGSC_Size))
 
         ; Example:
         ; lda #BGSC_Setting($F800, BGSC_64x64)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     BG12NBA .byte ? ; $00210B
     BG34NBA .byte ? ; $00210C
 
@@ -317,11 +311,9 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      BG12NBA_Setting .function BG1Address, BG2Address
-      .endf bits((((BG2Address >> 13) << 4) & BG12NBA_BG2_Address) | ((BG1Address >> 13) & BG12NBA_BG1_Address))
+      BG12NBA_Setting .sfunction BG1Address, BG2Address, bits((((BG2Address >> 13) << 4) & BG12NBA_BG2_Address) | ((BG1Address >> 13) & BG12NBA_BG1_Address))
 
-      BG34NBA_Setting .function BG3Address, BG4Address
-      .endf bits((((BG4Address >> 13) << 4) & BG12NBA_BG4_Address) | ((BG3Address >> 13) & BG12NBA_BG3_Address))
+      BG34NBA_Setting .sfunction BG3Address, BG4Address, bits((((BG4Address >> 13) << 4) & BG12NBA_BG4_Address) | ((BG3Address >> 13) & BG12NBA_BG3_Address))
 
         ; Example:
         ; lda #BG12NBA_Setting($0000, $2000)
@@ -333,7 +325,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
     BG1HOFS .byte ? ; $00210D
     M7HOFS .byte ? ; $00210D
 
-    .endu
+    .endunion
 
     .union
 
@@ -342,10 +334,10 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
     BG1VOFS .byte ? ; $00210E
     M7VOFS .byte ? ; $00210E
 
-    .endu
+    .endunion
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     BG2HOFS .byte ? ; $00210F
     BG2VOFS .byte ? ; $002110
     BG3HOFS .byte ? ; $002111
@@ -366,14 +358,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers for word-length buffers:
 
-      BGOFS_Setting .function Scroll
-      .endf bits(Scroll & BGOFS_Scroll)
+      BGOFS_Setting .sfunction Scroll, bits(Scroll & BGOFS_Scroll)
 
         ; Example:
         ; lda #BGOFS_Setting(100)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     VMAIN .byte ? ; $002115
 
       ; This register determines how the VRAM address
@@ -413,14 +404,14 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       VMAIN_Step128_2 = 3
 
       VMAIN_Setting .function IncrementOnHighAccesses=false, Translation=VMAIN_TranslationNone, Step=VMAIN_Step1
-      .endf bits((int(IncrementOnHighAccesses) << 7) | ((Translation << 2) & VMAIN_Translation) | (Step & VMAIN_Step))
+      .endfunction bits((int(IncrementOnHighAccesses) << 7) | ((Translation << 2) & VMAIN_Translation) | (Step & VMAIN_Step))
 
         ; Example:
         ; ; Most VRAM DMA transfers use these settings
         ; lda #VMAIN_Setting(true, VMAIN_TranslationNone, VMAIN_Step1)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     VMADD .word ? ; $002116
 
       ; This register controls the address
@@ -428,8 +419,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      VMADD_Setting .function Address
-      .endf bits(Address >> 1)
+      VMADD_Setting .sfunction Address, bits(Address >> 1)
 
         ; Example:
         ; lda #VMADD_Setting($A000)
@@ -443,7 +433,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; by VMADD.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     M7SEL .byte ? ; $00211A
 
       ; This register determines how tiles
@@ -471,8 +461,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       M7SEL_OuterTransparent = 2
       M7SEL_OuterTile0       = 3
 
-      M7SEL_Setting .function Screen, isVerticalFlipped, isHorzontalFlipped
-      .endf bits(((Screen << 6) & M7SEL_Screen) | (int(isVerticalFlipped) << 1) | int(isHorzontalFlipped))
+      M7SEL_Setting .sfunction Screen, isVerticalFlipped, isHorzontalFlipped, bits(((Screen << 6) & M7SEL_Screen) | (int(isVerticalFlipped) << 1) | int(isHorzontalFlipped))
 
         ; Example:
         ; lda #M7SEL_Setting(M7SEL_OuterTile0, true, true)
@@ -508,7 +497,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; twice.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     CGADD .byte ? ; $002121
 
       ; This register is the address of CGRAM (palette)
@@ -517,8 +506,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      CGADD_Setting .function Color
-      .endf bits(Color)
+      CGADD_Setting .sfunction Color, bits(Color)
 
     ; Created: 0.01
     ; Updated: 0.01
@@ -530,7 +518,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; on writing to CGADD.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     W12SEL .byte ? ; $002123
 
       ; This register controls settings for
@@ -550,13 +538,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       W12SEL_Setting .function BG1Window1Enable=false, BG1Window1Invert=false, BG1Window2Enable=false, BG1Window2Invert=false, BG2Window1Enable=false, BG2Window1Invert=false, BG2Window2Enable=false, BG2Window2Invert=false
-      .endf bits((int(BG2Window2Enable) << 7) | (int(BG2Window2Invert) << 6) | (int(BG2Window1Enable) << 5) | (int(BG2Window1Invert) << 4) | (int(BG1Window2Enable) << 3) | (int(BG1Window2Invert) << 2) | (int(BG1Window1Enable) << 1) | int(BG1Window1Invert))
+      .endfunction bits((int(BG2Window2Enable) << 7) | (int(BG2Window2Invert) << 6) | (int(BG2Window1Enable) << 5) | (int(BG2Window1Invert) << 4) | (int(BG1Window2Enable) << 3) | (int(BG1Window2Invert) << 2) | (int(BG1Window1Enable) << 1) | int(BG1Window1Invert))
 
         ; Example:
         ; lda #W12SEL_Setting(true, false, true, false, false, false, false, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     W34SEL .byte ? ; $002124
 
       ; This register controls settings for
@@ -576,13 +564,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       W34SEL_Setting .function BG3Window1Enable=false, BG3Window1Invert=false, BG3Window2Enable=false, BG3Window2Invert=false, BG4Window1Enable=false, BG4Window1Invert=false, BG4Window2Enable=false, BG4Window2Invert=false
-      .endf bits((int(BG4Window2Enable) << 7) | (int(BG4Window2Invert) << 6) | (int(BG4Window1Enable) << 5) | (int(BG4Window1Invert) << 4) | (int(BG3Window2Enable) << 3) | (int(BG3Window2Invert) << 2) | (int(BG3Window1Enable) << 1) | int(BG3Window1Invert))
+      .endfunction bits((int(BG4Window2Enable) << 7) | (int(BG4Window2Invert) << 6) | (int(BG4Window1Enable) << 5) | (int(BG4Window1Invert) << 4) | (int(BG3Window2Enable) << 3) | (int(BG3Window2Invert) << 2) | (int(BG3Window1Enable) << 1) | int(BG3Window1Invert))
 
         ; Example:
         ; lda #W34SEL_Setting(true, false, true, false, false, false, false, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     WOBJSEL .byte ? ; $002125
 
       ; This register controls settings for
@@ -602,7 +590,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       WOBJSEL_Setting .function OBJWindow1Enable=false, OBJWindow1Invert=false, OBJWindow2Enable=false, OBJWindow2Invert=false, MathWindow1Enable=false, MathWindow1Invert=false, MathWindow2Enable=false, MathWindow2Invert=false
-      .endf bits((int(MathWindow2Enable) << 7) | (int(MathWindow2Invert) << 6) | (int(MathWindow1Enable) << 5) | (int(MathWindow1Invert) << 4) | (int(OBJWindow2Enable) << 3) | (int(OBJWindow2Invert) << 2) | (int(OBJWindow1Enable) << 1) | int(OBJWindow1Invert))
+      .endfunction bits((int(MathWindow2Enable) << 7) | (int(MathWindow2Invert) << 6) | (int(MathWindow1Enable) << 5) | (int(MathWindow1Invert) << 4) | (int(OBJWindow2Enable) << 3) | (int(OBJWindow2Invert) << 2) | (int(OBJWindow1Enable) << 1) | int(OBJWindow1Invert))
 
         ; Example:
         ; lda #WOBJSEL_Setting(true, false, true, false, false, false, false, false)
@@ -636,7 +624,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; of the second window.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     WBGLOG .byte ? ; $00212A
     WOBJLOG .byte ? ; $00212B
 
@@ -666,13 +654,12 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       WLOG_XNOR = 3
 
       WBGLOG_Setting .function BG1=WLOG_ORR, BG2=WLOG_ORR, BG3=WLOG_ORR, BG4=WLOG_ORR
-      .endf bits(((BG4 << 6) & WBGLOG_BG4_Logic) | ((BG3 << 4) & WBGLOG_BG3_Logic) | ((BG2 << 2) & WBGLOG_BG2_Logic) | (BG1 & WBGLOG_BG1_Logic))
+      .endfunction bits(((BG4 << 6) & WBGLOG_BG4_Logic) | ((BG3 << 4) & WBGLOG_BG3_Logic) | ((BG2 << 2) & WBGLOG_BG2_Logic) | (BG1 & WBGLOG_BG1_Logic))
 
-      WOBJLOG_Setting .function OBJ=WLOG_ORR, Math=WLOG_ORR
-      .endf bits(((Math << 2) & WOBJLOG_Math_Logic) | (OBJ & WOBJLOG_OBJ_Logic))
+      WOBJLOG_Setting .sfunction OBJ=WLOG_ORR, Math=WLOG_ORR, bits(((Math << 2) & WOBJLOG_Math_Logic) | (OBJ & WOBJLOG_OBJ_Logic))
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     TM .byte ? ; $00212C
     TS .byte ? ; $00212D
     TMW .byte ? ; $00212E
@@ -734,14 +721,13 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      T_Setting .function BG1, BG2, BG3, BG4, OBJ
-      .endf bits((int(OBJ << 4)) | (int(BG4) << 3) | (int(BG3) << 2) | (int(BG2) << 1) | (int(BG1)))
+      T_Setting .sfunction BG1, BG2, BG3, BG4, OBJ, bits((int(OBJ << 4)) | (int(BG4) << 3) | (int(BG3) << 2) | (int(BG2) << 1) | (int(BG1)))
 
         ; Example:
         ; lda #T_Setting(true, true, true, false, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     CGWSEL .byte ? ; $002130
 
       ; This register controls part of
@@ -783,10 +769,10 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       CGWSEL_MathNever   = 3
 
       CGWSEL_Setting .function DirectColor, SubScreen, MathSetting, ForcedBlackSetting
-      .endf bits(((ForcedBlackSetting << 6) & CGWSEL_ForceBlack) | ((MathSetting << 4) & CGWSEL_MathEnable) | (int(SubScreen) << 1) | (int(DirectColor)))
+      .endfunction bits(((ForcedBlackSetting << 6) & CGWSEL_ForceBlack) | ((MathSetting << 4) & CGWSEL_MathEnable) | (int(SubScreen) << 1) | (int(DirectColor)))
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     CGADSUB .byte ? ; $002131
 
       ; This register controls which
@@ -825,14 +811,14 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       CGADSUB_Subtract = 1
 
       CGADSUB_Setting .function Operation=CGADSUB_Add, Divide=false, BG1, BG2, BG3, BG4, OBJ, Backdrop
-      .endf bits(((Operation << 7) & CGADSUB_Operation) | (int(Divide) << 6) | (int(Backdrop) << 5) | (int(OBJ) << 4) | (int(BG4) << 3) | (int(BG3) << 2) | (int(BG2) << 1) | (int(BG1)))
+      .endfunction bits(((Operation << 7) & CGADSUB_Operation) | (int(Divide) << 6) | (int(Backdrop) << 5) | (int(OBJ) << 4) | (int(BG4) << 3) | (int(BG3) << 2) | (int(BG2) << 1) | (int(BG1)))
 
         ; Example:
         ; To set color math for just objects at half intensity:
         ; lda #CGADSUB_Setting(CGADSUB_Add, true, false, false, false, false, true, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     COLDATA .byte ? ; $002132
 
       ; This register can set
@@ -862,7 +848,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       COLDATA_Setting .function Intensity, ApplyRed, ApplyGreen, ApplyBlue
-      .endf bits((int(ApplyBlue) << 7) | (int(ApplyGreen) << 6) | (int(ApplyRed) << 5) | (Intensity & COLDATA_Intensity))
+      .endfunction bits((int(ApplyBlue) << 7) | (int(ApplyGreen) << 6) | (int(ApplyRed) << 5) | (Intensity & COLDATA_Intensity))
 
         ; Example:
         ; To set the backdrop to solid green,
@@ -873,7 +859,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
         ; sta COLDATA ; This sets green to 31
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     SETINI .byte ? ; $002133
 
       ; This register controls some
@@ -892,7 +878,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       SETINI_Setting .function EXTSync, EXTBG, PsuedoHires, Overscan, OBJInterlace, Interlace
-      .endf bits((int(EXTSync) << 7) | (int(EXTBG) << 6) | (int(PsuedoHires) << 3) | (int(Overscan) << 2) | (int(OBJInterlace) << 1) | (int(Interlace)))
+      .endfunction bits((int(EXTSync) << 7) | (int(EXTBG) << 6) | (int(PsuedoHires) << 3) | (int(Overscan) << 2) | (int(OBJInterlace) << 1) | (int(Interlace)))
 
     ; Created: 0.01
     ; Updated: 0.01
@@ -1014,7 +1000,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
         ; This is the version number of the PPU2.
 
-  .endv ; PPU_REG_BASE
+  .endvirtual ; PPU_REG_BASE
 
   .virtual APU_REG_BASE
 
@@ -1040,7 +1026,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; another 15 times.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     APUM .brept 15
 
       Mirror00 .byte ?
@@ -1048,9 +1034,9 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       Mirror02 .byte ?
       Mirror03 .byte ?
 
-    .next
+    .endrept
 
-  .endv ; APU_REG_BASE
+  .endvirtual ; APU_REG_BASE
 
   .virtual WRAM_REG_BASE
 
@@ -1070,7 +1056,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; This 17-bit register contains
       ; the address for accessing WRAM.
 
-  .endv ; WRAM_REG_BASE
+  .endvirtual ; WRAM_REG_BASE
 
   .virtual JOY_REG_BASE
 
@@ -1102,7 +1088,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       JOYA_IN2    = bits(%00000001)
 
-    .endu
+    .endunion
 
     ; Created: 0.01
     ; Updated: 0.01
@@ -1118,12 +1104,12 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       JOYB_IN1    = bits(%00000010)
       JOYB_IN0    = bits(%00000001)
 
-  .endv ; JOY_REG_BASE
+  .endvirtual ; JOY_REG_BASE
 
   .virtual CPU_W_REG_BASE
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     NMITIMEN .byte ? ; $004200
 
       ; This register enables/disables
@@ -1154,14 +1140,14 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       NMITIMEN_Setting .function Joypad, VBlank, HCountIRQ, VCountIRQ
-      .endf bits((int(VBlank) << 7) | (int(VCountIRQ) << 6) | (int(HCountIRQ) << 5) | (int(Joypad)))
+      .endfunction bits((int(VBlank) << 7) | (int(VCountIRQ) << 6) | (int(HCountIRQ) << 5) | (int(Joypad)))
 
         ; Example:
         ; To enable automatic joypad reading and VBlank:
         ; lda #NMITIMEN_Setting(true, true, false, false)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     WRIO .byte ? ; $004201
 
       ; This register is the writable
@@ -1182,8 +1168,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      WRIO_Setting .function Joy1Pin6, Joy2Pin6, IO
-      .endf bits((int(Joy2Pin6) << 7) | (int(Joy1Pin6) << 6) | IO)
+      WRIO_Setting .sfunction Joy1Pin6, Joy2Pin6, IO, bits((int(Joy2Pin6) << 7) | (int(Joy1Pin6) << 6) | IO)
 
     ; Created: 0.01
     ; Updated: 0.01
@@ -1238,7 +1223,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; 0 is the topmost pixel.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     MDMAEN .byte ? ; $00420B
 
       ; This register begins DMA transfers for
@@ -1250,11 +1235,10 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      MDMAEN_Setting .function ChannelList
-      .endf bits((1 << ChannelList) | ...)
+      MDMAEN_Setting .sfunction ChannelList, bits((1 << ChannelList) | ...)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     HDMAEN .byte ? ; $00420C
 
       ; This register is like MDMAEN but
@@ -1262,11 +1246,10 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      HMDMAEN_Setting .function ChannelList
-      .endf bits((1 << ChannelList) | ...)
+      HMDMAEN_Setting .sfunction ChannelList, bits((1 << ChannelList) | ...)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     MEMSEL .byte ? ; $00420D
 
       ; This register sets the memory
@@ -1289,10 +1272,9 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      MEMSEL_Setting .function Fast=true
-      .endf bits(int(Fast))
+      MEMSEL_Setting .sfunction Fast=true, bits(int(Fast))
 
-  .endv ; CPU_W_REG_BASE
+  .endvirtual ; CPU_W_REG_BASE
 
   .virtual CPU_R_REG_BASE
 
@@ -1419,12 +1401,12 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       JOY_ABXY       = (JOY_B | JOY_Y | JOY_A | JOY_X)
       JOY_All        = (JOY_Directions | JOY_Shoulders | JOY_ABXY | JOY_Select | JOY_Start)
 
-  .endv ; CPU_R_REG_BASE
+  .endvirtual ; CPU_R_REG_BASE
 
   .virtual DMA_REG_BASE
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; DMAPx definitions
 
       ; Bitmasks:
@@ -1481,14 +1463,14 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; Helpers:
 
       DMAP_DMA_Setting .function Direction, Step, Mode
-      .endf bits(((Direction << 7) & DMAP_TransferDirection) | ((Step << 3) & DMAP_DMAABusStep) | (Mode & DMAP_TransferMode))
+      .endfunction bits(((Direction << 7) & DMAP_TransferDirection) | ((Step << 3) & DMAP_DMAABusStep) | (Mode & DMAP_TransferMode))
 
         ; Example:
         ; For DMA to VRAM:
         ; lda #DMAP_DMA_Setting(DMAP_CPUToIO, DMAP_Increment, DMAP_Mode1)
 
       DMAP_HDMA_Setting .function Direction, Indirect=false, Mode
-      .endf bits(((Direction << 7) & DMAP_TransferDirection) | (int(Indirect) << 6) | (Mode & DMAP_TransferMode))
+      .endfunction bits(((Direction << 7) & DMAP_TransferDirection) | (int(Indirect) << 6) | (Mode & DMAP_TransferMode))
 
     ; Created: 0.01
     ; Updated: 0.01
@@ -1508,16 +1490,15 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
         ; when in indirect mode. Unused in direct mode.
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; NTRLx definitions
 
       ; Helpers:
 
-      NTRL_Setting .function Count, Repeat=false
-      .endf bits((int(Repeat) << 7) | Count)
+      NTRL_Setting .sfunction Count, Repeat=false, bits((int(Repeat) << 7) | Count)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     DMA_IO .brept 8
 
       DMAP .byte ? ; $0043x0
@@ -1573,8 +1554,8 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
         ; This is a mirror of UNUSED.
 
-    .next
+    .endrept
 
-  .endv ; DMA_REG_BASE
+  .endvirtual ; DMA_REG_BASE
 
 .endif ; GUARD_VOLTEDGE_IO_REGISTERS

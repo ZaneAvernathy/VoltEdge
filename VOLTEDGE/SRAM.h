@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_SRAM :?= false
   GUARD_VOLTEDGE_SRAM := true
 
   VoltEdge_SRAM_Created = 0.01
-  VoltEdge_SRAM_Updated = 0.02
+  VoltEdge_SRAM_Updated = 0.07
 
   .virtual $700000
 
@@ -19,8 +19,8 @@ GUARD_VOLTEDGE_SRAM :?= false
       aSaveSlotSuspend .dstruct structSaveDataEntry  ; $705FF0
       .fill ($708000 - *), ?
 
-    .bend
+    .endblock
 
-  .endv
+  .endvirtual
 
 .endif ; GUARD_VOLTEDGE_SRAM

@@ -4,10 +4,10 @@ GUARD_VOLTEDGE_SAVE :?= false
   GUARD_VOLTEDGE_SAVE := true
 
   VoltEdge_Save_Created = 0.01
-  VoltEdge_Save_Updated = 0.02
+  VoltEdge_Save_Updated = 0.07
 
   ; Created: 0.01
-  ; Updated: 0.01
+  ; Updated: 0.07
   structSaveDataHeader .struct
     LastFile         .byte ?
     LastSuspend      .byte ?
@@ -15,10 +15,10 @@ GUARD_VOLTEDGE_SAVE :?= false
     CompletionFlag   .byte ?
     IrregularityFlag .word ?
                      .word ?
-  .ends
+  .endstruct
 
   ; Created: 0.01
-  ; Updated: 0.01
+  ; Updated: 0.07
   structSaveDataEntry .struct
     MagicNumber              .word ? ; $0000
     Checksum                 .word ? ; $0002
@@ -68,7 +68,7 @@ GUARD_VOLTEDGE_SAVE :?= false
       BGMSetting             .word ? ; $0057
       AutocursorSetting      .word ? ; $0059
       Volume                 .word ? ; $005B
-    .bend
+    .endblock
     DefaultVisibility        .byte ? ; $005D
     VisionRange              .byte ? ; $005E
     CurrentPhase             .byte ? ; $005F
@@ -89,7 +89,7 @@ GUARD_VOLTEDGE_SAVE :?= false
       EnemyPhaseController   .byte ? ; $0074
       NPCPhaseController     .byte ? ; $0075
                              .byte ? ; $0076
-    .bend
+    .endblock
     PermanentEventFlags      .fill len(bytes(%1 x 40)) ; $0077
     TemporaryEventFlags      .fill len(bytes(%1 x 96)) ; $007C
     RandomizedItems          .fill size(word) * 16 ; $0088
@@ -103,6 +103,6 @@ GUARD_VOLTEDGE_SAVE :?= false
     TurncountsTable          .fill size(structTurncountEntryRAM) * 40 ; $1F7D
     ParagonFlag              .word ? ; $1FF5
                              .byte ? ; $1FF7
-  .ends
+  .endstruct
 
 .endif ; GUARD_VOLTEDGE_SAVE

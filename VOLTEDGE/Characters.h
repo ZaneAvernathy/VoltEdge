@@ -4,12 +4,12 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.02
+  VoltEdge_Characters_Updated = 0.07
 
   ; Character helpers
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structCharacterDataROMEntry .struct HPOrAutolevel, Strength, Magic, Skill, Speed, Defense, Constitution, Luck, Movement, MovementStars, CriticalCoefficient, HPGrowth, StrengthGrowth, MagicGrowth, SkillGrowth, SpeedGrowth, DefenseGrowth, ConstitutionGrowth, LuckGrowth, MovementGrowth, SwordRank, LanceRank, AxeRank, BowRank, StaffRank, FireRank, ThunderRank, WindRank, LightRank, DarkRank, SwordEXPModifier, LanceEXPModifier, AxeEXPModifier, BowEXPModifier, StaffEXPModifier, FireEXPModifier, ThunderEXPModifier, WindEXPModifier, LightEXPModifier, DarkEXPModifier, Gender, Skills1, Skills2, Skills3, Class, LeadershipStars, MapSprite, Portrait
       HPOrAutolevel       .char \HPOrAutolevel       ; $00
       Strength            .byte \Strength            ; $01
@@ -52,7 +52,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
         WindEXPModifier    .byte \WindEXPModifier    ; $25
         LightEXPModifier   .byte \LightEXPModifier   ; $26
         DarkEXPModifier    .byte \DarkEXPModifier    ; $27
-      .bend
+      .endblock
       Gender          .byte \Gender          ; $28
       Skills1         .byte \Skills1         ; $29
       Skills2         .byte \Skills2         ; $2A
@@ -61,10 +61,10 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
       LeadershipStars .byte \LeadershipStars ; $2D
       MapSprite       .byte \MapSprite       ; $2E
       Portrait        .byte \Portrait        ; $2F
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structCharacterDataRAM .struct
       Character .word ? ; $00
       Class     .byte ? ; $02
@@ -73,15 +73,15 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
         .struct
           X .byte ? ; $03
           Y .byte ? ; $04
-        .ends
-      .endu
+        .endstruct
+      .endunion
       .union
         UnitState .word ? ; $05
         .struct
           UnitState1 .byte ? ; $05
           UnitState2 .byte ? ; $06
-        .ends
-      .endu
+        .endstruct
+      .endunion
       Level           .byte ? ; $07
       Experience      .byte ? ; $08
       MaxHP           .byte ? ; $09
@@ -122,8 +122,8 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
           Item6Durability .byte ? ; $2A
           Item7ID         .byte ? ; $2B
           Item7Durability .byte ? ; $2C
-        .ends
-      .endu
+        .endstruct
+      .endunion
       .union
         WeaponRanks .fill 10 ; $2D
         .struct
@@ -137,15 +137,15 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
           WindRank    .byte ? ; $34
           LightRank   .byte ? ; $35
           DarkRank    .byte ? ; $36
-        .ends
-      .endu
+        .endstruct
+      .endunion
       .union
         SpriteInfo .fill 3 ; $37
         .struct
           SpriteInfo1 .byte ? ; $37
           SpriteInfo2 .word ? ; $38
-        .ends
-      .endu
+        .endstruct
+      .endunion
       .union
         AI          .fill 4 ; $3A
         .struct
@@ -156,26 +156,26 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
           Unknown3E .byte ? ; $3E
           Unknown3F .byte ? ; $3F
           Unknown40 .byte ? ; $40
-        .ends
+        .endstruct
         .struct
           TotalEXP        .word ? ; $3A
           CapturedChapter .byte ? ; $3C
                           .fill 2 ; $3D
           CapturedTurn    .word ? ; $3F
-        .ends
-      .endu
-    .ends
+        .endstruct
+      .endunion
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structExpandedCharacterDataRAM .struct
       .dstruct structCharacterDataRAM ; $00-$40
       DeploymentNumber        .byte ? ; $41
       DeploymentSlot          .word ? ; $42
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structActionStructEntry .struct
       .dstruct structExpandedCharacterDataRAM ; $00-$43
       BattleMight                     .byte ? ; $44
@@ -222,13 +222,13 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
       GainedWeaponEXP                 .byte ? ; $6E
       WeaponEXPGainChance             .byte ? ; $6F
       PostBattleStatus                .byte ? ; $70
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structTurncountEntryRAM .struct
       Chapter   .byte ?
       Turncount .word ?
-    .ends
+    .endstruct
 
 .endif ; GUARD_VOLTEDGE_CHARACTERS

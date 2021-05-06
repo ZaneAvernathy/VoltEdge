@@ -4,24 +4,24 @@ GUARD_VOLTEDGE_EVENTS_ENDCODES :?= false
   GUARD_VOLTEDGE_EVENTS_ENDCODES := true
 
   VoltEdge_Events_EndCodes_Created = 0.03
-  VoltEdge_Events_EndCodes_Updated = 0.03
+  VoltEdge_Events_EndCodes_Updated = 0.07
 
   ; For event definition arrays and
   ; their individual event definitions.
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     END_DEFINITION .segment
       ; Ends an event condition definition.
       .char -1
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     END_DEFINITION_ARRAY .segment
       ; Ends an event condition definition array.
       .sint -1
-    .endm
+    .endsegment
 
   ; For events. The precise differences between
   ; each is unknown. Until these codes have better
@@ -29,7 +29,7 @@ GUARD_VOLTEDGE_EVENTS_ENDCODES :?= false
   ; their vanilla uses.
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     END1 .segment
       ; Ends an event.
       ; Vanilla examples:
@@ -48,10 +48,10 @@ GUARD_VOLTEDGE_EVENTS_ENDCODES :?= false
       ;   End of the title screen demo
       ;   End of the quote handlers
       .char -1
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     END2 .segment
       ; Ends an event.
       ; This is the most common end code.
@@ -65,14 +65,14 @@ GUARD_VOLTEDGE_EVENTS_ENDCODES :?= false
       ;   Picking up hidden items
       ;   Stealth check in chapter 4
       .char -2
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     END3 .segment
       ; Ends an event.
       ; Used to end chapter 1's opening.
       .char -3
-    .endm
+    .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_ENDCODES

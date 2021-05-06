@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_ITEMS :?= false
   GUARD_VOLTEDGE_ITEMS := true
 
   VoltEdge_Items_Created = 0.01
-  VoltEdge_Items_Updated = 0.02
+  VoltEdge_Items_Updated = 0.07
 
   ; Created: 0.01
   ; Updated: 0.01
@@ -55,7 +55,7 @@ GUARD_VOLTEDGE_ITEMS :?= false
   ; Item helpers
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structItemDataEntryRAM .struct
       Type            .byte ? ; $00
       Might           .byte ? ; $01
@@ -77,10 +77,10 @@ GUARD_VOLTEDGE_ITEMS :?= false
       Icon            .byte ? ; $16
       DisplayedWeapon .byte ? ; $17
       BaseWeapon      .byte ? ; $18
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structItemDataEntry .struct Type, AlternateType, Might, Accuracy, Weight, Durability, Critrate, MinRange, MaxRange, WeaponRank, Effectiveness, StatBonus, Cost, Description, UseEffect, WeaponEffect, Skills2, Skills3, Traits, Icon
       Type          .byte (\AlternateType << 4) | \Type ; $00
       Might         .char \Might           ; $01
@@ -109,10 +109,10 @@ GUARD_VOLTEDGE_ITEMS :?= false
       Skills3      .byte \Skills3       ; $14
       Traits       .byte \Traits        ; $15
       Icon         .byte \Icon          ; $16
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structItemStatBonuses .struct Strength, Magic, Skill, Speed, Defense, Constitution, Luck, Movement
       Strength     .byte \Strength     ; $00
       Magic        .byte \Magic        ; $01
@@ -122,6 +122,6 @@ GUARD_VOLTEDGE_ITEMS :?= false
       Constitution .byte \Constitution ; $05
       Luck         .byte \Luck         ; $06
       Movement     .byte \Movement     ; $07
-    .ends
+    .endstruct
 
 .endif ; GUARD_VOLTEDGE_ITEMS

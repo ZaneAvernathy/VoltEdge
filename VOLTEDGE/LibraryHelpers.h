@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
   GUARD_VOLTEDGE_LIBRARY_HELPERS := true
 
   VoltEdge_LibraryHelpers_Created = 0.01
-  VoltEdge_LibraryHelpers_Updated = 0.02
+  VoltEdge_LibraryHelpers_Updated = 0.07
 
   ; Library helper values
 
@@ -41,81 +41,81 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
         ; something like "size(long)" than just "3".
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         byte .struct Value
           .byte \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         char .struct Value
           .char \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         word .struct Value
           .word \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         sint .struct Value
           .sint \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         addr .struct Value
           .addr \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         rta .struct Value
           .rta \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         long .struct Value
           .long \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         lint .struct Value
           .lint \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         dword .struct Value
           .dword \Value
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         dint .struct Value
           .dint \Value
-        .ends
+        .endstruct
 
         ; Although it seems unlikely that
         ; you'll ever need an 8-byte value,
         ; here is an unsigned and signed macro.
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         qword .struct Value
           .dword (narrow(\Value, size(dword))), (\Value >> (size(dword) * 8))
-        .ends
+        .endstruct
 
         ; Created: 0.01
-        ; Updated: 0.01
+        ; Updated: 0.07
         qint .struct Value
           .dword (narrow(\Value, size(dint)))
           .dint (\Value >> (size(dint) * 8))
-        .ends
+        .endstruct
 
       ; Created: 0.01
       ; Updated: 0.01
@@ -132,7 +132,7 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
   ; Library helper macros
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; .warnhere
 
       ; Inputs:
@@ -147,10 +147,10 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
 
       warnhere .macro
         .warn format("$%06X", *)
-      .endm
+      .endmacro
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; .checkfit Offset
 
       ; Inputs:
@@ -167,10 +167,10 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
 
       checkfit .macro Offset
         .cerror (* > \Offset), format("$%06X", *)
-      .endm
+      .endmacro
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; mapped(Offset)
 
       ; Inputs:
@@ -189,10 +189,10 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
         .if ((Offset >= $7E0000) || (Offset < $400000))
           Return |= $800000
         .endif
-      .endf address(Return)
+      .endfunction address(Return)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; narrow(Value, Length)
 
       ; Inputs:
@@ -210,11 +210,10 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
       ; Example:
       ; narrow($1234, 1) == $34
 
-      narrow .function Value, Length
-      .endf ((x"ff" x Length) & Value)
+      narrow .sfunction Value, Length, ((x"ff" x Length) & Value)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; narrowbits(Value, Length)
 
       ; Inputs:
@@ -232,11 +231,10 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
       ; Example:
       ; narrowbits(%10101, 3) = %101
 
-      narrowbits .function Value, Length
-      .endf bits((%1 x Length) & Value)
+      narrowbits .sfunction Value, Length, bits((%1 x Length) & Value)
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; .crossbank "Filename"
 
       ; Inputs:
@@ -277,10 +275,10 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
       crossbank .segment Filename
         - := $10000 - (* & $FFFF)
         .binary \Filename, 0, -
-      .endm
+      .endsegment
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     ; pack(Iterable, Width=2)
 
       ; Inputs:
@@ -334,6 +332,6 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
         .if ((len(Iterable) & 1) == 1)
           Iterable ..= [0]
         .endif
-      .endf (Iterable[0::2] | (Iterable[1::2] << (4 * Width)))
+      .endfunction (Iterable[0::2] | (Iterable[1::2] << (4 * Width)))
 
 .endif ; GUARD_VOLTEDGE_LIBRARY_HELPERS

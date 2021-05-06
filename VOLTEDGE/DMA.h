@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_DMA :?= false
   GUARD_VOLTEDGE_DMA := true
 
   VoltEdge_DMA_Created = 0.01
-  VoltEdge_DMA_Updated = 0.02
+  VoltEdge_DMA_Updated = 0.07
 
   ; DMA constants
 
@@ -23,16 +23,16 @@ GUARD_VOLTEDGE_DMA :?= false
   ; DMA Helpers
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structDMAChannel .struct Parameters, Port, Source, Count
       Parameters .byte \Parameters
       Port .byte \Port
       Source .long \Source
       Count .word \Count
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structDMAToCGRAM .struct Source, Count, StartIndex
       .if (type(\Source) == gap)
         TransferType .byte ?
@@ -50,10 +50,10 @@ GUARD_VOLTEDGE_DMA :?= false
         .endif
         StartIndex .byte \StartIndex
       .endif
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structDMAToVRAM .struct Source, Count, Mode, Destination
       .if (type(\Source) == gap)
         TransferType .byte ?
@@ -73,10 +73,10 @@ GUARD_VOLTEDGE_DMA :?= false
         Mode .byte \Mode
         Destination .word (\Destination >> 1)
       .endif
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structDMAFromVRAM .struct Destination, Count, Mode, Source
       .if (type(\Source) == gap)
         TransferType .byte ?
@@ -96,10 +96,10 @@ GUARD_VOLTEDGE_DMA :?= false
         Mode .byte \Mode
         Source .word (\Source >> 1)
       .endif
-    .ends
+    .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.01
+    ; Updated: 0.07
     structDMAInputPort .struct Source, Count, Parameter, Port, Mode, Destination
       .if (type(\Source) == gap)
         TransferType .byte ?
@@ -123,6 +123,6 @@ GUARD_VOLTEDGE_DMA :?= false
         Mode .byte \Mode
         Destination .word (\Destination >> 1)
       .endif
-    .ends
+    .endstruct
 
 .endif ; GUARD_VOLTEDGE_DMA

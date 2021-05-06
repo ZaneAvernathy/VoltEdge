@@ -4,12 +4,12 @@ GUARD_VOLTEDGE_CLASSES :?= false
   GUARD_VOLTEDGE_CLASSES := true
 
   VoltEdge_Classes_Created = 0.01
-  VoltEdge_Classes_Updated = 0.02
+  VoltEdge_Classes_Updated = 0.07
 
   ; Class helpers
 
   ; Created: 0.01
-  ; Updated: 0.01
+  ; Updated: 0.07
   structClassDataEntry .struct HP, Strength, Magic, Skill, Speed, Defense, Constitution, Movement, ClassRelativePower, SwordRank, LanceRank, AxeRank, BowRank, StaffRank, FireRank, ThunderRank, WindRank, LightRank, DarkRank, Skills1, Skills2, Skills3, MapSprite, MovementTypePointer, TerrainAvoidPointer, TerrainDefensePointer, TerrainHitAvoidPointer, Unknown1, Unknown2, Unknown3, Unknown4, Tier1Class
     HP                      .byte \HP                       ; $00
     Strength                .byte \Strength                 ; $01
@@ -33,8 +33,8 @@ GUARD_VOLTEDGE_CLASSES :?= false
         WindRank            .byte \WindRank                 ; $10
         LightRank           .byte \LightRank                ; $11
         DarkRank            .byte \DarkRank                 ; $12
-      .ends
-    .endu
+      .endstruct
+    .endunion
     Skills1                 .byte \Skills1                  ; $13
     Skills2                 .byte \Skills2                  ; $14
     Skills3                 .byte \Skills3                  ; $15
@@ -48,6 +48,6 @@ GUARD_VOLTEDGE_CLASSES :?= false
     Unknown3                .byte \Unknown3                 ; $21
     Unknown4                .byte \Unknown4                 ; $22
     Tier1Class              .byte \Tier1Class               ; $23
-  .ends
+  .endstruct
 
 .endif ; GUARD_VOLTEDGE_CLASSES

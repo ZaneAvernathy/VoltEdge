@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.06
+  VoltEdge_Events_Helpers_Updated = 0.07
 
   ; Misc. helpers for various
   ; event-related things.
@@ -12,7 +12,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   ; Event pointer helper
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     structChapterEventPointers .struct Opening, Turn, Talk, Location, BeforeAction, Shop, Battle, Ending, AfterAction, PrepGroups
       OpeningEventDefinitions      .long \Opening      ; $00
       TurnEventDefinitions         .long \Turn         ; $03
@@ -24,7 +24,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
       EndingEvent                  .long \Ending       ; $15
       AfterActionEventDefinitions  .long \AfterAction  ; $18
       PrepGroups                   .long \PrepGroups   ; $1B
-    .ends
+    .endstruct
 
   ; Shop events
 
@@ -32,15 +32,15 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; event definitions point to SHOP codes.
 
       ; Created: 0.03
-      ; Updated: 0.03
+      ; Updated: 0.07
       SHOP .segment Coordinates, ItemList
         .byte \Coordinates
         .union
           .word [$0000] x 7
           .word \ItemList
-        .endu
+        .endunion
         .word $0000
-      .endm
+      .endsegment
 
   ; Vanilla chests
 
@@ -54,7 +54,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; yourself, as repeating this is a waste of space.
 
       ; Created: 0.04
-      ; Updated: 0.04
+      ; Updated: 0.07
       VANILLA_CHEST .macro Item, Coordinates
         _Coordinates .byte \Coordinates
         _Item .word \Item
@@ -75,7 +75,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
           CALL_ASM_LOOP rlASMCSetupGiveToConvoyIfInventoryFull
           CALL_ASM_LOOP rlASMCWaitWhileGiveToConvoyIfInventoryFull
         END2
-      .endm
+      .endmacro
 
   ; Unit groups
 
@@ -89,7 +89,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; structure.
 
       ; Created: 0.03
-      ; Updated: 0.03
+      ; Updated: 0.07
       UNIT .segment Character=None, Allegiance=None, StartCoords=None, MoveCoords=None, Leader=None, Inventory=None, Level=None, BossFlag=None, AI=None
         .if (\Character == None)
           .word $0000 ; End of unit block
@@ -101,21 +101,21 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
           .union
             .byte [$00] x 7
             .byte \Inventory
-          .endu
+          .endunion
           .byte \Level | (int(\BossFlag) << 7)
           .byte \AI
         .endif
-      .endm
+      .endsegment
 
       ; Created: 0.03
-      ; Updated: 0.03
+      ; Updated: 0.07
       structUNITEntry .struct
         ; Less of a macro and more a description of the structure
         Character    .word ? ; $00
         .union
           StartX     .byte ? ; $02
           Allegiance .byte ? ; $02 Uppermost 2 bits
-        .endu
+        .endunion
         StartY       .byte ? ; $03
         MoveX        .byte ? ; $04
         MoveY        .byte ? ; $05
@@ -130,12 +130,12 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
             Item5 .byte ? ; $0C
             Item6 .byte ? ; $0D
             Item7 .byte ? ; $0E
-          .ends
-        .endu
+          .endstruct
+        .endunion
         .union
           Level    .byte ? ; $0F
           BossFlag .byte ? ; $0F Uppermost bit
-        .endu
+        .endunion
         .union
           AI .fill 4 ; $10
           .struct
@@ -143,9 +143,9 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
             AI2 .byte ? ; $11
             AI3 .byte ? ; $12
             AI4 .byte ? ; $13
-          .ends
-        .endu
-      .ends
+          .endstruct
+        .endunion
+      .endstruct
 
   ; MOVE_UNIT helpers
 
@@ -157,22 +157,22 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; of these.
 
     ; Created: 0.06
-    ; Updated: 0.06
+    ; Updated: 0.07
     MOVE_CHAR .segment Character, MoveCoordinates, Speed, Movestring
       MOVE_UNIT \Character, [0, 0], \MoveCoordinates, \Speed, \Movestring
-    .endm
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.06
+    ; Updated: 0.07
     MOVE_ACTIVE_UNIT .segment MoveCoordinates, Speed, Movestring
       MOVE_CHAR narrow(-1, size(word)), \MoveCoordinates, \Speed, \Movestring
-    .endm
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.06
+    ; Updated: 0.07
     MOVE_COORDS .segment TargetCoordinates, MoveCoordinates, Speed, Movestring
       MOVE_UNIT None, \TargetCoordinates, \MoveCoordinates, \Speed, \Movestring
-    .endm
+    .endsegment
 
   ; Movestrings
 
@@ -197,139 +197,139 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
       ; End of a Movestring
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_END .segment
           .byte $00
-        .endm
+        .endsegment
 
       ; Move a single tile
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_DOWN .segment
           .byte MOVESTRING_DOWN
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_LEFT .segment
           .byte MOVESTRING_LEFT
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_UP .segment
           .byte MOVESTRING_UP
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_RIGHT .segment
           .byte MOVESTRING_RIGHT
-        .endm
+        .endsegment
 
       ; Face a direction for a number
       ; of frames.
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_FACE_DOWN .segment Time
           .byte 4 + MOVESTRING_DOWN
           .word \Time
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_FACE_LEFT .segment Time
           .byte 4 + MOVESTRING_LEFT
           .word \Time
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_FACE_UP .segment Time
           .byte 4 + MOVESTRING_UP
           .word \Time
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_FACE_RIGHT .segment Time
           .byte 4 + MOVESTRING_RIGHT
           .word \Time
-        .endm
+        .endsegment
 
       ; Move a direction while facing
       ; the same direction as before.
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_DOWN_KEEP_DIRECTION .segment
           .byte 8 + MOVESTRING_DOWN
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_LEFT_DIRECTION .segment
           .byte 8 + MOVESTRING_LEFT
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_UP_DIRECTION .segment
           .byte 8 + MOVESTRING_UP
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVE_RIGHT_DIRECTION .segment
           .byte 8 + MOVESTRING_RIGHT
-        .endm
+        .endsegment
 
       ; Special effects
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_DEATH .segment
           ; Causes the sprite to disappear
           ; as if they were killed in battle.
           .byte $0D
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_MOVESTAR .segment
           ; Causes the movement star note
           ; to appear over the sprite as if
           ; they procced a movement star.
           .byte $0E
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_IN_PLACE .segment
           ; Causes the unit to move in place,
           ; keeping their current direction.
           .byte $0F
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_INVIS .segment
           ; Causes the map sprite to be invisible
           ; during the next movestring command.
           .byte $FF
-        .endm
+        .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.03
+        ; Updated: 0.07
         MS_SET_SPEED .segment Speed
           ; Causes the map sprite to move
           ; faster during the next movestring
           ; command. Speed values range from
           ; 0 (normal speed) to $7E (nearly instant).
           .byte $80 | \Speed
-        .endm
+        .endsegment
 
   ; Retreating unit tables
 
@@ -342,7 +342,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; none of the parameters set.
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     RETREAT_FLAG .segment Character=None, Flag=None
       .if (\Character == None)
         .word $0000, $0000 ; End of table
@@ -350,7 +350,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
         .word \Character
         .byte \Flag
       .endif
-    .endm
+    .endsegment
 
   ; Color cycling
 
@@ -380,18 +380,18 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; included in Count despite not being copied.
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     COLOR_CYCLE_INFO .segment BufferOffset, PaletteOffset, PaletteSize, PaletteData, Time
       .byte (\BufferOffset - aBGPaletteBuffer) / size(Color)
       .byte (\PaletteSize / size(Color)) - 1
       .byte (\PaletteOffset - \PaletteData) / size(Color)
       .byte \Time
-    .endm
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.03
+    ; Updated: 0.07
     COLOR_CYCLE_LOOP .segment
       .word 0
-    .endm
+    .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_HELPERS
