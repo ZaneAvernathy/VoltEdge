@@ -12,9 +12,9 @@ GUARD_VOLTEDGE_CHAPTER_DATA :?= false
     ; Updated: 0.08
     ; Phase controller values
 
-    CD_NoneControlled  = $00
-    CD_PlayerContolled = $02
-    CD_AIControlled    = $04
+    CD_NoneControlled   = $00
+    CD_PlayerControlled = $02
+    CD_AIControlled     = $04
 
     ; Created: 0.08
     ; Updated: 0.08
