@@ -3,7 +3,7 @@ GUARD_VOLTEDGE :?= false
 .if (!GUARD_VOLTEDGE)
   GUARD_VOLTEDGE := true
 
-  VoltEdge_Version = 0.07
+  VoltEdge_Version = 0.08
 
   .weak
 
@@ -81,6 +81,7 @@ GUARD_VOLTEDGE :?= false
   ; Library definitions
 
     .include "VOLTEDGE/Characters.h"
+    .include "VOLTEDGE/ChapterData.h"
     .include "VOLTEDGE/Classes.h"
     .include "VOLTEDGE/DMA.h"
     .include "VOLTEDGE/Events.h"
