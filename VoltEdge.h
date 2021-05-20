@@ -3,7 +3,7 @@ GUARD_VOLTEDGE :?= false
 .if (!GUARD_VOLTEDGE)
   GUARD_VOLTEDGE := true
 
-  VoltEdge_Version = 0.08
+  VoltEdge_Version = 0.09
 
   .weak
 
@@ -96,6 +96,7 @@ GUARD_VOLTEDGE :?= false
     .include "VOLTEDGE/TemporaryFlags.h"
     .include "VOLTEDGE/Terrain.h"
     .include "VOLTEDGE/Tiles.h"
+    .include "VOLTEDGE/TilesetAnimations.h"
 
     .include "VOLTEDGE/SRAM.h"
     .include "VOLTEDGE/WRAM.h"
