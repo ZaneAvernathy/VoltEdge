@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.07
+  VoltEdge_Events_Helpers_Updated = 0.10
 
   ; Misc. helpers for various
   ; event-related things.
@@ -89,7 +89,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; structure.
 
       ; Created: 0.03
-      ; Updated: 0.07
+      ; Updated: 0.10
       UNIT .segment Character=None, Allegiance=None, StartCoords=None, MoveCoords=None, Leader=None, Inventory=None, Level=None, BossFlag=None, AI=None
         .if (\Character == None)
           .word $0000 ; End of unit block
@@ -103,7 +103,10 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
             .byte \Inventory
           .endunion
           .byte \Level | (int(\BossFlag) << 7)
-          .byte \AI
+          .union
+            .byte [$00] x 4
+            .byte \AI
+          .endunion
         .endif
       .endsegment
 
