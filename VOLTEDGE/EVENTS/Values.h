@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.06
+  VoltEdge_Events_Values_Updated = 0.11
 
   ; Useful vanilla pointers
 
@@ -42,7 +42,9 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
         ; vanilla. Custom handlers must be in
         ; bank $80. Needs more research.
 
-        rsDialogueWitBGHandler :?= address($80A23A)
+        ; Created: 0.11
+        ; Updated: 0.11
+        rsDialogueWithBGHandler :?= address($80A23A)
 
       ; For use with the RUN_ASM event condition
 
@@ -1238,14 +1240,14 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; with CALL_ASM_LONG_SKIPPABLE.
 
         ; Created: 0.05
-        ; Updated: 0.05
+        ; Updated: 0.11
         rlASMCDialogueWithBGSetup :?= address($8CD0FB)
           ; Argument: short pointer to handler in bank $80
           ; Inputs:
           ;   wEventEngineParameter1: background ID
           ; Sets up a dialogue background.
           ; Used with CALL_ASM_SKIPPABLE.
-          ; The handler is always <>rsDialogueWitBGHandler
+          ; The handler is always <>rsDialogueWithBGHandler
           ; ($80A23A) in vanilla.
 
     .endweak

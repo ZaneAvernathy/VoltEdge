@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.07
+  VoltEdge_Events_Macros_Updated = 0.11
 
   ; Condition macros
 
@@ -806,10 +806,10 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endmacro
 
     ; Created: 0.06
-    ; Updated: 0.07
+    ; Updated: 0.11
     macroASMCDialogueWithBGSetup .macro BackgroundID
       STORE_WORD wEventEngineParameter1, \BackgroundID
-      CALL_ASM_SKIPPABLE rlASMCDialogueWithBGSetup, <>rsDialogueWitBGHandler
+      CALL_ASM_SKIPPABLE rlASMCDialogueWithBGSetup, <>rsDialogueWithBGHandler
       HALT_UNTIL_WORD_SKIPPABLE wUnknown000302, $0009 ; TODO: figure this out
     .endmacro
 
