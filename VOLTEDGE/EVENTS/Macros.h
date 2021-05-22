@@ -4,63 +4,63 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.11
+  VoltEdge_Events_Macros_Updated = 0.12
 
   ; Condition macros
 
     ; Created: 0.03
-    ; Updated: 0.07
-    macroECCheckCoordinates .macro Coordinates
+    ; Updated: 0.12
+    macroECCheckCoordinates .segment Coordinates
       CMP_BYTE wCursorXCoord, \Coordinates[0]
       CMP_BYTE wCursorYCoord, \Coordinates[1]
-    .endmacro
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    macroECCheckCoordinateRanges .macro UpperLeftCoordinates, LowerRightCoordinates
+    ; Updated: 0.12
+    macroECCheckCoordinateRanges .segment UpperLeftCoordinates, LowerRightCoordinates
       CMP_BYTE_RANGE wCursorXCoord, \UpperLeftCoordinates[0], \LowerRightCoordinates[0]
       CMP_BYTE_RANGE wCursorYCoord, \UpperLeftCoordinates[1], \LowerRightCoordinates[1]
-    .endmacro
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    macroECCheckCoordinateRect .macro Rectangle
+    ; Updated: 0.12
+    macroECCheckCoordinateRect .segment Rectangle
       ; Instead of taking two sets of coordinates,
       ; takes a 4-tuple/list of the form
       ; [X, Y, W, H]
       CMP_BYTE_RANGE wCursorXCoord, \Rectangle[0], \Rectangle[0]+\Rectangle[2]
       CMP_BYTE_RANGE wCursorYCoord, \Rectangle[1], \Rectangle[1]+\Rectangle[3]
-    .endmacro
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    macroECShop .macro ShopDataPointer
+    ; Updated: 0.12
+    macroECShop .segment ShopDataPointer
       EVENT FlagAlwaysZero, \ShopDataPointer
         CMP_BYTE_AT wCursorXCoord, \ShopDataPointer
         CMP_BYTE_AT wCursorYCoord, \ShopDataPointer+1
       END_DEFINITION
-    .endmacro
+    .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    macroECBossQuote .macro EventFlag, Character
+    ; Updated: 0.12
+    macroECBossQuote .segment EventFlag, Character
       EVENT \EventFlag, eventBattleQuoteDummyEvent
         CHECK_SINGLE \Character
       END_DEFINITION
-    .endmacro
+    .endsegment
 
     ; Created: 0.04
-    ; Updated: 0.07
-    macroECDoor .macro EventFlag, Coordinates, EventPointer
+    ; Updated: 0.12
+    macroECDoor .segment EventFlag, Coordinates, EventPointer
       EVENT \EventFlag, \EventPointer
         CMP_BYTE wActiveTileXCoordinate, \Coordinates[0]
         CMP_BYTE wActiveTileYCoordinate, \Coordinates[1]
       END_DEFINITION
-    .endmacro
+    .endsegment
 
     ; Created: 0.04
-    ; Updated: 0.07
-    macroECVanillaChest .macro EventFlag, ChestDataPointer
+    ; Updated: 0.12
+    macroECVanillaChest .segment EventFlag, ChestDataPointer
       ; This macro mimics the way vanilla
       ; FE5 does chests: each chest gets a
       ; unique chunk of events and its coordinates
@@ -71,20 +71,20 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
         CMP_BYTE_AT wCursorXCoord, \ChestDataPointer._Coordinates
         CMP_BYTE_AT wCursorYCoord, \ChestDataPointer._Coordinates+size(byte)
       END_DEFINITION
-    .endmacro
+    .endsegment
 
     ; Created: 0.04
-    ; Updated: 0.07
-    macroECChest .macro EventFlag, Coordinates, EventPointer
+    ; Updated: 0.12
+    macroECChest .segment EventFlag, Coordinates, EventPointer
       EVENT \EventFlag, \EventPointer
         CMP_BYTE wCursorXCoord, \Coordinates[0]
         CMP_BYTE wCursorYCoord, \Coordinates[1]
       END_DEFINITION
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroECPlayerRetreat .macro EventFlag, EventPointer, Lord
+    ; Updated: 0.12
+    macroECPlayerRetreat .segment EventFlag, EventPointer, Lord
       EVENT \EventFlag, \EventPointer
         ; Lord retreating
         CMP_BITS wUnknown7E4F98, $0008 ; TODO: figure this out
@@ -104,242 +104,242 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
         RUN_ASM rlECCheckRetreatCoordinates
         CMP_WORD wCurrentPhase, Player
       END_DEFINITION
-    .endmacro
+    .endsegment
 
   ; ASMC macros
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCChangeAllegianceToPlayer .macro Character
+    ; Updated: 0.12
+    macroASMCChangeAllegianceToPlayer .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCChangeAllegianceToPlayer
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCChangeAllegianceToEnemy .macro Character
+    ; Updated: 0.12
+    macroASMCChangeAllegianceToEnemy .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCChangeAllegianceToEnemy
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCChangeAllegianceToNPC .macro Character
+    ; Updated: 0.12
+    macroASMCChangeAllegianceToNPC .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCChangeAllegianceToNPC
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCChangeAllegiance .macro Character, CurrentAllegiance, NewAllegiance, NewLeader
+    ; Updated: 0.12
+    macroASMCChangeAllegiance .segment Character, CurrentAllegiance, NewAllegiance, NewLeader
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineCharacterStructParameter, \NewLeader
       STORE_WORD wEventEngineParameter2, \CurrentAllegiance
       STORE_WORD wEventEngineParameter3, \NewAllegiance
       CALL_ASM_LOOP rlASMCChangeAllegiance
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCChangeAllegianceToPlayerIfHeld .macro Character
+    ; Updated: 0.12
+    macroASMCChangeAllegianceToPlayerIfHeld .segment Character
       ; Returns failure if unit is not
       ; being held or player is out of
       ; deployment slots.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCChangeAllegianceToPlayerIfHeld
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCMount .macro Character
+    ; Updated: 0.12
+    macroASMCMount .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCMount
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCDismount .macro Character
+    ; Updated: 0.12
+    macroASMCDismount .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCDismount
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCIsUnitHeld .macro Character
+    ; Updated: 0.12
+    macroASMCIsUnitHeld .segment Character
       ; Returns success if unit is
       ; being held/captured, failure
       ; if not held or not found.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCIsUnitHeld
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCIsUnitHeldByEnemy .macro Character
+    ; Updated: 0.12
+    macroASMCIsUnitHeldByEnemy .segment Character
       ; macroASMCIsUnitHeld but
       ; if unit is held by an enemy.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCIsUnitHeldByEnemy
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCClearRescue .macro Character
+    ; Updated: 0.12
+    macroASMCClearRescue .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCClearRescue
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetFlagIfRetreatingUnitByTable .macro TablePointer
+    ; Updated: 0.12
+    macroASMCSetFlagIfRetreatingUnitByTable .segment TablePointer
       STORE_LONG lEventEngineLongParameter, \TablePointer
       CALL_ASM_LOOP rlASMCSetFlagIfRetreatingUnitByTable
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCRemoveUnit .macro Character
+    ; Updated: 0.12
+    macroASMCRemoveUnit .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCRemoveUnit
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCPromoteUnit .macro Character, NewClass
+    ; Updated: 0.12
+    macroASMCPromoteUnit .segment Character, NewClass
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \NewClass
       CALL_ASM_LOOP rlASMCPromoteUnit
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCPromoteUnitSilent .macro Character, NewClass
+    ; Updated: 0.12
+    macroASMCPromoteUnitSilent .segment Character, NewClass
       STORE_WORD aSelectedCharacterBuffer.Character, \Character
       STORE_WORD wEventEngineParameter1, \NewClass
       CALL_ASM_LOOP rlASMCPromoteUnitSilent
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetUnitPosition .macro Character, Coordinates
+    ; Updated: 0.12
+    macroASMCSetUnitPosition .segment Character, Coordinates
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       CALL_ASM_LOOP rlASMCSetUnitPosition
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetUnitState .macro Character, UnitState
+    ; Updated: 0.12
+    macroASMCSetUnitState .segment Character, UnitState
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCSetUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCUnsetUnitState .macro Character, UnitState
+    ; Updated: 0.12
+    macroASMCUnsetUnitState .segment Character, UnitState
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCUnsetUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckUnitStateSet .macro Character, UnitState
+    ; Updated: 0.12
+    macroASMCCheckUnitStateSet .segment Character, UnitState
       ; Returns success if unit has all
       ; of the specified bits set, failure
       ; otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCCheckUnitStateSet
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckUnitStateUnset .macro Character, UnitState
+    ; Updated: 0.12
+    macroASMCCheckUnitStateUnset .segment Character, UnitState
       ; Returns success if unit has all
       ; of the specified bits unset, failure
       ; otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCCheckUnitStateUnset
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckUnitStatus .macro Character, Status
+    ; Updated: 0.12
+    macroASMCCheckUnitStatus .segment Character, Status
       ; Returns success if unit has
       ; the specified status, failure
       ; otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \Status
       CALL_ASM_LOOP rlASMCCheckUnitStatus
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckAbleToTalk .macro Character
+    ; Updated: 0.12
+    macroASMCCheckAbleToTalk .segment Character
       ; Returns success if unit is
       ; able to talk, failure otherwise.
       ; Does not check if unit has any
       ; talks available, however.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCheckAbleToTalk
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCAllUnitsSetUnitState .macro UnitState
+    ; Updated: 0.12
+    macroASMCAllUnitsSetUnitState .segment UnitState
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCAllUnitsSetUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCAllUnitsUnsetUnitState .macro UnitState
+    ; Updated: 0.12
+    macroASMCAllUnitsUnsetUnitState .segment UnitState
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCAllUnitsUnsetUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCActiveUnitSetUnitState .macro UnitState
+    ; Updated: 0.12
+    macroASMCActiveUnitSetUnitState .segment UnitState
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCActiveUnitSetUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCActiveUnitUnsetUnitState .macro UnitState
+    ; Updated: 0.12
+    macroASMCActiveUnitUnsetUnitState .segment UnitState
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCActiveUnitUnsetUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCActiveUnitCheckUnitState .macro UnitState
+    ; Updated: 0.12
+    macroASMCActiveUnitCheckUnitState .segment UnitState
       ; Returns success if unit in
       ; aSelectedCharacterBuffer has
       ; the specified unit state bits set,
       ; failure otherwise.
       STORE_WORD wEventEngineParameter1, \UnitState
       CALL_ASM_LOOP rlASMCActiveUnitCheckUnitState
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCActiveUnitCheckCarrying .macro Character
+    ; Updated: 0.12
+    macroASMCActiveUnitCheckCarrying .segment Character
       ; Returns success if the active unit
       ; is carrying the specified unit,
       ; failure otherwise.
       STORE_WORD wEventEngineParameter1, \Character
       CALL_ASM_LOOP rlASMCActiveUnitCheckCarrying
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountOwnedItem .macro Item
+    ; Updated: 0.12
+    macroASMCCountOwnedItem .segment Item
       ; Returns number of item owned
       ; in wEventEngineParameter3.
       ; Returns success if the player owns
@@ -347,11 +347,11 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       ; otherwise.
       STORE_WORD wEventEngineParameter1, \Item
       CALL_ASM_LOOP rlASMCCountOwnedItem
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckUnitForItem .macro Character, Item
+    ; Updated: 0.12
+    macroASMCCheckUnitForItem .segment Character, Item
       ; Returns success if unit is
       ; holding at least one of the
       ; specified item, failure
@@ -359,242 +359,242 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \Item
       CALL_ASM_LOOP rlASMCCheckUnitForItem
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCGiveUnitItemSilent .macro Character, Item
+    ; Updated: 0.12
+    macroASMCGiveUnitItemSilent .segment Character, Item
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \Item
       CALL_ASM_LOOP rlASMCGiveUnitItemSilent
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckUnitExists .macro Character
+    ; Updated: 0.12
+    macroASMCCheckUnitExists .segment Character
       ; Returns success if the unit
       ; exists in any unit pool.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCheckUnitExists
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCRemoveItemFromUnit .macro Character, Item
+    ; Updated: 0.12
+    macroASMCRemoveItemFromUnit .segment Character, Item
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, \Item
       CALL_ASM_LOOP rlASMCRemoveItemFromUnit
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCGiveUnitItemsToConvoy .macro Character
+    ; Updated: 0.12
+    macroASMCGiveUnitItemsToConvoy .segment Character
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCGiveUnitItemsToConvoy
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCGiveActiveUnitItem .macro Item
+    ; Updated: 0.12
+    macroASMCGiveActiveUnitItem .segment Item
       ; Returns success if able
       ; to give item, failure if
       ; unable (i.e. inventory full).
       STORE_WORD wEventEngineParameter1, \Item
       CALL_ASM_LOOP rlASMCGiveActiveUnitItem
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCGiveActiveUnitItemCurrentDurability .macro Item, Durability
+    ; Updated: 0.12
+    macroASMCGiveActiveUnitItemCurrentDurability .segment Item, Durability
       ; Returns success if able
       ; to give item, failure if
       ; unable (i.e. inventory full).
       STORE_WORD wEventEngineParameter1, pack([\Item, \Durability])
       CALL_ASM_LOOP rlASMCGiveActiveUnitItemCurrentDurability
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCGiveConvoyItem .macro Item
+    ; Updated: 0.12
+    macroASMCGiveConvoyItem .segment Item
       STORE_WORD wEventEngineParameter1, \Item
       CALL_ASM_LOOP rlASMCGiveConvoyItem
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckIfUnitHasEquippedWeapon .macro Character
+    ; Updated: 0.12
+    macroASMCCheckIfUnitHasEquippedWeapon .segment Character
       ; Returns success if unit has a
       ; weapon that they can use, failure
       ; otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCheckIfUnitHasEquippedWeapon
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCAddGoldWord .macro Amount
+    ; Updated: 0.12
+    macroASMCAddGoldWord .segment Amount
       STORE_WORD wEventEngineParameter1, \Amount
       CALL_ASM_LOOP rlASMCAddGoldWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSubtractGoldWord .macro Amount
+    ; Updated: 0.12
+    macroASMCSubtractGoldWord .segment Amount
       STORE_WORD wEventEngineParameter1, \Amount
       CALL_ASM_LOOP rlASMCSubtractGoldWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCompareGoldGTE .macro Amount
+    ; Updated: 0.12
+    macroASMCCompareGoldGTE .segment Amount
       STORE_WORD wEventEngineParameter1, \Amount
       CALL_ASM_LOOP rlASMCCompareGoldGTE
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCStoreUnitToUnitMapByCoordinates .macro DeploymentNumber, Coordinates
+    ; Updated: 0.12
+    macroASMCStoreUnitToUnitMapByCoordinates .segment DeploymentNumber, Coordinates
       STORE_WORD wEventEngineParameter1, \DeploymentNumber
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       CALL_ASM_LOOP rlASMCStoreUnitToUnitMapByCoordinates
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSingleTileChangeSavedTile .macro TileID, Coordinates
+    ; Updated: 0.12
+    macroASMCSingleTileChangeSavedTile .segment TileID, Coordinates
       ; Saves original tile to wEventEngineSavedTile.
       STORE_WORD wEventEngineParameter1, \TileID
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       CALL_ASM_LOOP rlASMCSingleTileChangeSavedTile
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCRevertSingleTileChangeSavedTile .macro Coordinates
+    ; Updated: 0.12
+    macroASMCRevertSingleTileChangeSavedTile .segment Coordinates
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       CALL_ASM_LOOP rlASMCRevertSingleTileChangeSavedTile
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSingleTileChangeByCoords .macro Coordinates, TileID
+    ; Updated: 0.12
+    macroASMCSingleTileChangeByCoords .segment Coordinates, TileID
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       STORE_WORD wEventEngineParameter1, \TileID
       CALL_ASM_LOOP rlASMCSingleTileChangeByCoords
       YIELD_UNK
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetTileToDoor .macro TileID, Coordinates
+    ; Updated: 0.12
+    macroASMCSetTileToDoor .segment TileID, Coordinates
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       STORE_WORD wEventEngineParameter1, \TileID
       CALL_ASM_LOOP rlASMCSetTileToDoor
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCWriteUnitAtTileToBuffer .macro Coordinates
+    ; Updated: 0.12
+    macroASMCWriteUnitAtTileToBuffer .segment Coordinates
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       CALL_ASM_LOOP rlASMCWriteUnitAtTileToBuffer
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckIfUnitAtCoords .macro Character, Coordinates
+    ; Updated: 0.12
+    macroASMCCheckIfUnitAtCoords .segment Character, Coordinates
       STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
       STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCheckIfUnitAtCoords
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCLoadUnitGroup .macro UnitGroupPointer
+    ; Updated: 0.12
+    macroASMCLoadUnitGroup .segment UnitGroupPointer
       STORE_LONG lEventEngineUnitGroupPointer, \UnitGroupPointer
       CALL_ASM_LOOP rlASMCLoadUnitGroup
       YIELD_UNK
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCPrepareCapturedUnitsForRescue .macro Allegiance, CoordinateTablePointer
+    ; Updated: 0.12
+    macroASMCPrepareCapturedUnitsForRescue .segment Allegiance, CoordinateTablePointer
       STORE_LONG lEventEngineLongParameter, \CoordinateTablePointer
       STORE_WORD lEventEngineUnitGroupPointer, ((\Allegiance + 1) * size(word))
       CALL_ASM_LOOP rlASMCPrepareCapturedUnitsForRescue
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCAllUnitsSetCharacterDataByte .macro CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCAllUnitsSetCharacterDataByte .segment CharacterDataField, Value
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCAllUnitsSetCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetCharacterDataByte .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCSetCharacterDataByte .segment Character, CharacterDataField, Value
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCSetCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetCharacterDataWord .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCSetCharacterDataWord .segment Character, CharacterDataField, Value
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCSetCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCAddCharacterDataByte .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCAddCharacterDataByte .segment Character, CharacterDataField, Value
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCAddCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSubtractCharacterDataByte .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCSubtractCharacterDataByte .segment Character, CharacterDataField, Value
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCSubtractCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetBitsCharacterDataWord .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCSetBitsCharacterDataWord .segment Character, CharacterDataField, Value
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCSetBitsCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCUnsetBitsCharacterDataWord .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCUnsetBitsCharacterDataWord .segment Character, CharacterDataField, Value
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCUnsetBitsCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCheckBitsCharacterDataWord .macro Character, CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCCheckBitsCharacterDataWord .segment Character, CharacterDataField, Value
       ; Returns success if any of the character's
       ; data word has any bits in common with the
       ; value, failure otherwise.
@@ -602,84 +602,84 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCCheckBitsCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetCharacterDataByteIfCharacterDataByte .macro CharacterDataField, Value, FieldToCheck, ValueToMatch
+    ; Updated: 0.12
+    macroASMCSetCharacterDataByteIfCharacterDataByte .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCSetCharacterDataByteIfCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetCharacterDataByteIfCharacterDataWord .macro CharacterDataField, Value, FieldToCheck, ValueToMatch
+    ; Updated: 0.12
+    macroASMCSetCharacterDataByteIfCharacterDataWord .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCSetCharacterDataByteIfCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCSetCharacterDataWordBitsIfCharacterDataWord .macro CharacterDataField, Value, FieldToCheck, ValueToMatch
+    ; Updated: 0.12
+    macroASMCSetCharacterDataWordBitsIfCharacterDataWord .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCSetCharacterDataWordBitsIfCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCUnsetCharacterDataWordBitsIfCharacterDataWord .macro CharacterDataField, Value, FieldToCheck, ValueToMatch
+    ; Updated: 0.12
+    macroASMCUnsetCharacterDataWordBitsIfCharacterDataWord .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCUnsetCharacterDataWordBitsIfCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsWithCharacterDataByte .macro CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCCountAllUnitsWithCharacterDataByte .segment CharacterDataField, Value
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit with
       ; the value is found, failure otherwise.
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCCountAllUnitsWithCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountPlayerUnitsWithCharacterDataByte .macro CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCCountPlayerUnitsWithCharacterDataByte .segment CharacterDataField, Value
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit with
       ; the value is found, failure otherwise.
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCCountPlayerUnitsWithCharacterDataByte
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsWithCharacterDataWord .macro CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCCountAllUnitsWithCharacterDataWord .segment CharacterDataField, Value
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit with
       ; the value is found, failure otherwise.
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCCountAllUnitsWithCharacterDataWord
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsWithCharacterDataWordBitsSet .macro CharacterDataField, Value
+    ; Updated: 0.12
+    macroASMCCountAllUnitsWithCharacterDataWordBitsSet .segment CharacterDataField, Value
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit with
       ; any bits in common with the
@@ -687,137 +687,137 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
       CALL_ASM_LOOP rlASMCCountAllUnitsWithCharacterDataWordBitsSet
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsUncapturedAlive .macro Character
+    ; Updated: 0.12
+    macroASMCCountAllUnitsUncapturedAlive .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountAllUnitsUncapturedAlive
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountPlayerUnitsUncapturedAlive .macro Character
+    ; Updated: 0.12
+    macroASMCCountPlayerUnitsUncapturedAlive .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountPlayerUnitsUncapturedAlive
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountEnemyUnitsUncapturedAlive .macro Character
+    ; Updated: 0.12
+    macroASMCCountEnemyUnitsUncapturedAlive .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountEnemyUnitsUncapturedAlive
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountNPCUnitsUncapturedAlive .macro Character
+    ; Updated: 0.12
+    macroASMCCountNPCUnitsUncapturedAlive .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountNPCUnitsUncapturedAlive
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsUncapturedAliveWithActing .macro Character
+    ; Updated: 0.12
+    macroASMCCountAllUnitsUncapturedAliveWithActing .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountAllUnitsUncapturedAliveWithAcing
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsUncapturedAliveByTable .macro TablePointer
+    ; Updated: 0.12
+    macroASMCCountAllUnitsUncapturedAliveByTable .segment TablePointer
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_LONG lEventEngineLongParameter, \TablePointer
       CALL_ASM_LOOP rlASMCCountAllUnitsUncapturedAliveByTable
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsRescuedByPlayerOrNPCByTable .macro TablePointer
+    ; Updated: 0.12
+    macroASMCCountAllUnitsRescuedByPlayerOrNPCByTable .segment TablePointer
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_LONG lEventEngineLongParameter, \TablePointer
       CALL_ASM_LOOP rlASMCCountAllUnitsRescuedByPlayerOrNPCByTable
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsRescuedByPlayerOrNPC .macro Character
+    ; Updated: 0.12
+    macroASMCCountAllUnitsRescuedByPlayerOrNPC .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountAllUnitsRescuedByPlayerOrNPC
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCCountAllUnitsAlive .macro Character
+    ; Updated: 0.12
+    macroASMCCountAllUnitsAlive .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       CALL_ASM_LOOP rlASMCCountAllUnitsAlive
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCGetChapterTurncount .macro Chapter
+    ; Updated: 0.12
+    macroASMCGetChapterTurncount .segment Chapter
       ; Retturns turncount in wEventEngineParameter1
       ; and success if turncount is nonzero,
       ; failure otherwise.
       STORE_WORD wEventEngineParameter1, \Chapter
       CALL_ASM_LOOP rlASMCGetChapterTurncount
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCWorldMapDialogue .macro DialoguePointer
+    ; Updated: 0.12
+    macroASMCWorldMapDialogue .segment DialoguePointer
       STORE_LONG lEventEngineLongParameter, \DialoguePointer
       CALL_ASM_SKIPPABLE rlASMCWorldMapDialogue
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroASMCDialogueWithBGStart .macro DialoguePointer
+    ; Updated: 0.12
+    macroASMCDialogueWithBGStart .segment DialoguePointer
       CALL_ASM_LONG_SKIPPABLE rlASMCDialogueWithBGStart, \DialoguePointer
       YIELD_UNK
       YIELD_UNK
       YIELD_UNK
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.11
-    macroASMCDialogueWithBGSetup .macro BackgroundID
+    ; Updated: 0.12
+    macroASMCDialogueWithBGSetup .segment BackgroundID
       STORE_WORD wEventEngineParameter1, \BackgroundID
       CALL_ASM_SKIPPABLE rlASMCDialogueWithBGSetup, <>rsDialogueWithBGHandler
       HALT_UNTIL_WORD_SKIPPABLE wUnknown000302, $0009 ; TODO: figure this out
-    .endmacro
+    .endsegment
 
   ; Large event macros
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroHaveActiveUnitRetreat .macro MovestringPointer, QuoteTablePointer=aRetreatQuoteTable
+    ; Updated: 0.12
+    macroHaveActiveUnitRetreat .segment MovestringPointer, QuoteTablePointer=aRetreatQuoteTable
       PAUSE_SKIPPABLE 15
       YIELD
 
@@ -837,11 +837,11 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       YIELD
 
       CALL_ASM_LOOP rlASMCCopyUnitFromEventBuffer
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroGiveActiveUnitItem .macro Item
+    ; Updated: 0.12
+    macroGiveActiveUnitItem .segment Item
       STORE_WORD wEventEngineParameter1, \Item
 
       PAUSE_SKIPPABLE 10
@@ -854,11 +854,11 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       CALL_ASM_LOOP rlASMCWaitWhileGiveItemPopup
       CALL_ASM_LOOP rlASMCSetupGiveToConvoyIfInventoryFull
       CALL_ASM_LOOP rlASMCWaitWhileGiveToConvoyIfInventoryFull
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroItemHouse .macro DialoguePointer, Item, Coordinates, TileID
+    ; Updated: 0.12
+    macroItemHouse .segment DialoguePointer, Item, Coordinates, TileID
       PLAY_SOUND_WORD $00F7 ; TODO: sound definitions
 
       DIALOGUE \DialoguePointer
@@ -871,28 +871,28 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       macroASMCActiveUnitUnsetUnitState UnitStateActing
 
       macroASMCSingleTileChangeByCoords \Coordinates, \TileID
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroDialogueHouse .macro DialoguePointer
+    ; Updated: 0.12
+    macroDialogueHouse .segment DialoguePointer
       PLAY_SOUND_WORD $00F7 ; TODO: sound definitions
 
       DIALOGUE \DialoguePointer
       YIELD
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroLoadPlayerUnitsByStartingPositions .macro
+    ; Updated: 0.12
+    macroLoadPlayerUnitsByStartingPositions .segment
       STORE_WORD lEventEngineUnitGroupPointer, ((Player + 1) * size(word))
       CALL_ASM_LOOP rlASMCGetStartingPositionsArrayPointerAndLength
       CALL_ASM_LOOP rlASMCLoadPlayerUnitsByStartingPositions
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroTileChangeByID .macro TileChangeID
+    ; Updated: 0.12
+    macroTileChangeByID .segment TileChangeID
       HALT_UNTIL_BYTE bDecompressionArrayFlag, $00
 
       CALL_ASM_LOOP rlASMCDecompressChapterMapChanges
@@ -905,17 +905,30 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       HALT_UNTIL_BYTE bDMAArrayFlag, $00
       YIELD_UNK
       YIELD_UNK
-    .endmacro
+    .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
-    macroDestroyHouseByTileChangeID .macro TileChangeID
-      PLAY_SOUND_BYTE $45 ; TODO: sound definitions
+    ; Updated: 0.12
+    macroDestroyHouseByTileChangeID .segment TileChangeID, SoundID=$45
+      PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
       macroTileChangeByID \TileChangeID
 
       PAUSE_SKIPPABLE 10
       YIELD
-    .endmacro
+    .endsegment
 
+    ; Created: 0.12
+    ; Updated: 0.12
+    macroOpenDoorByTileChangeID .segment TileChangeID, SoundID=$6B
+      PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
+      macroTileChangeByID \TileChangeID
+    .endsegment
+
+    ; Created: 0.12
+    ; Updated: 0.12
+    macroOpenDrawbridgeByTileChangeID .segment TileChangeID, SoundID=$6E
+      PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
+      macroTileChangeByID \TileChangeID
+    .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS
