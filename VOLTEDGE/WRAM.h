@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.07
+  VoltEdge_WRAM_Updated = 0.13
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -853,6 +853,13 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; by events.
 
   .endvirtual
+
+  .virtual $001798
+
+    lEventEngineUnitGroupPointer .long ? ; $001798 0.13
+    bEventEngineUnitLoadingFlag .byte ?  ; $00179B 0.13
+
+  .endvirtual 
 
   .virtual $001982
 

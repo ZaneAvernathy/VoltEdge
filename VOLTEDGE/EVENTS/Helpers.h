@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.10
+  VoltEdge_Events_Helpers_Updated = 0.13
 
   ; Misc. helpers for various
   ; event-related things.
@@ -160,21 +160,24 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; of these.
 
     ; Created: 0.06
-    ; Updated: 0.07
+    ; Updated: 0.13
     MOVE_CHAR .segment Character, MoveCoordinates, Speed, Movestring
       MOVE_UNIT \Character, [0, 0], \MoveCoordinates, \Speed, \Movestring
+      YIELD_UNK
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
+    ; Updated: 0.13
     MOVE_ACTIVE_UNIT .segment MoveCoordinates, Speed, Movestring
       MOVE_CHAR narrow(-1, size(word)), \MoveCoordinates, \Speed, \Movestring
+      YIELD_UNK
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.07
+    ; Updated: 0.13
     MOVE_COORDS .segment TargetCoordinates, MoveCoordinates, Speed, Movestring
       MOVE_UNIT None, \TargetCoordinates, \MoveCoordinates, \Speed, \Movestring
+      YIELD_UNK
     .endsegment
 
   ; Movestrings
@@ -272,20 +275,20 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
         .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.07
-        MS_MOVE_LEFT_DIRECTION .segment
+        ; Updated: 0.13
+        MS_MOVE_LEFT_KEEP_DIRECTION .segment
           .byte 8 + MOVESTRING_LEFT
         .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.07
-        MS_MOVE_UP_DIRECTION .segment
+        ; Updated: 0.13
+        MS_MOVE_UP_KEEP_DIRECTION .segment
           .byte 8 + MOVESTRING_UP
         .endsegment
 
         ; Created: 0.03
-        ; Updated: 0.07
-        MS_MOVE_RIGHT_DIRECTION .segment
+        ; Updated: 0.13
+        MS_MOVE_RIGHT_KEEP_DIRECTION .segment
           .byte 8 + MOVESTRING_RIGHT
         .endsegment
 

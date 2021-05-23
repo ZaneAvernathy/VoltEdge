@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.11
+  VoltEdge_Events_Values_Updated = 0.13
 
   ; Useful vanilla pointers
 
@@ -73,6 +73,14 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
       ; Rarely an ASMC will use the static argument parameter
       ; that is part of the CALL_ASM_ code. If used, the ASMC
       ; will list what the argument is.
+
+        ; Created: 0.13
+        ; Updated: 0.13
+        rlASMCSwapChapterMaps :?= address($849485)
+          ; Inputs:
+          ;   wCurrentChapter: target chapter ID
+          ; Loads and swaps to the map of the
+          ; chapter specified by wCurrentChapter.
 
         ; Created: 0.03
         ; Updated: 0.03

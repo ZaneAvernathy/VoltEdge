@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.12
+  VoltEdge_Events_Macros_Updated = 0.13
 
   ; Condition macros
 
@@ -929,6 +929,13 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     macroOpenDrawbridgeByTileChangeID .segment TileChangeID, SoundID=$6E
       PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
       macroTileChangeByID \TileChangeID
+    .endsegment
+
+    ; Created: 0.13
+    ; Updated: 0.13
+    macroDialogueWithBG .segment DialoguePointer, BackgroundID
+      macroASMCDialogueWithBGSetup \BackgroundID
+      macroASMCDialogueWithBGStart \DialoguePointer
     .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS
