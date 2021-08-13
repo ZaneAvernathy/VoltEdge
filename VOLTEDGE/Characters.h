@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.07
+  VoltEdge_Characters_Updated = 0.14
 
   ; Character helpers
 
@@ -229,6 +229,14 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
     structTurncountEntryRAM .struct
       Chapter   .byte ?
       Turncount .word ?
+    .endstruct
+
+    ; Created: 0.14
+    ; Updated: 0.14
+    structSupportEntry .struct Getter, Giver, Bonus
+      Getter .word \Getter
+      Giver .word \Giver
+      Bonus .byte \Bonus
     .endstruct
 
 .endif ; GUARD_VOLTEDGE_CHARACTERS

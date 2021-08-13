@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.13
+  VoltEdge_WRAM_Updated = 0.14
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -859,7 +859,49 @@ GUARD_VOLTEDGE_WRAM :?= false
     lEventEngineUnitGroupPointer .long ? ; $001798 0.13
     bEventEngineUnitLoadingFlag .byte ?  ; $00179B 0.13
 
-  .endvirtual 
+  .endvirtual
+
+  .virtual $0017E9
+
+    wDialogueEngineStatus .word ? ; $0017E9 0.14
+      ; This is a status bitfield
+      ; that controls the dialogue engine.
+    wDialogueEngineControlCodeExecutionStep .word ? ; $0017EB 0.14
+      ; This is an index into a control code's
+      ; handler table.
+
+  .endvirtual
+
+  .virtual $0017F9
+
+    bDialogueEngineFontPage .byte ? ; $0017F9 0.14
+      ; This is the current font page being
+      ; used to draw dialogue characters.
+    wDialogueEngineCurrentCharacterIndex .word ? ; $0017FA 0.14
+    wDialogueEngineCurrentPixelWidth .word ? ; $0017FC 0.14
+    wDialogueEngineTotalPixelWidth .word ? ; $0017FE 0.14
+
+  .endvirtual
+
+  .virtual $001804
+
+    wDialogueEngineTileBase .word ? ; $001804 0.14
+
+  .endvirtual
+
+  .virtual $001808
+
+    wDialogueEngineTargetIndex .word ? ; $001808 0.14
+    lDialogueEngineTextPointer .long ? ; $00180A 0.14
+
+  .endvirtual
+
+  .virtual $00182E
+
+    wDialogueEnginePendingDMAChunkSize .word ? ; $00182E
+    wDialogueEngineLastCharacterTileSlice .word ? ; $001830
+
+  .endvirtual
 
   .virtual $001982
 
@@ -991,6 +1033,29 @@ GUARD_VOLTEDGE_WRAM :?= false
   .virtual $7E428C
 
     aBattleRoundsData .fill $200
+
+  .endvirtual
+
+  .virtual $7E45B2
+
+    lDialogueWidthTablePointer .long ? ; $7E45B2 0.14
+
+  .endvirtual
+
+  .virtual $7E45BA
+
+    wDialogueVRAMTilemapStartOffset  .word ? ; $7E45BA 0.14
+    lDialogueTilemapBufferPointer    .long ? ; $7E45BC 0.14
+    wDialogueVRAMGraphicsStartOffset .word ? ; $7E45BF 0.14
+
+  .endvirtual
+
+  .virtual $7E45C4
+
+    bDialogueTilemapRowWidth      .byte ? ; $7E45C4 0.14
+    wDialogueCurrentTilemapIndex  .word ? ; $7E45C5 0.14
+    wDialogueCurrentTilemapOffset .word ? ; $7E45C7 0.14
+    wDialogueNextTilemapIndex     .word ? ; $7E45C9 0.14
 
   .endvirtual
 
@@ -1225,6 +1290,21 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7EA0CD
+
+    ; These variables are used to manage
+    ; a set of icons in RAM.
+
+    aIconArrayIconTableIndex .fill (24 * size(word)) ; $7EA0CD 0.14
+    aIconArrayTileIndex      .fill (24 * size(word)) ; $7EA0FD 0.14
+    aIconArrayXCoordinate    .fill (24 * size(word)) ; $7EA12D 0.14
+    aIconArrayYCoordinate    .fill (24 * size(word)) ; $7EA15D 0.14
+    aIconArrayAttributes     .fill (24 * size(word)) ; $7EA18D 0.14
+    aIconArrayFlag           .fill (24 * size(word)) ; $7EA1BD 0.14
+      ; This is set to -1 if the slot is being used.
+
+  .endvirtual
+
   .virtual $7EA4EA
 
     wCapturingFlag     .word ? ; $7EA4EA 0.01
@@ -1241,7 +1321,9 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $7EA69B
+  .virtual $7EA699
+
+    wSupportBonus .word ? ; $7EA699 0.14
 
     ; These are used for leveling units.
 

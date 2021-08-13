@@ -67,4 +67,14 @@ GUARD_VOLTEDGE_TILES :?= false
 
       VRAMToTile .sfunction Offset, Base, TileSize=size(Tile4bpp), ((Offset - Base) / TileSize)
 
+    ; Created: 0.14
+    ; Updated: 0.14
+    ; TileToVRAM
+
+      ; This function converts a tile index,
+      ; base tile, and tile size into a VRAM address
+      ; in word steps.
+
+      TileToVRAM .sfunction TileIndex, Base, TileSize=size(Tile4bpp), (((TileIndex + Base) * TileSize) >> 1)
+
 .endif ; GUARD_VOLTEDGE_TILES

@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.13
+  VoltEdge_Events_Macros_Updated = 0.14
 
   ; Condition macros
 
@@ -936,6 +936,16 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     macroDialogueWithBG .segment DialoguePointer, BackgroundID
       macroASMCDialogueWithBGSetup \BackgroundID
       macroASMCDialogueWithBGStart \DialoguePointer
+    .endsegment
+
+    ; Created: 0.14
+    ; Updated: 0.14
+    macroChapterTitlePopup .segment DialoguePointer
+      STORE_LONG aProcSystem.wInput1+size(byte), \DialoguePointer
+      STORE_WORD aProcSystem.wInput1, <>\DialoguePointer
+      STORE_LONG lR44, procChapterTitle
+      CALL_ASM_SKIPPABLE rlEventEngineCreateProcAndSetActive
+      YIELD
     .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS
