@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.14
+  VoltEdge_WRAM_Updated = 0.15
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -1263,21 +1263,34 @@ GUARD_VOLTEDGE_WRAM :?= false
     aEnemyUnits  .fill (size(structCharacterDataRAM) * 51) ; $7E5EC8 0.02
     aNPCUnits    .fill (size(structCharacterDataRAM) * 16) ; $7E6BBB 0.02
 
-    ; These arrays are for units/tiles
-    ; on the map.
+    ; The contents of this block of RAM change
+    ; depending on if the game is on the map or
+    ; prep screen.
 
-    aPlayerVisibleUnitMap .fill $600 ; $7E6FCB 0.01
-      ; This map is filled with the
-      ; deployment numbers of units
-      ; visible to the player. If there
-      ; is no visible unit at a tile,
-      ; the value in the map is 00.
-    aUnitMap              .fill $600 ; $7E75CB 0.01
-      ; This map is filled with the
-      ; deployment numbers of all
-      ; units. If there is no unit
-      ; at that tile, the value in
-      ; the map is 00.
+    .union
+      .struct
+
+        ; These arrays are for units/tiles
+        ; on the map.
+
+        aPlayerVisibleUnitMap .fill $600 ; $7E6FCB 0.15
+          ; This map is filled with the
+          ; deployment numbers of units
+          ; visible to the player. If there
+          ; is no visible unit at a tile,
+          ; the value in the map is 00.
+        aUnitMap              .fill $600 ; $7E75CB 0.15
+          ; This map is filled with the
+          ; deployment numbers of all
+          ; units. If there is no unit
+          ; at that tile, the value in
+          ; the map is 00.
+      .endstruct
+      .struct
+        aPrepItemsListItemArray  .fill ($300 * size(word)) ; $7E6FCB 0.15
+        aPrepItemsListOwnerArray .fill ($300 * size(word)) ; $7E75CB 0.15
+      .endstruct
+    .endunion
 
   .endvirtual
 
@@ -1287,6 +1300,10 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This map is filled with the
       ; terrain IDs of all tiles on
       ; the map.
+    aMapMetatileMap    .fill (size(word) * $600) ; 7E81C8 0.15
+    aVisibilityMap     .fill $600 ; $7E8DCB 0.15
+    aTargetableUnitMap .fill $600 ; $7E93CB 0.15
+    aThreatenedTileMap .fill $600 ; $7E99CB 0.15
 
   .endvirtual
 
@@ -1302,6 +1319,18 @@ GUARD_VOLTEDGE_WRAM :?= false
     aIconArrayAttributes     .fill (24 * size(word)) ; $7EA18D 0.14
     aIconArrayFlag           .fill (24 * size(word)) ; $7EA1BD 0.14
       ; This is set to -1 if the slot is being used.
+
+  .endvirtual
+
+  .virtual $7EA1F9
+
+    ; These variables are used for usable items.
+
+    lItemUseRoutineCurrentPosition .long ? ; $7EA1F9 0.15
+      ; This is a pointer to the current item use routine pointer.
+      ; It is used to fetch the pointer for lItemUseRoutine.
+    lItemUseRoutine .long ? ; $7EA1FC 0.15
+      ; This is a pointer to the current item use routine.
 
   .endvirtual
 

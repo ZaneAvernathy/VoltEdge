@@ -3,7 +3,7 @@ GUARD_VOLTEDGE :?= false
 .if (!GUARD_VOLTEDGE)
   GUARD_VOLTEDGE := true
 
-  VoltEdge_Version = 0.14
+  VoltEdge_Version = 0.15
 
   .weak
 
