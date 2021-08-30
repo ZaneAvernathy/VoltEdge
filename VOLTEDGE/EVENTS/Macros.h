@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.14
+  VoltEdge_Events_Macros_Updated = 0.16
 
   ; Condition macros
 
@@ -857,18 +857,18 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
+    ; Updated: 0.16
     macroItemHouse .segment DialoguePointer, Item, Coordinates, TileID
       PLAY_SOUND_WORD $00F7 ; TODO: sound definitions
 
       DIALOGUE \DialoguePointer
       YIELD
 
-      macroASMCActiveUnitSetUnitState UnitStateActing
+      macroASMCActiveUnitSetUnitState UnitStateHidden
 
       macroGiveActiveUnitItem \Item
 
-      macroASMCActiveUnitUnsetUnitState UnitStateActing
+      macroASMCActiveUnitUnsetUnitState UnitStateHidden
 
       macroASMCSingleTileChangeByCoords \Coordinates, \TileID
     .endsegment

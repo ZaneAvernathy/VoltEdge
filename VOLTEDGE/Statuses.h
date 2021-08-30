@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_STATUSES :?= false
   GUARD_VOLTEDGE_STATUSES := true
 
   VoltEdge_Statuses_Created = 0.01
-  VoltEdge_Statuses_Updated = 0.02
+  VoltEdge_Statuses_Updated = 0.16
 
   ; Created: 0.01
   ; Updated: 0.01
@@ -17,7 +17,7 @@ GUARD_VOLTEDGE_STATUSES :?= false
     StatusPetrify = bits($05)
 
   ; Created: 0.01
-  ; Updated: 0.01
+  ; Updated: 0.16
   ; Unit state constants
 
     UnitStateDead         = bits($0001)
@@ -26,11 +26,11 @@ GUARD_VOLTEDGE_STATUSES :?= false
     UnitStateUnselectable = bits($0008)
     UnitStateRescued      = bits($0010)
     UnitStateRescuing     = bits($0020)
-    UnitStateActing       = bits($0040)
+    UnitStateHidden       = bits($0040)
     UnitStateGrayed       = bits($0080)
     UnitStateMovementStar = bits($0100)
     UnitStateMoved        = bits($0200)
-    UnitStateInvisible    = bits($0400)
+    UnitStateDisabled     = bits($0400)
     UnitStateCaptured     = bits($0800)
     UnitStateUnknown2     = bits($1000)
     UnitStateUnknown3     = bits($2000)

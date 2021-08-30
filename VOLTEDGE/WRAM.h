@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.15
+  VoltEdge_WRAM_Updated = 0.16
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -1331,6 +1331,14 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; It is used to fetch the pointer for lItemUseRoutine.
     lItemUseRoutine .long ? ; $7EA1FC 0.15
       ; This is a pointer to the current item use routine.
+
+  .endvirtual
+
+  .virtual $7EA202
+
+    aLossesTable     .fill 49 ; $7EA202 0.16
+    aWinsTable       .fill 49 ; $7EA233 0.16
+    aTurncountsTable .fill size(structTurncountEntryRAM) * 40 ; $7EA264 0.16
 
   .endvirtual
 
