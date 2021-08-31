@@ -859,10 +859,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     ; Created: 0.06
     ; Updated: 0.16
     macroItemHouse .segment DialoguePointer, Item, Coordinates, TileID
-      PLAY_SOUND_WORD $00F7 ; TODO: sound definitions
-
-      DIALOGUE \DialoguePointer
-      YIELD
+      macroDialogue \DialoguePointer
 
       macroASMCActiveUnitSetUnitState UnitStateHidden
 
@@ -874,8 +871,8 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
-    macroDialogueHouse .segment DialoguePointer
+    ; Updated: 0.16
+    macroDialogue .segment DialoguePointer
       PLAY_SOUND_WORD $00F7 ; TODO: sound definitions
 
       DIALOGUE \DialoguePointer
