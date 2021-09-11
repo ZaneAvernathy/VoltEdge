@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.16
+  VoltEdge_WRAM_Updated = 0.17
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -483,6 +483,21 @@ GUARD_VOLTEDGE_WRAM :?= false
             ; IDs/parameters that will be fed to the
             ; sound system in order. This one is
             ; for multiple note (?) sounds.
+
+          .fill ($0004F0 - *)
+
+          wUnknown0004F0 .word ? ; $0004F0 0.17
+
+          .fill ($0004FD - *)
+
+          bUnknown0004FD .byte ? ; $0004FD 0.17
+          aUnknown0004FE .fill (size(byte) * 2) ; $0004FE 0.17
+
+          .fill ($00050C - *)
+
+          wUnknown00050C .word ? ; $00050C 0.17
+          wUnknown00050E .word ? ; $00050E 0.17
+
         .endstruct
       .endunion
     .endblock
@@ -1342,6 +1357,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7EA4DE
+
+    bActionStructDistance .byte ? ; $7EA4DE 0.17
+      ; This is the distance between the units in
+      ; aActionStructUnit1 and aActionStructUnit2.
+
+  .endvirtual
+
   .virtual $7EA4EA
 
     wCapturingFlag     .word ? ; $7EA4EA 0.01
@@ -1358,9 +1381,92 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $7EA699
+  .virtual $7EA5D1
 
-    wSupportBonus .word ? ; $7EA699 0.14
+    aActionStructGeneratedRounds .fill (40 * size(structBattleGeneratedRound)) ; $7EA5D1 0.17
+      ; This is an array of raw battle rounds.
+    wActionStructGeneratedRoundVar1 .word ? ; $7EA671 0.17
+      ; This is used for multiple action struct
+      ; round related variables, such as the number of
+      ; attacks in a generated round, a unit's
+      ; deployment number, and more.
+    wActionStructGeneratedRoundOffset .word ? ; $7EA673 0.17
+      ; This is the offset of the current round
+      ; in aActionStructGeneratedRounds during
+      ; round generation.
+    wActionStructGeneratedRoundLastOffset .word ? ; $7EA675 0.17
+      ; This is the offset of the last round in
+      ; aActionStructGeneratedRounds.
+    wActionStructGeneratedRoundBonusCombat .word ? ; $7EA677 0.17
+      ; This is nonzero if assail has been activated
+      ; during this fight.
+    wActionStructGeneratedRoundDamage .word ? ; $7EA679 0.17
+      ; This is the amount of damage that is
+      ; expected to be dealt per hit during
+      ; a round of combat.
+    wActionStructGeneratedRoundBufferPointer .word ? ; $7EA67B 0.17
+      ; This is a short pointer to a character
+      ; buffer filled with the first unit
+      ; (usually the player unit?).
+    wActionStructGeneratedRoundDeploymentNumber .word ? ; $7EA67D 0.17
+      ; This is the deployment number of the
+      ; second unit (usually an enemy?).
+    wActionStructGeneratedRoundCombatType .word ? ; $7EA67F 0.17
+      ; This seems to be a value to show what
+      ; kind of 'battle' is taking place. Most values
+      ; are unknown:
+      ; 0 - Default
+      ; 1 - Unknown
+      ; 2 - Dance
+      ; 3 - Unknown
+      ; 4 - Unknown
+      ; 5 - Unknown
+      ; 6 - Capture
+      ; 7 - Promotion
+      ; 8 - Unknown
+      ; 9 - Unknown
+      ; A - Unknown
+      ; B - Unknown
+    wActionStructType .word ? ; $7EA681 0.17
+      ; This dictates how the action structs
+      ; are interpreted.
+      ; 0 - Default
+      ; 1 - Enemy-initiated targeting
+      ; 2 - Player-initiated targeting
+      ; 3 - Unknown
+      ; 4 - Single unit
+    wActionStructGeneratedRoundUnknownActor .word ? ; $7EA683 0.17
+      ; This is copied from
+      ; wActionStructGeneratedRoundActor.
+    wActionStructGeneratedRoundActor .word ? ; $7EA685 0.17
+      ; This is which unit is currently acting,
+      ; 0 or 2.
+
+    .fill 4 ; Unknown, unused?
+
+    wActionStructGeneratedRoundMight .word ? ; $7EA68B 0.17
+      ; This is the might of the active unit.
+    wActionStructGeneratedRoundDefense .word ? ; $7EA68D 0.17
+      ; This is the defensive stat of
+      ; the inactive unit.
+    wActionStructGeneratedRoundHit .word ? ; $7EA68F 0.17
+      ; This is the hitrate of the active unit.
+    wActionStructGeneratedRoundCrit .word ? ; $7EA691 0.17
+      ; This is the critrate of the active unit.
+    wHitAvoidBonus .word ? ; $7EA693 0.17
+      ; This is an action struct's hit/avoid
+      ; bonus from supports and the charm skill.
+    wKillExperienceBonus .word ? ; $7EA695 0.17
+      ; This is the amount of bonus experience
+      ; to grant when the target is killed,
+      ; based on whether they can steal, are
+      ; a boss, etc.
+
+    .word ? ; Unknown
+
+    wSupportBonus .word ? ; $7EA699 0.17
+      ; This is an action struct's bonus
+      ; hit/avoid from supports.
 
     ; These are used for leveling units.
 
@@ -1380,14 +1486,32 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $7EA937
 
-    lUNITGroupLoadingPointer .long ?        ; $7EA937 0.02
-      ; This points to the current UNIT struct entry
-      ; being loaded.
-    wUNITGroupLoadingCount          .word ? ; $7EA93A 0.02
-      ; This is the count of the number of units to be loaded.
-    wUNITGroupLoadingInventoryIndex .word ? ; $7EA93C 0.02
-      ; This is a counter for the current item to
-      ; be added from a UNIT struct.
+    ; This block of WRAM gets reused for
+    ; multiple things that don't need to exist
+    ; at the same time.
+
+    .union
+
+      .struct
+        lUNITGroupLoadingPointer .long ?        ; $7EA937 0.02
+          ; This points to the current UNIT struct entry
+          ; being loaded.
+        wUNITGroupLoadingCount          .word ? ; $7EA93A 0.02
+          ; This is the count of the number of units to be loaded.
+        wUNITGroupLoadingInventoryIndex .word ? ; $7EA93C 0.02
+          ; This is a counter for the current item to
+          ; be added from a UNIT struct.
+      .endstruct
+
+      .struct
+        aRangeMap .fill $600 ; $7EA937 0.17
+
+        .fill ($7EAF73 - *)
+
+        aMovementMap .fill $600 ; $7EAF73 0.17
+      .endstruct
+
+    .endunion
 
   .endvirtual
 

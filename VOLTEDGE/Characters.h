@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.14
+  VoltEdge_Characters_Updated = 0.17
 
   ; Character helpers
 
@@ -175,7 +175,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
     .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.17
     structActionStructEntry .struct
       .dstruct structExpandedCharacterDataRAM ; $00-$43
       BattleMight                     .byte ? ; $44
@@ -199,7 +199,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
       TerrainHitAvoid                 .byte ? ; $56
                                       .byte ? ; $57
       TerrainHitAvoidBonus            .byte ? ; $58
-      Unknown59                       .byte ? ; $59
+      WeaponTriangleBonus             .byte ? ; $59
       CriticalCoefficient             .byte ? ; $5A
       StartingExperience              .byte ? ; $5B
       GainedExperience                .byte ? ; $5C
