@@ -198,7 +198,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
       TerrainDefense                  .byte ? ; $55
       TerrainHitAvoid                 .byte ? ; $56
                                       .byte ? ; $57
-      TerrainHitAvoidBonus            .byte ? ; $58
+      HitAvoidBonus                   .byte ? ; $58
       WeaponTriangleBonus             .byte ? ; $59
       CriticalCoefficient             .byte ? ; $5A
       StartingExperience              .byte ? ; $5B

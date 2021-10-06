@@ -1213,6 +1213,15 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; These are the coordinates of the tile
       ; that the active unit has stopped on.
 
+    wActiveTileUnitAllegiance .word ? ; $7E4FA4 0.17
+
+  .endvirtual
+
+  .virtual $7E4FCE
+
+    bUnknownTargetingDeploymentNumber .byte ? ; $7E4FCE 0.17
+    bUnknown7E4FCF                    .byte ? ; $7E4FCF 0.17
+
   .endvirtual
 
   .virtual $7E50E6
