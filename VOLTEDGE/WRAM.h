@@ -1217,6 +1217,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E4FC2
+
+    wObjectiveMarkerFrame .word ? ; $7E4FC2 0.17
+      ; This is the current objective marker
+      ; frame tile index.
+
+  .endvirtual
+
   .virtual $7E4FCE
 
     bUnknownTargetingDeploymentNumber .byte ? ; $7E4FCE 0.17
@@ -1256,9 +1264,20 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; Needs research. Normally 0,
       ; incremented during battles?
 
-  .endvirtual
-
-  .virtual $7E528C
+    wObjectiveMarkerColorIndex .word ? ; $7E5250 0.17
+      ; This determines the color of the chapter's
+      ; objective markers. Possible values:
+      ; 1 - Red
+      ; 2 - Blue
+      ; 3 - Renders blue, possibly meant to be green
+    wObjectiveMarkerColorValue .word ? ; $7E5252 0.17
+      ; This is the actual palette setting for the
+      ; objective markers' OAM data. See
+      ; wObjectiveMarkerColorIndex.
+    aObjectiveMarkers .fill 7 * size(structObjectiveMarkerEntryRAM) ; $7E5254 0.17
+      ; This is an array that holds 6 objective markers
+      ; and one terminator. There is no bounds checking,
+      ; so don't have more than 6.
 
     aAllegianceInfo     .block  ; $7E528C 0.02
       bAlliedAllegiance .byte ? ; $7E528C 0.02

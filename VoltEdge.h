@@ -87,6 +87,7 @@ GUARD_VOLTEDGE :?= false
     .include "VOLTEDGE/DMA.h"
     .include "VOLTEDGE/Events.h"
     .include "VOLTEDGE/Items.h"
+    .include "VOLTEDGE/ObjectiveMarkers.h"
     .include "VOLTEDGE/Palettes.h"
     .include "VOLTEDGE/Procs.h"
     .include "VOLTEDGE/Quotes.h"
