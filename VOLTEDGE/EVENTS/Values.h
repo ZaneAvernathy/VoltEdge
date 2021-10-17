@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.13
+  VoltEdge_Events_Values_Updated = 0.17
 
   ; Useful vanilla pointers
 
@@ -192,6 +192,14 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Inputs:
           ;   wEventEngineCharacterTarget: target character ID
           ; Clears the rescue(d) status from the unit
+          ; and their rescuer/rescuee.
+
+        ; Created: 0.17
+        ; Updated: 0.17
+        rlASMCClearActiveUnitRescue :?= address($8CA2E0)
+          ; Inputs:
+          ;   aSelectedCharacterBuffer: filled with target unit
+          ; Clears the rescue(d) status from the active unit
           ; and their rescuer/rescuee.
 
         ; Created: 0.03
