@@ -823,6 +823,18 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is a status bitfield
       ; that controls the event engine.
 
+    wEventEngineCycleType .word ? ; $00172E 0.17
+      ; This controls the handling of event
+      ; engine cycles.
+    wEventEngineMapChangeFlag .word ? ; $001730 0.17
+      ; This is nonzero if the event engine is
+      ; currently checking/running events for
+      ; map changes that have already occurred,
+      ; such as after loading a suspended save
+      ; after triggering map changes. You can
+      ; check against this to avoid running events
+      ; like dialogue at this time.
+
   .endvirtual
 
   .virtual $001734

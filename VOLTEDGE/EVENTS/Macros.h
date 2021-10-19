@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.16
+  VoltEdge_Events_Macros_Updated = 0.17
 
   ; Condition macros
 
@@ -816,7 +816,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   ; Large event macros
 
     ; Created: 0.06
-    ; Updated: 0.12
+    ; Updated: 0.17
     macroHaveActiveUnitRetreat .segment MovestringPointer, QuoteTablePointer=aRetreatQuoteTable
       PAUSE_SKIPPABLE 15
       YIELD
@@ -830,7 +830,6 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       CALL_ASM_LOOP rlASMCCopyUnitToEventBuffer
 
       MOVE_ACTIVE_UNIT [0, 0], 1, \MovestringPointer
-      YIELD_UNK
 
       CALL_ASM_LOOP rlASMCClearActiveMapSprites
       WAIT_MOVE
@@ -943,6 +942,18 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       STORE_LONG lR44, procChapterTitle
       CALL_ASM_SKIPPABLE rlEventEngineCreateProcAndSetActive
       YIELD
+    .endsegment
+
+    ; Created: 0.17
+    ; Updated: 0.17
+    macroSetCharacterAI .segment Character, AISetting=[$00, $00, $00, $00]
+      ; Shorthand for setting a character's AI 1, 4, 2, Unknown3E
+      ; AI bytes. This will probably be changed when AI definitions
+      ; are added.
+      macroASMCSetCharacterDataByte \Character, AI1, \AISetting[0]
+      macroASMCSetCharacterDataByte \Character, AI4, \AISetting[1]
+      macroASMCSetCharacterDataByte \Character, AI2, \AISetting[2]
+      macroASMCSetCharacterDataByte \Character, Unknown3E, \AISetting[3]
     .endsegment
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS

@@ -253,8 +253,8 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; up a retreat.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCCopyUnitToEventBuffer :?= address($8CA424)
+        ; Updated: 0.17
+        rlASMCCopyUnitToEventBuffer :?= address($8CA426)
           ; Inputs:
           ;   aSelectedCharacterBuffer: filled with target unit
           ; Outputs:
@@ -1141,8 +1141,8 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Used in chapter 4.
 
         ; Created: 0.05
-        ; Updated: 0.05
-        rlASMCCreateRandomChestTiles :?= address($8CB9BA)
+        ; Updated: 0.17
+        rlASMCCreateRandomChestTiles :?= address($8CB98A)
           ; Creates up to 16 randomized
           ; chests from items in the
           ; randomized chest array. Called
@@ -1150,6 +1150,12 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; The coordinates for these
           ; chests are fixed in vanilla,
           ; based on a table in chapter 4's events.
+
+        ; Created: 0.17
+        ; Updated: 0.17
+        rlASMCGetRandomChestItem :?= address($8CB9C7)
+          ; Selects a pregenerated random chest
+          ; item to give.
 
         ; Created: 0.05
         ; Updated: 0.05

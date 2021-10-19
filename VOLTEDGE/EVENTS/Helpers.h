@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.13
+  VoltEdge_Events_Helpers_Updated = 0.17
 
   ; Misc. helpers for various
   ; event-related things.
@@ -167,10 +167,9 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.13
+    ; Updated: 0.17
     MOVE_ACTIVE_UNIT .segment MoveCoordinates, Speed, Movestring
       MOVE_CHAR narrow(-1, size(word)), \MoveCoordinates, \Speed, \Movestring
-      YIELD_UNK
     .endsegment
 
     ; Created: 0.06
@@ -356,6 +355,17 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
         .word \Character
         .byte \Flag
       .endif
+    .endsegment
+
+  ; Camera scrolling
+
+    ; A shorthand to scroll the camera
+    ; to a unit.
+
+    SCROLL_CAMERA_CHAR .segment Character, Speed
+      GET_CHARACTER_COORDS \Character
+      SCROLL_CAMERA \Speed
+      YIELD
     .endsegment
 
   ; Color cycling
