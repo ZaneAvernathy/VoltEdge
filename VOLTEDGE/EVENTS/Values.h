@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.17
+  VoltEdge_Events_Values_Updated = 0.18
 
   ; Useful vanilla pointers
 
@@ -1271,6 +1271,45 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Used with CALL_ASM_SKIPPABLE.
           ; The handler is always <>rsDialogueWithBGHandler
           ; ($80A23A) in vanilla.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCWMSetCyclePalette :?=address($91CB0D)
+          ; Inputs:
+          ;   $7EA93B: Color setting
+          ;   $7EA93F: Palette offset in palette buffer
+          ; This creates a cycling palette. Possible values
+          ; for $7EA93B:
+          ;   0: Blue
+          ;   1: Red
+          ;   2: Green
+          ;   3: Blue
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCWMDrawSpecialMarker :?= address($91CA46)
+          ; Inputs:
+          ;   $7EA93D: Active sprite index?
+          ;   $7EA937: X Coordinate from top left
+          ;   $7EA939: Y Coordinate from top left
+          ;   $7EA93B: Marker index
+          ;   $7EA93F: 
+          ; Draws special graphics like location markers
+          ; or paths.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCWMClearCyclePalette :?= address($91CB46)
+          ; Inputs:
+          ;   $7EA93F: Palette offset in palette buffer
+          ; This clears a previously-set cycling palette.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCWMClearSpecialMarker :?= address($91CD81)
+          ; Inputs:
+          ;   $7EA93D: Active sprite index?
+          ; Clears a previously-set special marker
 
     .endweak
 

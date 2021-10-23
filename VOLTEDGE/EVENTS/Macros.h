@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.17
+  VoltEdge_Events_Macros_Updated = 0.18
 
   ; Condition macros
 
@@ -791,13 +791,6 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
 
     ; Created: 0.06
     ; Updated: 0.12
-    macroASMCWorldMapDialogue .segment DialoguePointer
-      STORE_LONG lEventEngineLongParameter, \DialoguePointer
-      CALL_ASM_SKIPPABLE rlASMCWorldMapDialogue
-    .endsegment
-
-    ; Created: 0.06
-    ; Updated: 0.12
     macroASMCDialogueWithBGStart .segment DialoguePointer
       CALL_ASM_LONG_SKIPPABLE rlASMCDialogueWithBGStart, \DialoguePointer
       YIELD_UNK
@@ -955,5 +948,48 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       macroASMCSetCharacterDataByte \Character, AI2, \AISetting[2]
       macroASMCSetCharacterDataByte \Character, Unknown3E, \AISetting[3]
     .endsegment
+
+  ; World map macros
+
+    ; Created: 0.06
+    ; Updated: 0.18
+    macroASMCWMDialogue .segment DialoguePointer
+      STORE_LONG lEventEngineLongParameter, \DialoguePointer
+      CALL_ASM_SKIPPABLE rlASMCWorldMapDialogue
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroWMSetCyclePalette .segment ColorSetting, PalettePointer
+      STORE_WORD $7EA93B, \ColorSetting
+      STORE_WORD $7EA93F, (\PalettePointer - aBGPaletteBuffer)
+      CALL_ASM_Skippable rlASMCWMSetCyclePalette
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroWMDrawSpecialMarker .segment Coordinates=[0, 0], MarkerSetting, ActiveSpriteIndex, PalettePointer=1
+      STORE_WORD $7EA93D, \ActiveSpriteIndex
+      STORE_WORD $7EA937, \Coordinates[0]
+      STORE_WORD $7EA939, \Coordinates[1]
+      STORE_WORD $7EA93B, \MarkerSetting
+      STORE_WORD $7EA93F, \PalettePointer
+      CALL_ASM_SKIPPABLE rlASMCWMDrawSpecialMarker
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroWMClearCyclePalette .segment PalettePointer
+      STORE_WORD $7EA93F, (\PalettePointer - aBGPaletteBuffer)
+      CALL_ASM_Skippable rlASMCWMClearCyclePalette
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroWMClearSpecialMarker .segment ActiveSpriteIndex
+      STORE_WORD $7EA93D, \ActiveSpriteIndex
+      CALL_ASM_Skippable rlASMCWMClearSpecialMarker
+    .endsegment
+
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS
