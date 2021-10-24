@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_VANILLA_CHARACTERS :?= false
   GUARD_VOLTEDGE_VANILLA_CHARACTERS := true
 
   VoltEdge_Vanilla_Characters_Created = 0.01
-  VoltEdge_Vanilla_Characters_Updated = 0.02
+  VoltEdge_Vanilla_Characters_Updated = 0.18
 
   ; This is a list of the characters
   ; in vanilla FE5. Many of the generic
@@ -27,7 +27,7 @@ GUARD_VOLTEDGE_VANILLA_CHARACTERS :?= false
   ; appears in game.
 
   ; Created: 0.01
-  ; Updated: 0.01
+  ; Updated: 0.18
   Leif                  = $0001
   Finn                  = $0002
   Orsin                 = $0003
@@ -211,7 +211,7 @@ GUARD_VOLTEDGE_VANILLA_CHARACTERS :?= false
   PitfighterBerserker   = $00B5
   MansterPriest2        = $00B6
   Bandole               = $00B7
-  LoptyrianDarkDishop   = $00B8
+  LoptyrianDarkBishop   = $00B8
   Truman                = $00B9
   MansterSoldier1       = $00BA
   BanditBerserker       = $00BB
