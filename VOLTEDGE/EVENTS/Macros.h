@@ -949,6 +949,99 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       macroASMCSetCharacterDataByte \Character, Unknown3E, \AISetting[3]
     .endsegment
 
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroASMCScriptedCastMapBattleSetup .macro Staff, Caster, Target, Coords=None
+      ; Should be followed by a call to
+      ; rlASMCBeginScriptedCastMapBattle.
+      STORE_WORD wEventEngineParameter1, \Staff
+      STORE_WORD wEventEngineParameter2, None
+      STORE_WORD wEventEngineCharacterStructParameter, \Caster
+      STORE_WORD wEventEngineCharacterTarget, \Target
+      .if (type(\Coords) != type(None))
+        STORE_WORD wEventEngineXCoordinate, (\Coords[0] & $FF)
+        STORE_WORD wEventEngineYCoordinate, (\Coords[1] & $FF)
+      .endif
+      CALL_ASM_SKIPPABLE rlASMCScriptedCastMapBattleSetup
+    .endmacro
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroASMCBeginScriptedCastMapBattle .macro Callback=None
+      .if (\Callback != None)
+        STORE_LONG lUnknown7EA4EC, \Callback
+      .endif
+      CALL_ASM_SKIPPABLE rlASMCBeginScriptedCastMapBattle
+      HALT_UNTIL_WORD_SKIPPABLE wMapBattleFlag, 0
+    .endm
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroScriptedWarpStaff .macro Caster, Target, Coords=[-1, -1]
+      ; Coordinates of [-1, -1] mean "off the map"
+      ; and should be followed by removing the target unit.
+      ; Otherwise, this should be followed by a WARP_UNIT.
+      macroASMCCountAllUnitsUncapturedAlive \Caster
+      JUMP_FALSE +
+
+      macroASMCCountAllUnitsUncapturedAlive \Target
+      JUMP_FALSE +
+
+        macroASMCScriptedCastMapBattleSetup Warp, \Caster, \Target, \Coords
+        macroASMCBeginScriptedCastMapBattle rlScriptedWarpCallback
+
+        CALL_ASM_SKIPPABLE rlUpdateUnitMaps
+        CALL_ASM_SKIPPABLE rlUpdateVisibilityMap
+
+        PAUSE_SKIPPABLE 2
+        YIELD
+
+      +
+    .endm
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroScriptedStone .macro Caster, Target
+      macroASMCCountAllUnitsUncapturedAlive \Caster
+      JUMP_FALSE +
+
+      macroASMCCountAllUnitsUncapturedAlive \Target
+      JUMP_FALSE +
+
+        macroASMCScriptedCastMapBattleSetup Stone, \Caster, \Target
+        macroASMCBeginScriptedCastMapBattle rlScriptedStoneCallback
+
+        CALL_ASM_SKIPPABLE rlUpdateUnitMaps
+        CALL_ASM_SKIPPABLE rlUpdateVisibilityMap
+
+        PAUSE_SKIPPABLE 2
+        YIELD
+
+      +
+    .endm
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroScriptedRewarpStaff .macro Caster, Coords=[-1, -1]
+      ; Coordinates of [-1, -1] mean "off the map"
+      ; and should be followed by removing the caster.
+      ; Otherwise, this should be followed by a WARP_UNIT.
+      macroASMCScriptedCastMapBattleSetup Rewarp, \Caster, None, \Coords
+      .if ((\Coords[0] == -1) && (\Coords[1] == -1))
+        STORE_LONG lUnknown7EA4EC, rlScriptedWarpCallback
+      .else
+        STORE_LONG lUnknown7EA4EC, rlScriptedRewarpCallback
+      .endif
+      CALL_ASM_SKIPPABLE rlASMCScriptedRewarpSetup
+      macroASMCBeginScriptedCastMapBattle
+
+      CALL_ASM_SKIPPABLE rlUpdateUnitMaps
+      CALL_ASM_SKIPPABLE rlUpdateVisibilityMap
+
+      PAUSE_SKIPPABLE 2
+      YIELD
+    .endm
+
   ; World map macros
 
     ; Created: 0.06

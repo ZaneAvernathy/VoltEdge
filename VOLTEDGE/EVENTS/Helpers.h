@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.17
+  VoltEdge_Events_Helpers_Updated = 0.18
 
   ; Misc. helpers for various
   ; event-related things.
@@ -54,14 +54,14 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; yourself, as repeating this is a waste of space.
 
       ; Created: 0.04
-      ; Updated: 0.07
-      VANILLA_CHEST .macro Item, Coordinates
+      ; Updated: 0.18
+      VANILLA_CHEST .macro Item, Coordinates, Tile=$0026
         _Coordinates .byte \Coordinates
         _Item .word \Item
         _Events
           STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
           STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
-          STORE_WORD wEventEngineParameter1, $0026 ; TODO: tile definitions
+          STORE_WORD wEventEngineParameter1, \Tile ; TODO: tile definitions
 
           CALL_ASM_LOOP rlASMCSingleTileChangeByCoords
           YIELD_UNK
@@ -154,10 +154,6 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
 
     ; These are shorthands for variants
     ; of the MOVE_UNIT event code.
-
-    ; Remember to include a dummy byte,
-    ; such as a YIELD_UNK, after using one
-    ; of these.
 
     ; Created: 0.06
     ; Updated: 0.13
@@ -335,6 +331,29 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
           ; 0 (normal speed) to $7E (nearly instant).
           .byte $80 | \Speed
         .endsegment
+
+  ; WARP_UNIT helpers
+
+    ; These are shorthands for variants
+    ; of the WARP_UNIT event code.
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    WARP_CHAR .segment Character, MoveCoordinates
+      WARP_UNIT \Character, [0, 0], \MoveCoordinates
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    WARP_ACTIVE_UNIT .segment MoveCoordinates
+      WARP_CHAR narrow(-1, size(word)), \MoveCoordinates
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    WARP_COORDS .segment TargetCoordinates, MoveCoordinates
+      WARP_UNIT None, \TargetCoordinates, \MoveCoordinates
+    .endsegment
 
   ; Retreating unit tables
 

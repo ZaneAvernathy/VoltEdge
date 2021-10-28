@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.17
+  VoltEdge_WRAM_Updated = 0.18
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -864,7 +864,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     wEventEngineParameter3 .word ?                                ; $001744 0.03
       ; These are used as general
       ; purpose parameters for events.
-    lEventEngineLongParameter .word ?                             ; $001746 0.03
+    lEventEngineLongParameter .long ?                             ; $001746 0.18
       ; This is a general purpose
       ; long parameter for events.
     wEventEngineSavedTile .word ?                                 ; $001749 0.03

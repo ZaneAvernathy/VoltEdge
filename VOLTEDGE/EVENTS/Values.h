@@ -1311,6 +1311,63 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ;   $7EA93D: Active sprite index?
           ; Clears a previously-set special marker
 
+      ; These are used by large scripted-battle
+      ; ASMCs and macros.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlUpdateUnitMaps :?= address($81AC21)
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlUpdateVisibilityMap  :?= address($81AC14)
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCBeginScriptedCastMapBattle :?= address($84B719)
+          ; Inputs:
+          ;   lUnknown7EA4EC: long pointer to callback routine
+          ;   See rlASMCScriptedCastMapBattleSetup
+          ; Should be preceded by a call to
+          ; rlASMCScriptedCastMapBattleSetup.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCScriptedCastMapBattleSetup :?= address($9A8D4A)
+          ; Inputs:
+          ;   wEventEngineParameter1: caster staff
+          ;   wEventEngineParameter2: target weapon
+          ;   wEventEngineCharacterStructParameter: caster character ID
+          ;   wEventEngineCharacterTarget: target character ID
+          ;   wEventEngineXCoordinate: optional x coordinate
+          ;   wEventEngineYCoordinate: optional Y coordinate
+          ; Simulates something being cast on a target.
+          ; Does not actually apply the effect of the thing.
+          ; Should be followed by a call to
+          ; rlASMCBeginScriptedCastMapBattle.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlASMCScriptedRewarpSetup :?= address($9A8F82)
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlScriptedWarpCallback :?= address($9A9029)
+          ; Used as a parameter for scripted
+          ; (re)warp staff casts.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlScriptedStoneCallback :?= address($8CBD8E)
+          ; Used as a parameter for scripted
+          ; stone casts.
+
+        ; Created: 0.18
+        ; Updated: 0.18
+        rlScriptedRewarpCallback :?= address($83EDB6)
+          ; Used as a parameter for scripted
+          ; rewarp staff casts.
+
     .endweak
 
 .endif ; GUARD_VOLTEDGE_EVENTS_VALUES
