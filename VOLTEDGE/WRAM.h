@@ -1314,9 +1314,31 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     ; These arrays are for units.
 
-    aPlayerUnits .fill (size(structCharacterDataRAM) * 48) ; $7E5298 0.02
-    aEnemyUnits  .fill (size(structCharacterDataRAM) * 51) ; $7E5EC8 0.02
-    aNPCUnits    .fill (size(structCharacterDataRAM) * 16) ; $7E6BBB 0.02
+    ; You can use the ._Units to get pointers to individual
+    ; slots in the arrays, such as aPlayerUnits._Units to
+    ; get a tuple of pointers to all slots or aPlayerUnits._Units[1]
+    ; to get a pointer to the second player unit.
+
+    ; You can also get pointers to individual fields, like
+    ; aNPCUnits._Units[0].Level
+
+    aPlayerUnits .block ; $7E5298 0.18
+      _Units .brept 48
+        .dstruct structCharacterDataRAM
+      .endrept
+    .endblock
+
+    aEnemyUnits .block ; $7E5EC8 0.18
+      _Units .brept 51
+        .dstruct structCharacterDataRAM
+      .endrept
+    .endblock
+
+    aNPCUnits .block ;  $7E6BBB 0.18
+      _Units .brept 16
+        .dstruct structCharacterDataRAM
+      .endrept
+    .endblock
 
     ; The contents of this block of RAM change
     ; depending on if the game is on the map or
