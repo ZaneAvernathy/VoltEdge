@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_ITEMS :?= false
   GUARD_VOLTEDGE_ITEMS := true
 
   VoltEdge_Items_Created = 0.01
-  VoltEdge_Items_Updated = 0.07
+  VoltEdge_Items_Updated = 0.18
 
   ; Created: 0.01
   ; Updated: 0.01
@@ -122,6 +122,23 @@ GUARD_VOLTEDGE_ITEMS :?= false
       Constitution .byte \Constitution ; $05
       Luck         .byte \Luck         ; $06
       Movement     .byte \Movement     ; $07
+    .endstruct
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    structScrollGrowthModifiers .struct ItemID, HPGrowth, StrengthGrowth, MagicGrowth, SkillGrowth, SpeedGrowth, DefenseGrowth, ConstitutionGrowth, LuckGrowth, MovementGrowth
+      ItemID               .byte \ItemID             ; $00
+      Growths .block                                 ; $01
+        HPGrowth           .char \HPGrowth           ; $01
+        StrengthGrowth     .char \StrengthGrowth     ; $02
+        MagicGrowth        .char \MagicGrowth        ; $03
+        SkillGrowth        .char \SkillGrowth        ; $04
+        SpeedGrowth        .char \SpeedGrowth        ; $05
+        DefenseGrowth      .char \DefenseGrowth      ; $06
+        ConstitutionGrowth .char \ConstitutionGrowth ; $07
+        LuckGrowth         .char \LuckGrowth         ; $08
+        MovementGrowth     .char \MovementGrowth     ; $09
+      .endblock
     .endstruct
 
 .endif ; GUARD_VOLTEDGE_ITEMS
