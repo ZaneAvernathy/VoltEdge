@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
   GUARD_VOLTEDGE_LIBRARY_HELPERS := true
 
   VoltEdge_LibraryHelpers_Created = 0.01
-  VoltEdge_LibraryHelpers_Updated = 0.07
+  VoltEdge_LibraryHelpers_Updated = 0.18
 
   ; Library helper values
 
@@ -333,5 +333,28 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
           Iterable ..= [0]
         .endif
       .endfunction (Iterable[0::2] | (Iterable[1::2] << (4 * Width)))
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    ; Dummy
+
+      ; Inputs:
+        ; Anything
+
+      ; Outputs:
+        ; None
+
+      ; This is a dummy macro that can be
+      ; used when a directive is required but
+      ; nothing needs to be done, such as when
+      ; using a .csv table to generate indexes.
+
+      ; Example:
+
+      ; .Dummy 1, 2, 4, "potato" ; None of this assembles to anything.
+
+      Dummy .macro
+        ; Empty
+      .endmacro
 
 .endif ; GUARD_VOLTEDGE_LIBRARY_HELPERS
