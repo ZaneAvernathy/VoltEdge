@@ -1220,10 +1220,8 @@ GUARD_VOLTEDGE_WRAM :?= false
     wUnknown7E4F9C .word ? ; $7E4F9C 0.04
     wUnknown7E4F9E .word ? ; $7E4F9E 0.04
 
-    wActiveTileXCoordinate .word ? ; $7E4FA0 0.04
-    wActiveTileYCoordinate .word ? ; $7E4FA2 0.04
-      ; These are the coordinates of the tile
-      ; that the active unit has stopped on.
+    wActiveTileUnitParameter1 .word ? ; $7E4FA0 0.18
+    wActiveTileUnitParameter2 .word ? ; $7E4FA2 0.18
 
     wActiveTileUnitAllegiance .word ? ; $7E4FA4 0.17
 
@@ -1419,11 +1417,20 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $7EA4DE
+  .virtual $7EA4DC
+
+    wActionStructRoundTempUnknownAttackCount .word ? ; $7EA4DC 0.18
 
     bActionStructDistance .byte ? ; $7EA4DE 0.17
       ; This is the distance between the units in
       ; aActionStructUnit1 and aActionStructUnit2.
+
+    .byte ?
+
+    wActionStructRoundTempUnknownBitfield .word ? ; $7EA4E0 0.18
+    wActionStructRoundTempBitfield1       .word ? ; $7EA4E2 0.18
+    wActionStructRoundTempBitfield2       .word ? ; $7EA4E4 0.18
+    wActionStructRoundTempDamage          .word ? ; $7EA4E6 0.18
 
   .endvirtual
 

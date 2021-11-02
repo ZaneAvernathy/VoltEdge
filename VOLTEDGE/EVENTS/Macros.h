@@ -50,11 +50,11 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.04
-    ; Updated: 0.12
+    ; Updated: 0.18
     macroECDoor .segment EventFlag, Coordinates, EventPointer
       EVENT \EventFlag, \EventPointer
-        CMP_BYTE wActiveTileXCoordinate, \Coordinates[0]
-        CMP_BYTE wActiveTileYCoordinate, \Coordinates[1]
+        CMP_BYTE wActiveTileUnitParameter1, \Coordinates[0]
+        CMP_BYTE wActiveTileUnitParameter2, \Coordinates[1]
       END_DEFINITION
     .endsegment
 
