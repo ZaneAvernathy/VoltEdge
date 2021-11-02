@@ -1427,10 +1427,10 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     .byte ?
 
-    wActionStructRoundTempUnknownBitfield .word ? ; $7EA4E0 0.18
-    wActionStructRoundTempBitfield1       .word ? ; $7EA4E2 0.18
-    wActionStructRoundTempBitfield2       .word ? ; $7EA4E4 0.18
-    wActionStructRoundTempDamage          .word ? ; $7EA4E6 0.18
+    wActionStructTempRoundAttackBitfield .word ? ; $7EA4E0 0.18
+    wActionStructRoundFlowBitfield       .word ? ; $7EA4E2 0.18
+    wActionStructRoundAttackBitfield     .word ? ; $7EA4E4 0.18
+    wActionStructRoundTempDamage         .word ? ; $7EA4E6 0.18
 
   .endvirtual
 

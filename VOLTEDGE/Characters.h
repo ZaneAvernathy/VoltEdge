@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.17
+  VoltEdge_Characters_Updated = 0.18
 
   ; Character helpers
 
@@ -175,7 +175,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
     .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.17
+    ; Updated: 0.18
     structActionStructEntry .struct
       .dstruct structExpandedCharacterDataRAM ; $00-$43
       BattleMight                     .byte ? ; $44
@@ -208,7 +208,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
       StartingLevel                   .byte ? ; $5F
       StartingClass                   .byte ? ; $60
       UnkillableFlag                  .byte ? ; $61
-                                      .word ? ; $62
+      RoundAttackHistory              .word ? ; $62
       LevelUpHPGain                   .byte ? ; $64
       LevelUpStrengthGain             .byte ? ; $65
       LevelUpMagicGain                .byte ? ; $66
