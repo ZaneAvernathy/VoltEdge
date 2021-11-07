@@ -1237,8 +1237,11 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $7E4FCE
 
-    bUnknownTargetingDeploymentNumber .byte ? ; $7E4FCE 0.17
-    bUnknown7E4FCF                    .byte ? ; $7E4FCF 0.17
+    bDefeatedUnitDeploymentNumber .byte ? ; $7E4FCE 0.18
+      ; This will be set to the deployment number
+      ; of a unit defeated during combat, if there
+      ; is one.
+    bUnknown7E4FCF                .byte ? ; $7E4FCF 0.18
 
   .endvirtual
 
