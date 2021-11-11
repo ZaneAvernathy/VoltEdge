@@ -1528,11 +1528,9 @@ GUARD_VOLTEDGE_WRAM :?= false
     wHitAvoidBonus .word ? ; $7EA693 0.17
       ; This is an action struct's hit/avoid
       ; bonus from supports and the charm skill.
-    wKillExperienceBonus .word ? ; $7EA695 0.17
-      ; This is the amount of bonus experience
-      ; to grant when the target is killed,
-      ; based on whether they can steal, are
-      ; a boss, etc.
+    wGainedExperience .word ? ; $7EA695 0.18
+      ; This is the amount of experience
+      ; gained after performing an action.
 
     .word ? ; Unknown
 

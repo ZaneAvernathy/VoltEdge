@@ -615,12 +615,12 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
+    ; Updated: 0.18
     macroASMCSetCharacterDataByteIfCharacterDataWord .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
+      STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
+      STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
-      STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
-      STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCSetCharacterDataByteIfCharacterDataWord
     .endsegment
 
@@ -951,6 +951,20 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
 
     ; Created: 0.18
     ; Updated: 0.18
+    macroSetAllUnitsAIIfCharacterDataWord .segment CharacterDataField, Value, AISetting=[$00, $00, $00, $00]
+      ; Shorthand for setting all characters' (with a specific
+      ; character data field (usually leader) set to a specific
+      ; value) AI 1, 4, 2, Unknown3 AI bytes.
+      ; This will probably be changed when AI definitions
+      ; are added.
+      macroASMCSetCharacterDataByteIfCharacterDataWord AI1, \AISetting[0], \CharacterDataField, \Value
+      macroASMCSetCharacterDataByteIfCharacterDataWord AI4, \AISetting[1], \CharacterDataField, \Value
+      macroASMCSetCharacterDataByteIfCharacterDataWord AI2, \AISetting[2], \CharacterDataField, \Value
+      macroASMCSetCharacterDataByteIfCharacterDataWord Unknown3E, \AISetting[3], \CharacterDataField, \Value
+    .endsegment
+
+    ; Created: 0.18
+    ; Updated: 0.18
     macroASMCScriptedCastMapBattleSetup .macro Staff, Caster, Target, Coords=None
       ; Should be followed by a call to
       ; rlASMCBeginScriptedCastMapBattle.
@@ -973,7 +987,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       .endif
       CALL_ASM_SKIPPABLE rlASMCBeginScriptedCastMapBattle
       HALT_UNTIL_WORD_SKIPPABLE wMapBattleFlag, 0
-    .endm
+    .endmacro
 
     ; Created: 0.18
     ; Updated: 0.18
@@ -997,7 +1011,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
         YIELD
 
       +
-    .endm
+    .endmacro
 
     ; Created: 0.18
     ; Updated: 0.18
@@ -1018,7 +1032,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
         YIELD
 
       +
-    .endm
+    .endmacro
 
     ; Created: 0.18
     ; Updated: 0.18
@@ -1040,7 +1054,15 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
 
       PAUSE_SKIPPABLE 2
       YIELD
-    .endm
+    .endmacro
+
+    ; Created: 0.18
+    ; Updated: 0.18
+    macroSetCursorPosition .segment Coordinates=[0, 0]
+      STORE_WORD wEventEngineXCoordinate, \Coordinates[0]
+      STORE_WORD wEventEngineYCoordinate, \Coordinates[1]
+      SET_CURSOR_POSITION
+    .endsegment
 
   ; World map macros
 
