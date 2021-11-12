@@ -1170,6 +1170,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E4F4A
+
+    wUnknownStaffActionStructPointer .word ? ; $7E4F4A 0.18
+      ; This is a short pointer to an action struct,
+      ; used during staff-related things?
+
+  .endvirtual
+
   .virtual $7E4F83
 
     wBGUpdateFlags .word ? ; $7E4F83 0.01
