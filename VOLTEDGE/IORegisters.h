@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
   GUARD_VOLTEDGE_IO_REGISTERS := true
 
   VoltEdge_IORegisters_Created = 0.01
-  VoltEdge_IORegisters_Updated = 0.07
+  VoltEdge_IORegisters_Updated = 0.19
 
   ; Names, values, information, etc. are taken from fullsnes
   ; https://problemkaputt.de/fullsnes.htm
@@ -659,7 +659,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       WOBJLOG_Setting .sfunction OBJ=WLOG_ORR, Math=WLOG_ORR, bits(((Math << 2) & WOBJLOG_Math_Logic) | (OBJ & WOBJLOG_OBJ_Logic))
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.19
     TM .byte ? ; $00212C
     TS .byte ? ; $00212D
     TMW .byte ? ; $00212E
@@ -721,7 +721,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      T_Setting .sfunction BG1, BG2, BG3, BG4, OBJ, bits((int(OBJ << 4)) | (int(BG4) << 3) | (int(BG3) << 2) | (int(BG2) << 1) | (int(BG1)))
+      T_Setting .sfunction BG1, BG2, BG3, BG4, OBJ, bits((int(OBJ) << 4) | (int(BG4) << 3) | (int(BG3) << 2) | (int(BG2) << 1) | (int(BG1)))
 
         ; Example:
         ; lda #T_Setting(true, true, true, false, false)
