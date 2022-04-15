@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.18
+  VoltEdge_WRAM_Updated = 0.19
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -748,6 +748,15 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $000E67
+
+    wMapTileCount .word ? ; $000E67 0.19
+      ; This is the number of tiles in the current map.
+    wMapRowSize   .word ? ; $000E69 0.19
+      ; This is the width of each row in the map.
+
+  .endvirtual
+
   .virtual $000E6F
 
     ; These buffers are for holding
@@ -881,8 +890,10 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $001798
+  .virtual $001793
 
+    wEventEngineOffset .word ?           ; $001793 0.19
+    lEventEngineStartPointer .long ?     ; $001795 0.19
     lEventEngineUnitGroupPointer .long ? ; $001798 0.13
     bEventEngineUnitLoadingFlag .byte ?  ; $00179B 0.13
 
@@ -925,8 +936,8 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $00182E
 
-    wDialogueEnginePendingDMAChunkSize .word ? ; $00182E
-    wDialogueEngineLastCharacterTileSlice .word ? ; $001830
+    wDialogueEnginePendingDMAChunkSize .word ? ; $00182E 0.19
+    wDialogueEngineLastCharacterTileSlice .word ? ; $001830 0.19
 
   .endvirtual
 
@@ -1172,9 +1183,9 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $7E4F4A
 
-    wUnknownStaffActionStructPointer .word ? ; $7E4F4A 0.18
-      ; This is a short pointer to an action struct,
-      ; used during staff-related things?
+    wStaffInventoryOffset .word ? ; $7E4F4A 0.19
+      ; This is the offset of a selected staff in
+      ; a unit's inventory.
 
   .endvirtual
 
@@ -1225,7 +1236,9 @@ GUARD_VOLTEDGE_WRAM :?= false
     wUnknown7E4F96 .word ? ; $7E4F96 0.02
     wUnknown7E4F98 .word ? ; $7E4F98 0.02
     wUnknown7E4F9A .word ? ; $7E4F9A 0.04
-    wUnknown7E4F9C .word ? ; $7E4F9C 0.04
+    wRemainingMovement .word ? ; $7E4F9C 0.19
+      ; This is a unit's remaining movement after moving,
+      ; used for canto.
     wUnknown7E4F9E .word ? ; $7E4F9E 0.04
 
     wActiveTileUnitParameter1 .word ? ; $7E4FA0 0.18
@@ -1443,6 +1456,8 @@ GUARD_VOLTEDGE_WRAM :?= false
     wActionStructRoundAttackBitfield     .word ? ; $7EA4E4 0.18
     wActionStructRoundTempDamage         .word ? ; $7EA4E6 0.18
 
+    wStaffHitCounter .word ? ; $7EA4E8 0.19
+
   .endvirtual
 
   .virtual $7EA4EA
@@ -1582,11 +1597,11 @@ GUARD_VOLTEDGE_WRAM :?= false
       .endstruct
 
       .struct
-        aRangeMap .fill $600 ; $7EA937 0.17
+        aMovementMap .fill $600 ; $7EA937 0.19
 
         .fill ($7EAF73 - *)
 
-        aMovementMap .fill $600 ; $7EAF73 0.17
+        aRangeMap .fill $600 ; $7EAF73 0.19
       .endstruct
 
     .endunion
