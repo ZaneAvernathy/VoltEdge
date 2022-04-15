@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.18
+  VoltEdge_Events_Macros_Updated = 0.19
 
   ; Condition macros
 
@@ -593,15 +593,15 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
-    macroASMCCheckBitsCharacterDataWord .segment Character, CharacterDataField, Value
+    ; Updated: 0.19
+    macroASMCCheckBitsSetCharacterDataWord .segment Character, CharacterDataField, Value
       ; Returns success if any of the character's
       ; data word has any bits in common with the
       ; value, failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
-      CALL_ASM_LOOP rlASMCCheckBitsCharacterDataWord
+      CALL_ASM_LOOP rlASMCCheckBitsSetCharacterDataWord
     .endsegment
 
     ; Created: 0.06
@@ -730,13 +730,13 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
-    macroASMCCountAllUnitsUncapturedAliveWithActing .segment Character
+    ; Updated: 0.19
+    macroASMCCountAllUnitsUncapturedAliveWithHidden .segment Character
       ; Returns count in wEventEngineParameter1
       ; and success if at least one unit found,
       ; failure otherwise.
       STORE_WORD wEventEngineCharacterTarget, \Character
-      CALL_ASM_LOOP rlASMCCountAllUnitsUncapturedAliveWithAcing
+      CALL_ASM_LOOP rlASMCCountAllUnitsUncapturedAliveWithHidden
     .endsegment
 
     ; Created: 0.06
@@ -927,6 +927,14 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
       macroASMCDialogueWithBGStart \DialoguePointer
     .endsegment
 
+    ; Created: 0.19
+    ; Updated: 0.19
+    macroDialogueContinue .segment DialoguePointer
+      STORE_LONG lEventEngineLongParameter, \DialoguePointer
+      CALL_ASM_LOOP rlASMCDialogueContinue
+      YIELD
+    .endsegment
+
     ; Created: 0.14
     ; Updated: 0.14
     macroChapterTitlePopup .segment DialoguePointer
@@ -1074,37 +1082,36 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.18
-    ; Updated: 0.18
+    ; Updated: 0.19
     macroWMSetCyclePalette .segment ColorSetting, PalettePointer
       STORE_WORD $7EA93B, \ColorSetting
       STORE_WORD $7EA93F, (\PalettePointer - aBGPaletteBuffer)
-      CALL_ASM_Skippable rlASMCWMSetCyclePalette
+      CALL_ASM_SKIPPABLE rlASMCWMSetCyclePalette
     .endsegment
 
     ; Created: 0.18
-    ; Updated: 0.18
-    macroWMDrawSpecialMarker .segment Coordinates=[0, 0], MarkerSetting, ActiveSpriteIndex, PalettePointer=1
+    ; Updated: 0.19
+    macroWMDrawSpecialMarker .segment Coordinates=[0, 0], MarkerSetting, ActiveSpriteIndex, PalettePointer=$101
       STORE_WORD $7EA93D, \ActiveSpriteIndex
       STORE_WORD $7EA937, \Coordinates[0]
       STORE_WORD $7EA939, \Coordinates[1]
       STORE_WORD $7EA93B, \MarkerSetting
-      STORE_WORD $7EA93F, \PalettePointer
+      STORE_WORD $7EA93F, (\PalettePointer - aBGPaletteBuffer)
       CALL_ASM_SKIPPABLE rlASMCWMDrawSpecialMarker
     .endsegment
 
     ; Created: 0.18
-    ; Updated: 0.18
+    ; Updated: 0.19
     macroWMClearCyclePalette .segment PalettePointer
       STORE_WORD $7EA93F, (\PalettePointer - aBGPaletteBuffer)
-      CALL_ASM_Skippable rlASMCWMClearCyclePalette
+      CALL_ASM_SKIPPABLE rlASMCWMClearCyclePalette
     .endsegment
 
     ; Created: 0.18
-    ; Updated: 0.18
+    ; Updated: 0.19
     macroWMClearSpecialMarker .segment ActiveSpriteIndex
       STORE_WORD $7EA93D, \ActiveSpriteIndex
-      CALL_ASM_Skippable rlASMCWMClearSpecialMarker
+      CALL_ASM_SKIPPABLE rlASMCWMClearSpecialMarker
     .endsegment
-
 
 .endif ; GUARD_VOLTEDGE_EVENTS_MACROS

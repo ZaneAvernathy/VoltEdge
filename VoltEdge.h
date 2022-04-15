@@ -1,9 +1,11 @@
 
+.cpu "65816"
+
 GUARD_VOLTEDGE :?= false
 .if (!GUARD_VOLTEDGE)
   GUARD_VOLTEDGE := true
 
-  VoltEdge_Version = 0.18
+  VoltEdge_Version = 0.19
 
   .weak
 

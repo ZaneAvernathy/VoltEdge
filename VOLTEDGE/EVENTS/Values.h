@@ -330,8 +330,8 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Checks if a unit has a specific status.
 
         ; Created: 0.03
-        ; Updated: 0.03
-        rlASMCCheckAbleToTalk :?= address($8CA55A)
+        ; Updated: 0.19
+        rlASMCCheckAbleToTalk :?= address($8CA541)
           ; Inputs:
           ;   wEventEngineCharacterTarget: target character ID
           ; Outputs:
@@ -1039,8 +1039,8 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; Counts living NPC units.
 
         ; Created: 0.05
-        ; Updated: 0.05
-        rlASMCCountAllUnitsUncapturedAliveWithActing :?= address($8CB5C3)
+        ; Updated: 0.19
+        rlASMCCountAllUnitsUncapturedAliveWithHidden :?= address($8CB597)
           ; Inputs:
           ;   wEventEngineCharacterTarget: character to count
           ; Outputs:
