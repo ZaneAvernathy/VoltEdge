@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
   GUARD_VOLTEDGE_EVENTS_HELPERS := true
 
   VoltEdge_Events_Helpers_Created = 0.03
-  VoltEdge_Events_Helpers_Updated = 0.18
+  VoltEdge_Events_Helpers_Updated = 0.19
 
   ; Misc. helpers for various
   ; event-related things.
@@ -111,7 +111,7 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
       .endsegment
 
       ; Created: 0.03
-      ; Updated: 0.07
+      ; Updated: 0.19
       structUNITEntry .struct
         ; Less of a macro and more a description of the structure
         Character    .word ? ; $00
@@ -142,10 +142,10 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
         .union
           AI .fill 4 ; $10
           .struct
-            AI1 .byte ? ; $10
-            AI2 .byte ? ; $11
-            AI3 .byte ? ; $12
-            AI4 .byte ? ; $13
+            ActionAI .byte ? ; $10
+            MovementAI .byte ? ; $11
+            ActionMisc .byte ? ; $12
+            LowerAIProperties .byte ? ; $13
           .endstruct
         .endunion
       .endstruct

@@ -946,29 +946,26 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.17
-    ; Updated: 0.17
+    ; Updated: 0.19
     macroSetCharacterAI .segment Character, AISetting=[$00, $00, $00, $00]
-      ; Shorthand for setting a character's AI 1, 4, 2, Unknown3E
-      ; AI bytes. This will probably be changed when AI definitions
-      ; are added.
-      macroASMCSetCharacterDataByte \Character, AI1, \AISetting[0]
-      macroASMCSetCharacterDataByte \Character, AI4, \AISetting[1]
-      macroASMCSetCharacterDataByte \Character, AI2, \AISetting[2]
-      macroASMCSetCharacterDataByte \Character, Unknown3E, \AISetting[3]
+      ; Shorthand for setting a character's Action and Movement
+      ; AI bytes.
+      macroASMCSetCharacterDataByte \Character, ActionAI, \AISetting[0]
+      macroASMCSetCharacterDataByte \Character, ActionAIOffset, \AISetting[1]
+      macroASMCSetCharacterDataByte \Character, MovementAI, \AISetting[2]
+      macroASMCSetCharacterDataByte \Character, MovementAIOffset, \AISetting[3]
     .endsegment
 
     ; Created: 0.18
-    ; Updated: 0.18
+    ; Updated: 0.19
     macroSetAllUnitsAIIfCharacterDataWord .segment CharacterDataField, Value, AISetting=[$00, $00, $00, $00]
       ; Shorthand for setting all characters' (with a specific
       ; character data field (usually leader) set to a specific
-      ; value) AI 1, 4, 2, Unknown3 AI bytes.
-      ; This will probably be changed when AI definitions
-      ; are added.
-      macroASMCSetCharacterDataByteIfCharacterDataWord AI1, \AISetting[0], \CharacterDataField, \Value
-      macroASMCSetCharacterDataByteIfCharacterDataWord AI4, \AISetting[1], \CharacterDataField, \Value
-      macroASMCSetCharacterDataByteIfCharacterDataWord AI2, \AISetting[2], \CharacterDataField, \Value
-      macroASMCSetCharacterDataByteIfCharacterDataWord Unknown3E, \AISetting[3], \CharacterDataField, \Value
+      ; value) AI.
+      macroASMCSetCharacterDataByteIfCharacterDataWord ActionAI, \AISetting[0], \CharacterDataField, \Value
+      macroASMCSetCharacterDataByteIfCharacterDataWord ActionAIOffset, \AISetting[1], \CharacterDataField, \Value
+      macroASMCSetCharacterDataByteIfCharacterDataWord MovementAI, \AISetting[2], \CharacterDataField, \Value
+      macroASMCSetCharacterDataByteIfCharacterDataWord MovementAIOffset, \AISetting[3], \CharacterDataField, \Value
     .endsegment
 
     ; Created: 0.18

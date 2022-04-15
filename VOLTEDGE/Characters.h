@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.18
+  VoltEdge_Characters_Updated = 0.19
 
   ; Character helpers
 
@@ -64,7 +64,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
     .endstruct
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.19
     structCharacterDataRAM .struct
       Character .word ? ; $00
       Class     .byte ? ; $02
@@ -147,21 +147,22 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
         .endstruct
       .endunion
       .union
-        AI          .fill 4 ; $3A
+        ; Player units
         .struct
-          AI1       .byte ? ; $3A
-          AI2       .byte ? ; $3B
-          AI3       .byte ? ; $3C
-          AI4       .byte ? ; $3D
-          Unknown3E .byte ? ; $3E
-          Unknown3F .byte ? ; $3F
-          Unknown40 .byte ? ; $40
+          TotalEXP         .word ? ; $3A
+          CapturedChapter  .byte ? ; $3C
+          PlayerProperties .byte ? ; $3D
+          AlliesInRange    .byte ? ; $3E
+          CapturedTurn     .word ? ; $3F
         .endstruct
+        ; Nonplayer units
         .struct
-          TotalEXP        .word ? ; $3A
-          CapturedChapter .byte ? ; $3C
-                          .fill 2 ; $3D
-          CapturedTurn    .word ? ; $3F
+          ActionAI         .byte ? ; $3A
+          MovementAI       .byte ? ; $3B
+          ActionMisc       .byte ? ; $3C
+          ActionAIOffset   .byte ? ; $3D
+          MovementAIOffset .byte ? ; $3E
+          AIProperties     .word ? ; $3F
         .endstruct
       .endunion
     .endstruct

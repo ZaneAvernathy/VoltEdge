@@ -82,6 +82,7 @@ GUARD_VOLTEDGE :?= false
 
   ; Library definitions
 
+    .include "VOLTEDGE/AI.h"
     .include "VOLTEDGE/Battle.h"
     .include "VOLTEDGE/Characters.h"
     .include "VOLTEDGE/ChapterData.h"

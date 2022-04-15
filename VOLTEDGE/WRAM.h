@@ -1061,6 +1061,182 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E4000
+
+    ; AI-related variables
+
+    wAIEngineCycleType    .word ?          ; $7E4000 0.19
+      ; This is the current AI engine cycle.
+    wAIEngineStatus       .word ?          ; $7E4002 0.19
+      ; This is a status flag for when the
+      ; AI engine is currently doing something.
+    wAIEngineStackPointer .word ?          ; $7E4004 0.19
+      ; At the start of every AI engine cycle,
+      ; the AI engine saves the current stack
+      ; pointer here.
+    wAIEngineCycleDeploymentNumber .word ? ; $7E4006 0.19
+      ; This is the deployment number of
+      ; the unit being handled during a cycle.
+    wAITemp7E4008 .word ?                  ; $7E4008 0.19
+    wAITemp7E400A .word ?                  ; $7E400A 0.19
+    wAITemp7E400C .word ?                  ; $7E400C 0.19
+    wAITemp7E400E .word ?                  ; $7E400E 0.19
+    wAITemp7E4010 .word ?                  ; $7E4010 0.19
+
+    wAILeastThreatenedTileThreatCount .word ? ; $7E4012 0.19
+      ; This is the number of units that can threaten
+      ; the tile with the fewest units that can threaten it.
+    wAIThreatMask .word ?                     ; $7E4014 0.19
+      ; This is either 0000 or FFFF, depending if
+      ; the unit's selected AI byte has its upper
+      ; bit unset or set, respectively.
+    wAICurrentBestTarget .word ?              ; $7E4016 0.19
+      ; This is the (current) best target for some AI
+      ; action, like healing, stealing, etc.
+
+  .endvirtual
+
+  .virtual $7E401A
+
+    bAIPathCounter .byte ? ; $7E401A 0.19
+      ; This is used as a counter when refilling the movement map
+      ; after failing to find a route? Needs research.
+
+    wAITemp7E401B .word ? ; $7E401B 0.19
+      ; Multipurpose, normally the current AI script
+      ; index for the type of script being interpreted.
+    wAITemp7E401D .word ? ; $7E401D 0.19
+    wAITemp7E401F .word ? ; $7E401F 0.19
+    wAITemp7E4021 .word ? ; $7E4021 0.19
+
+  .endvirtual
+
+  .virtual $7E4029
+
+    aAISelectedUnitInfo .block        ; $7E4029 0.19
+      bDeploymentNumber .byte ?       ; $7E4029 0.19
+      bStartXCoordinate .byte ?       ; $7E402A 0.19
+      bStartYCoordinate .byte ?       ; $7E402B 0.19
+        ; These are the starting coordinates of the current
+        ; AI engine unit.
+      bDestinationXCoordinate .byte ? ; $7E402C 0.19
+      bDestinationYCoordinate .byte ? ; $7E402D 0.19
+        ; These are the destination coordinates of the current
+        ; AI engine unit's decided action.
+      bActionDecision .byte ?         ; $7E402E 0.19
+        ; This contains the action that the AI decided
+        ; the unit will take. Possible values:
+        ;   00 - Move
+        ;   01 - Attack, trade, ??
+        ;   02 - Staff
+        ;   03 - Item
+        ;   05 - Flee
+        ;   06 - Path is blocked?
+        ;   07 - Talk
+        ;   08 - Steal
+        ;   0C - Buy from shop
+        ;   0D - Dance
+      aDecisionParameters .brept 4     ; $7E402F 0.19
+        ; These are filled with information
+        ; about an AI decision, such as coordinates
+        ; for Warp stave casts, etc.
+        .byte ?
+      .endrept
+      bDecisionDistance .byte ?       ; $7E4033 0.19
+        ; This is the distance between the unit and
+        ; their destination.
+    .endblock
+    wAITemp7E4034 .word ?             ; $7E4034 0.19
+    wAITemp7E4036 .word ?             ; $7E4036 0.19
+    wAITemp7E4038 .word ?             ; $7E4038 0.19
+    wAITemp7E403A .word ?             ; $7E403A 0.19
+    wAIBuiltThreatMapFlag .word ?     ; $7E403C 0.19
+      ; Nonzero if the threatened tile map has already
+      ; been built.
+    lAIParameterRoutine .long ?       ; $7E403E 0.19
+
+    wAIUnitPriority .word ? ; $7E4041 0.19
+
+    wAIStationaryFlag .sint ? ; $7E4043 0.19
+      ; -1 if unit has a stationary AI, 0 otherwise.
+
+    wAIAlternateDeploymentListIndex .word ? ; $7E4045 0.19
+      ; Like aAIMainVariables.wCurrentDeploymentListIndex but
+      ; for berserked units and group AI?
+
+    wAIAllegianceHasBerserkedUnitFlag .word ? ; $7E4047 0.19
+      ; Nonzero if any unit in the current
+      ; AI engine allegiance is berserked.
+    wAIActionCapabilityBitfield .word ?       ; $7E4049 0.19
+      ; This is a bitfield for actions that
+      ; a selected AI engine unit can perform.
+      ; Possible values:
+      ;   0001 - can use unlock staff
+      ;   0002 - can capture
+      ;   0004 - can use a weapon
+      ;   0010 - can use pure water
+      ;   0020 - can use lockpick
+      ;   0040 - can use door keys
+      ;   0080 - can use chest keys
+      ;   4000 - also door keys?
+    wUnknown7E404B .word ?                    ; $7E404B 0.19
+    wAIHighestOpponentMove .word ?            ; $7E404D 0.19
+      ; This contains the highest effective
+      ; move of any unit in opposing allegiances.
+    wAIConsiderRecoveryModeFlag .sint ?       ; $7E404F 0.19
+      ; -1 if healer AI should ignore
+      ; recover mode settings.
+
+  .endvirtual
+
+  .virtual $7E4053
+
+    wAICycleScriptCounter .word ? ; $7E4053 0.19
+      ; This is the current counter into the
+      ; current AI cycle's AI script. Used for
+      ; avoiding long (infinite?) AI loops?
+
+    aAIMainVariables .block ; $7E4055 0.19
+
+      aTemp .block ; $7E4055 0.19
+        _Vars .brept 5
+          .word ?
+        .endrept
+      .endblock
+
+      wTempDeploymentNumber .word ?            ; $7E405F 0.19
+      wCurrentDeploymentListIndex .word ?      ; $7E4061 0.19
+      aDeploymentList .fill (size(byte) * 52)  ; $7E4063 0.19
+
+      aCurrentScriptCommand .block ; $7E4097 0.19
+
+        ; Holds the current AI script command being
+        ; interpreted.
+
+        wOpcode .word ? ; $7E4097 0.19
+          ; This is the identifier index of
+          ; the script command, used to fetch the
+          ; pointer to its handler.
+        aParameters .brept 5 ; $7E4099 0.19
+          ; These are the fields of the script command.
+          .word ?
+        .endrept
+
+      .bend
+
+      wBestTarget .word ?                ; $7E40A3 0.19
+        ; This is the deployment number of the current
+        ; best target.
+      wScriptContinueFlag .word ?        ; $7E40A5 0.19
+        ; This is nonzero when the AI engine should
+        ; continue reading AI script commands.
+      wTargetArrayOffset .word ?         ; $7E40A7 0.19
+      aTargetArray .fill  7 * size(word) ; $7E40A9 0.19
+
+    .bend
+
+  .endvirtual
+
   .virtual $7E41AE
 
     bBattleDistance .byte ? ; $7E41AE 0.03
@@ -1574,6 +1750,12 @@ GUARD_VOLTEDGE_WRAM :?= false
       wLUK .word ?              ; $7EA6A9 0.03
       wMOV .word ?              ; $7EA6AB 0.03
     .endblock
+
+  .endvirtual
+
+  .virtual $7EA72D
+
+    aMovementDirectionArray .fill $80 ; $7EA72D 0.19
 
   .endvirtual
 
