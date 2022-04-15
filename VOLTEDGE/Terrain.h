@@ -4,56 +4,56 @@ GUARD_VOLTEDGE_TERRAIN :?= false
   GUARD_VOLTEDGE_TERRAIN := true
 
   VoltEdge_Terrain_Created = 0.02
-  VoltEdge_Terrain_Updated = 0.15
+  VoltEdge_Terrain_Updated = 0.19
 
   ; Created: 0.15
-  ; Updated: 0.15
+  ; Updated: 0.19
   ; Terrain constants
 
-    TerrainMapEdge     = $00
-    TerrainPeak        = $01
-    TerrainThicket     = $02
-    TerrainCliff       = $03
-    TerrainPlains      = $04
-    TerrainForest      = $05
-    TerrainSea         = $06
-    TerrainRiver       = $07
-    TerrainMountain    = $08
-    TerrainSandyLand   = $09
-    TerrainCastle      = $0A
-    TerrainFort        = $0B
-    TerrainHouse1      = $0C
-    TerrainGate        = $0D
-    TerrainUnknown1    = $0E
-    TerrainWasteland   = $0F
-    TerrainBridge      = $10
-    TerrainLake        = $11
-    TerrainVillage     = $12
-    TerrainRuins       = $13
-    TerrainUnknown2    = $14
-    TerrainUnknown3    = $15
-    TerrainConvoy      = $16
-    TerrainChurch1     = $17
-    TerrainHouse2      = $18
-    TerrainRoad        = $19
-    TerrainArmory      = $1A
-    TerrainVendor      = $1B
-    TerrainArena       = $1C
-    TerrainFloor       = $1D
-    TerrainUnknown4    = $1E
-    TerrainThrone      = $1F
-    TerrainDoor        = $20
-    TerrainChest1      = $21
-    TerrainExit        = $22
-    TerrainPillar      = $23
-    TerrainDrawbridge  = $24
-    TerrainSecretShop  = $25
-    TerrainUnknown5    = $26
-    TerrainSandySoil   = $27
-    TerrainMagicFloor1 = $28
-    TerrainMagicFloor2 = $29
-    TerrainChurch2     = $2A
-    TerrainChest2      = $2B
+    TerrainMapEdge           = $00
+    TerrainPeak              = $01
+    TerrainThicket           = $02
+    TerrainCliff             = $03
+    TerrainPlains            = $04
+    TerrainForest            = $05
+    TerrainSea               = $06
+    TerrainRiver             = $07
+    TerrainMountain          = $08
+    TerrainSand              = $09
+    TerrainCastle            = $0A
+    TerrainFort              = $0B
+    TerrainHouse             = $0C
+    TerrainGate              = $0D
+    TerrainOutdoorImpassable = $0E
+    TerrainWasteland         = $0F
+    TerrainBridge            = $10
+    TerrainLake              = $11
+    TerrainVillage           = $12
+    TerrainRuins             = $13
+    TerrainUnknown2          = $14
+    TerrainRoof              = $15
+    TerrainSupply            = $16
+    TerrainChurch            = $17
+    TerrainClosedHouse       = $18
+    TerrainRoad              = $19
+    TerrainArmory            = $1A
+    TerrainVendor            = $1B
+    TerrainArena             = $1C
+    TerrainFloor             = $1D
+    TerrainIndoorImpassable  = $1E
+    TerrainThrone            = $1F
+    TerrainDoor              = $20
+    TerrainIndoorChest       = $21
+    TerrainExit              = $22
+    TerrainPillar            = $23
+    TerrainDrawbridge        = $24
+    TerrainSecretShop        = $25
+    TerrainBreakableWall     = $26
+    TerrainSandySoil         = $27
+    TerrainMagicFloor        = $28
+    TerrainMagicFloorCenter  = $29
+    TerrainClosedChurch      = $2A
+    TerrainOutdoorChest      = $2B
 
   ; Terrain macros
 
