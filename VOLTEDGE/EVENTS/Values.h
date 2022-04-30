@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.18
+  VoltEdge_Events_Values_Updated = 0.19
 
   ; Useful vanilla pointers
 
@@ -14,6 +14,12 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
       ; Updated: 0.03
       eventBattleQuoteDummyEvent :?= address($998024)
         ; Used by boss quote EVENTs, although
+        ; the pointer isn't actually read.
+
+      ; Created: 0.19
+      ; Updated: 0.19
+      eventMapDeathQuoteDummyEvent :?= address($99812F)
+        ; Used by boss death EVENTs, although
         ; the pointer isn't actually read.
 
       ; Vanilla quote table locations
@@ -73,6 +79,21 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
       ; Rarely an ASMC will use the static argument parameter
       ; that is part of the CALL_ASM_ code. If used, the ASMC
       ; will list what the argument is.
+
+        ; Created: 0.19
+        ; Updated: 0.19
+        rlASMCGameOver :?= address($80C29D)
+          ; Fades to the game over screen and kicks
+          ; the player to the main menu.
+          ; Should be followed by setting
+          ; wEventEngineUnknown001791 to -1.
+
+        ; Created: 0.19
+        ; Updated: 0.19
+        rlASMCSetLordIndefatigable :?= address($83ACEA)
+          ; Sets the fatigue of deployment slot $01
+          ; to -1, making them immune to gaining or
+          ; suffering from fatigue.
 
         ; Created: 0.13
         ; Updated: 0.13

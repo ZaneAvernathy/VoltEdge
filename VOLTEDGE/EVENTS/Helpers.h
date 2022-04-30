@@ -156,21 +156,21 @@ GUARD_VOLTEDGE_EVENTS_HELPERS :?= false
     ; of the MOVE_UNIT event code.
 
     ; Created: 0.06
-    ; Updated: 0.13
-    MOVE_CHAR .segment Character, MoveCoordinates, Speed, Movestring
+    ; Updated: 0.19
+    MOVE_CHAR .segment Character, MoveCoordinates, Speed, Movestring=None
       MOVE_UNIT \Character, [0, 0], \MoveCoordinates, \Speed, \Movestring
       YIELD_UNK
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.17
-    MOVE_ACTIVE_UNIT .segment MoveCoordinates, Speed, Movestring
+    ; Updated: 0.19
+    MOVE_ACTIVE_UNIT .segment MoveCoordinates, Speed, Movestring=None
       MOVE_CHAR narrow(-1, size(word)), \MoveCoordinates, \Speed, \Movestring
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.13
-    MOVE_COORDS .segment TargetCoordinates, MoveCoordinates, Speed, Movestring
+    ; Updated: 0.19
+    MOVE_COORDS .segment TargetCoordinates, MoveCoordinates, Speed, Movestring=None
       MOVE_UNIT None, \TargetCoordinates, \MoveCoordinates, \Speed, \Movestring
       YIELD_UNK
     .endsegment

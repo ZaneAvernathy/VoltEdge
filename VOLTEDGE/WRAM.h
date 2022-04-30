@@ -890,8 +890,9 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $001793
+  .virtual $001791
 
+    wEventEngineUnknown001791 .sint ?    ; $001791 0.19
     wEventEngineOffset .word ?           ; $001793 0.19
     lEventEngineStartPointer .long ?     ; $001795 0.19
     lEventEngineUnitGroupPointer .long ? ; $001798 0.13

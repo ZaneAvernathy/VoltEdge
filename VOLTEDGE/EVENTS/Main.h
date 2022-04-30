@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
   GUARD_VOLTEDGE_EVENTS_MAIN := true
 
   VoltEdge_Events_Main_Created = 0.03
-  VoltEdge_Events_Main_Updated = 0.07
+  VoltEdge_Events_Main_Updated = 0.19
 
   ; Psuedo-end code YIELD
 
@@ -700,8 +700,8 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    MOVE_TEMPORARY .segment Character, StartingCoordinates, Speed, Color, Movestring
+    ; Updated: 0.19
+    MOVE_TEMPORARY .segment Character, StartingCoordinates, Speed, Color, Movestring=None
       ; Creates a temporary Character at
       ; StartingCoordinates using Color,
       ; Moves them according to the data
@@ -718,8 +718,8 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    MOVE_TEMPORARY_CENTERED .segment Character, StartingCoordinates, Speed, Color, Movestring
+    ; Updated: 0.19
+    MOVE_TEMPORARY_CENTERED .segment Character, StartingCoordinates, Speed, Color, Movestring=None
       ; Same as MOVE_TEMPORARY but
       ; the camera follows the unit.
       .byte $40
@@ -731,8 +731,8 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    MOVE_UNIT .segment Character, TargetCoordinates, MoveCoordinates, Speed, Movestring
+    ; Updated: 0.19
+    MOVE_UNIT .segment Character, TargetCoordinates, MoveCoordinates, Speed, Movestring=None
       ; Moves a unit to MoveCoordinates
       ; at Speed, then have them move
       ; according to the data pointed

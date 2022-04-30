@@ -83,30 +83,49 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
-    macroECPlayerRetreat .segment EventFlag, EventPointer, Lord
+    ; Updated: 0.19
+    macroECPlayerRetreat .segment EventFlag, EventPointer, Lord, Coordinates=?
       EVENT \EventFlag, \EventPointer
         ; Lord retreating
         CMP_BITS wUnknown7E4F98, $0008 ; TODO: figure this out
-        RUN_ASM rlECCheckRetreatCoordinates
+        .if (\Coordinates === ?)
+          RUN_ASM rlECCheckRetreatCoordinates
+        .else
+          macroECCheckCoordinates \Coordinates
+        .endif
         CMP_WORD aSelectedCharacterBuffer.Character,\Lord
       END_DEFINITION
       EVENT \EventFlag, \EventPointer
         ; Unit holding lord retreating
         CMP_BITS wUnknown7E4F98, $0008 ; TODO: figure this out
-        RUN_ASM rlECCheckRetreatCoordinates
+        .if (\Coordinates === ?)
+          RUN_ASM rlECCheckRetreatCoordinates
+        .else
+          macroECCheckCoordinates \Coordinates
+        .endif
         CHECK_ACTIVE_CARRYING \Lord
       END_DEFINITION
       EVENT FlagAlwaysZero, \EventPointer
         ; Anyone else retreating
         CMP_BITS wUnknown7E4F98, $0008 ; TODO: figure this out
         TEST_FLAG_UNSET \EventFlag
-        RUN_ASM rlECCheckRetreatCoordinates
-        CMP_WORD wCurrentPhase, Player
+        .if (\Coordinates === ?)
+          RUN_ASM rlECCheckRetreatCoordinates
+          CMP_WORD wCurrentPhase, Player
+        .else
+          macroECCheckCoordinates \Coordinates
+        .endif
       END_DEFINITION
     .endsegment
 
   ; ASMC macros
+
+    ; Created: 0.19
+    ; Updated: 0.19
+    macroASMCGameOver .segment
+      CALL_ASM_SKIPPABLE rlASMCGameOver
+      STORE_WORD wEventEngineUnknown001791, narrow(-1, 2)
+    .endsegment
 
     ; Created: 0.06
     ; Updated: 0.12
