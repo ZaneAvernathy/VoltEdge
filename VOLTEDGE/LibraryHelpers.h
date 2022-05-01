@@ -357,32 +357,4 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
         ; Empty
       .endmacro
 
-    ; Created: 0.19
-    ; Updated: 0.19
-    ; enumerate(Iterable, Start=0)
-
-      ; Inputs:
-        ; Iterable
-        ; Start: int to start counting from
-
-      ; Outputs:
-        ; Iterable of (Start+i, Iterable[i]) entries
-
-      ; This function takes an iterable and an optional
-      ; starting index and returns tuples of a running counter
-      ; and an entry from the starting iterable.
-
-      ; Example:
-
-      ; enumerate(["a", "b", "c"])
-      ; is equivalent to
-      ; [(0, "a"), (1, "b"), (2, "c")]
-
-      enumerate .function Iterable, Start=0
-        _Output := []
-        .for _i in range(len(Iterable))
-          _Output ..= [(Start+_i, Iterable[_i])]
-        .endfor
-      .endfunction _Output
-
 .endif ; GUARD_VOLTEDGE_LIBRARY_HELPERS
