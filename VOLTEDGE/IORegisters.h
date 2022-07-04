@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
   GUARD_VOLTEDGE_IO_REGISTERS := true
 
   VoltEdge_IORegisters_Created = 0.01
-  VoltEdge_IORegisters_Updated = 0.19
+  VoltEdge_IORegisters_Updated = 0.20
 
   ; Names, values, information, etc. are taken from fullsnes
   ; https://problemkaputt.de/fullsnes.htm
@@ -290,7 +290,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
         ; lda #BGSC_Setting($F800, BGSC_64x64)
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.20
     BG12NBA .byte ? ; $00210B
     BG34NBA .byte ? ; $00210C
 
@@ -313,7 +313,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       BG12NBA_Setting .sfunction BG1Address, BG2Address, bits((((BG2Address >> 13) << 4) & BG12NBA_BG2_Address) | ((BG1Address >> 13) & BG12NBA_BG1_Address))
 
-      BG34NBA_Setting .sfunction BG3Address, BG4Address, bits((((BG4Address >> 13) << 4) & BG12NBA_BG4_Address) | ((BG3Address >> 13) & BG12NBA_BG3_Address))
+      BG34NBA_Setting .sfunction BG3Address, BG4Address, bits((((BG4Address >> 13) << 4) & BG34NBA_BG4_Address) | ((BG3Address >> 13) & BG34NBA_BG3_Address))
 
         ; Example:
         ; lda #BG12NBA_Setting($0000, $2000)

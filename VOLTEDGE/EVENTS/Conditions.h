@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
   GUARD_VOLTEDGE_EVENTS_CONDITIONS := true
 
   VoltEdge_Events_Conditions_Created = 0.03
-  VoltEdge_Events_Conditions_Updated = 0.07
+  VoltEdge_Events_Conditions_Updated = 0.20
 
   ; Event definition helper
 
@@ -67,12 +67,12 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
+    ; Updated: 0.20
     CHECK_COORDS .segment Coordinates
       ; Returns true if:
       ; Coordinates match [wEventEngineXCoordinate, wEventEngineYCoordinate]
       .byte $03
-      .word pack(\Coordinates, 2)
+      .word pack(\Coordinates)
     .endsegment
 
     ; Created: 0.03

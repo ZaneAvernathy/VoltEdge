@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
   GUARD_VOLTEDGE_FUNCTIONS := true
 
   VoltEdge_Functions_Created = 0.19
-  VoltEdge_Functions_Updated = 0.19
+  VoltEdge_Functions_Updated = 0.20
 
   ; These library functions are intended to help with
   ; assembly-time things. They mimic similarly-named
@@ -237,7 +237,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
       ; instead of `str` to avoid shadowing the builtin.
 
       ; Created: 0.19
-      ; Updated: 0.19
+      ; Updated: 0.20
       ; center(String, Width, Fill=" ")
 
         ; Inputs:
@@ -255,7 +255,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
           Return := String
           Len := len(String)
           .if (Len < Width)
-            Pad := (float(Width) - Len) / 2
+            Pad := floor((float(Width) - Len) / 2)
             Left_Fill  := Fill x Pad
             Right_Fill := Fill x Pad
             Return := Left_Fill .. String .. Right_Fill
@@ -1164,8 +1164,8 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         .endfunction Count
 
       ; Created: 0.19
-      ; Updated: 0.19
-      ; enumerate(Iterable, Start=0)
+      ; Updated: 0.20
+      ; enumerate(Iterable, Start=0, Step=1)
 
         ; Inputs:
           ; Iterable
@@ -1174,8 +1174,9 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         ; Outputs:
           ; Iterable of (Start+i, Iterable[i]) entries
 
-        ; This function takes an iterable and an optional
-        ; starting index and returns tuples of a running counter
+        ; This function takes an iterable, an optional
+        ; starting index, and an optional step and
+        ; returns tuples of a running counter
         ; and an entry from the starting iterable.
 
         ; Example:
@@ -1184,10 +1185,10 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         ; is equivalent to
         ; [(0, "a"), (1, "b"), (2, "c")]
 
-        enumerate .function Iterable, Start=0
+        enumerate .function Iterable, Start=0, Step=1
           Return := []
           .for Index in range(len(Iterable))
-            Return ..= [(Start+Index, Iterable[Index])]
+            Return ..= [(Start + (Index * Step), Iterable[Index])]
           .endfor
         .endfunction Return
 
@@ -1620,8 +1621,8 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
       ; enumerated values.
 
       ; Created: 0.19
-      ; Updated: 0.19
-      ; enum(Init=?)
+      ; Updated: 0.20
+      ; enum(Init=?, Increment=EnumDefaultIncrement)
 
         ; Inputs:
           ; Init: Optional initial value
@@ -1639,20 +1640,24 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
 
         ; Example:
 
-        ; enum.enum(42) = 42
-        ; enum.enum()   = 43
-        ; enum.enum(0)  = 0
-        ; enum.enum()   = 1
-        ; enum.enum()   = 2
+        ; enum.enum(42)    = 42
+        ; enum.enum()      = 43
+        ; enum.enum(0, 2)  = 0
+        ; enum.enum()      = 2
+        ; enum.enum()      = 4
 
+      EnumDefaultIncrement = 1
       EnumIndex :?= 0
+      EnumIncrement :?= EnumDefaultIncrement
 
-      enum .function Init=?
+      enum .function Init=?, Increment=EnumDefaultIncrement
         enum.EnumIndex :?= 0
+        enum.EnumIncrement :?= Increment
         .if (Init === ?)
-          enum.EnumIndex += 1
+          enum.EnumIndex += enum.EnumIncrement
         .else
           enum.EnumIndex := Init
+          enum.EnumIncrement := Increment
         .endif
       .endfunction enum.EnumIndex
 

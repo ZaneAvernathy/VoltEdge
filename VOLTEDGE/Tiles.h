@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_TILES :?= false
   GUARD_VOLTEDGE_TILES := true
 
   VoltEdge_Tiles_Created = 0.01
-  VoltEdge_Tiles_Updated = 0.07
+  VoltEdge_Tiles_Updated = 0.20
 
   ; Tile constants
 
@@ -76,5 +76,14 @@ GUARD_VOLTEDGE_TILES :?= false
       ; in word steps.
 
       TileToVRAM .sfunction TileIndex, Base, TileSize=size(Tile4bpp), (((TileIndex + Base) * TileSize) >> 1)
+
+    ; Created: 0.20
+    ; Updated: 0.20
+    ; C2I
+
+      ; This function converts a pair of (VRAM) coordinates
+      ; into a tile index.
+
+      C2I .sfunction Coordinates=(), Width=16, ((Coordinates[1] * Width) + Coordinates[0])
 
 .endif ; GUARD_VOLTEDGE_TILES

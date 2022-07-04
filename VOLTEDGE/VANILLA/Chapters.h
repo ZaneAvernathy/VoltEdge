@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_VANILLA_CHAPTERS :?= false
   GUARD_VOLTEDGE_VANILLA_CHAPTERS := true
 
   VoltEdge_Vanilla_Chapters_Created = 0.01
-  VoltEdge_Vanilla_Chapters_Updated = 0.02
+  VoltEdge_Vanilla_Chapters_Updated = 0.20
 
   ; This is a list of the chapters in
   ; vanilla FE5.
@@ -16,19 +16,19 @@ GUARD_VOLTEDGE_VANILLA_CHAPTERS :?= false
   ; appears in game.
 
   ; Created: 0.01
-  ; Updated: 0.01
-  Chapter1        = $00
-  Chapter2        = $01
-  Chapter2x       = $02
-  Chapter3        = $03
-  Chapter4        = $04
-  Chapter4x       = $05
-  Chapter5        = $06
-  Chapter6        = $07
-  Chapter7        = $08
-  Chapter8        = $09
-  Chapter8x       = $0A
-  Chapter9        = $0B
+  ; Updated: 0.20
+  Chapter01       = $00
+  Chapter02       = $01
+  Chapter02x      = $02
+  Chapter03       = $03
+  Chapter04       = $04
+  Chapter04x      = $05
+  Chapter05       = $06
+  Chapter06       = $07
+  Chapter07       = $08
+  Chapter08       = $09
+  Chapter08x      = $0A
+  Chapter09       = $0B
   Chapter10       = $0C
   Chapter11       = $0D
   Chapter11x      = $0E
