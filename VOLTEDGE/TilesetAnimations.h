@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_TILESET_ANIMATIONS :?= false
   GUARD_VOLTEDGE_TILESET_ANIMATIONS := true
 
   VoltEdge_TILESET_ANIMATIONS_Created = 0.09
-  VoltEdge_TILESET_ANIMATIONS_Updated = 0.09
+  VoltEdge_TILESET_ANIMATIONS_Updated = 0.21
 
   ; Tileset animation helpers
 
@@ -26,19 +26,22 @@ GUARD_VOLTEDGE_TILESET_ANIMATIONS :?= false
     ; set the framecounts of all but the
     ; last frame to 1, like:
 
-    ; TSA_FRAME yourFirstGraphicsFrame0, 0, 1
-    ; TSA_FRAME yourSecondGraphicsFrame0, 64, 11
+    ; TSA_FRAME yourFirstGraphicsFrame0,   1, (0, 16)
+    ; TSA_FRAME yourSecondGraphicsFrame0, 11, (0, 20)
 
-    ; TSA_FRAME yourFirstGraphicsFrame1, 0, 1
-    ; TSA_FRAME yourSecondGraphicsFrame1, 64, 11
+    ; TSA_FRAME yourFirstGraphicsFrame1,   1, (0, 16)
+    ; TSA_FRAME yourSecondGraphicsFrame1, 11, (0, 20)
 
     ; etc.
 
+    ; Coordinates are from the start of the tileset graphics
+    ; in VRAM.
+
     ; Created: 0.09
-    ; Updated: 0.09
-    TSA_FRAME .segment GraphicsPointer, StartTile, Framecount
+    ; Updated: 0.21
+    TSA_FRAME .segment GraphicsPointer, Framecount, BaseCoordinates=()
       .long \GraphicsPointer
-      .word (\StartTile + 640) * size(Tile4bpp)
+      .word TileToVRAM(C2I(\BaseCoordinates), VRAMToTile($5000, $0000))
       .byte \Framecount
     .endsegment
 
