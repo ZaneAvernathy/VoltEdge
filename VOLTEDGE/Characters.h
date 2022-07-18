@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.19
+  VoltEdge_Characters_Updated = 0.21
 
   ; Character helpers
 
@@ -238,6 +238,32 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
       Getter .word \Getter
       Giver .word \Giver
       Bonus .byte \Bonus
+    .endstruct
+
+    ; Created: 0.21
+    ; Updated: 0.21
+    structAutolevelScheme .struct HP, STR, MAG, SKL, SPD, DEF, CON, LUK, MOV
+      .if (\HP === ?)
+        HP  .byte ? ; $00
+        STR .byte ? ; $01
+        MAG .byte ? ; $02
+        SKL .byte ? ; $03
+        SPD .byte ? ; $04
+        DEF .byte ? ; $05
+        CON .byte ? ; $06
+        LUK .byte ? ; $07
+        MOV .byte ? ; $08
+      .else
+        .byte \HP
+        .byte \STR
+        .byte \MAG
+        .byte \SKL
+        .byte \SPD
+        .byte \DEF
+        .byte \CON
+        .byte \LUK
+        .byte \MOV
+      .endif
     .endstruct
 
 .endif ; GUARD_VOLTEDGE_CHARACTERS

@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_AI :?= false
   GUARD_VOLTEDGE_AI := true
 
   VoltEdge_AI_Created = 0.19
-  VoltEdge_AI_Updated = 0.19
+  VoltEdge_AI_Updated = 0.21
 
   ; AI Settings
 
@@ -102,9 +102,14 @@ GUARD_VOLTEDGE_AI :?= false
     AI_Has1RangeHealingStaff  = bits(%0000001000000000)
       ; Flags a unit as being able to heal nearby allies
       ; using a healing staff.
+    AI_Fleeing                = bits(%0001000000000000)
+      ; Flags a unit as fleeing.
+    AI_HasBrokenEquipment     = bits(%0010000000000000)
 
   ; AI Player Properties
 
+    AI_Unknown0001    = bits(%0000000000000001)
+    AI_Unknown0002    = bits(%0000000000000010)
     AI_HasMeleeWeapon = bits(%0000000010000000)
 
   ; AI Action Misc

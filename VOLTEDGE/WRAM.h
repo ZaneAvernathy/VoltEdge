@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.19
+  VoltEdge_WRAM_Updated = 0.21
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -1095,9 +1095,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is the (current) best target for some AI
       ; action, like healing, stealing, etc.
 
-  .endvirtual
-
-  .virtual $7E401A
+    wAITemp7E4018 .word ? ; $7E4018 0.21
 
     bAIPathCounter .byte ? ; $7E401A 0.19
       ; This is used as a counter when refilling the movement map
@@ -1109,6 +1107,8 @@ GUARD_VOLTEDGE_WRAM :?= false
     wAITemp7E401D .word ? ; $7E401D 0.19
     wAITemp7E401F .word ? ; $7E401F 0.19
     wAITemp7E4021 .word ? ; $7E4021 0.19
+    wAITemp7E4023 .word ? ; $7E4023 0.21
+    wAITemp7E4025 .word ? ; $7E4025 0.21
 
   .endvirtual
 
@@ -1161,13 +1161,11 @@ GUARD_VOLTEDGE_WRAM :?= false
     wAIStationaryFlag .sint ? ; $7E4043 0.19
       ; -1 if unit has a stationary AI, 0 otherwise.
 
-    wAIAlternateDeploymentListIndex .word ? ; $7E4045 0.19
+    wAIAlternateDeploymentListIndex .word ?   ; $7E4045 0.21
       ; Like aAIMainVariables.wCurrentDeploymentListIndex but
       ; for berserked units and group AI?
-
-    wAIAllegianceHasBerserkedUnitFlag .word ? ; $7E4047 0.19
-      ; Nonzero if any unit in the current
-      ; AI engine allegiance is berserked.
+    wAIBerserkedActorFlag .word ?             ; $7E4047 0.21
+      ; Nonzero when the AI is processing berserked units.
     wAIActionCapabilityBitfield .word ?       ; $7E4049 0.19
       ; This is a bitfield for actions that
       ; a selected AI engine unit can perform.
