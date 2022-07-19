@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_PROCS :?= false
   GUARD_VOLTEDGE_PROCS := true
 
   VoltEdge_Procs_Created = 0.01
-  VoltEdge_Procs_Updated = 0.14
+  VoltEdge_Procs_Updated = 0.21
 
   ; Useful vanilla proc routines
 
@@ -37,10 +37,10 @@ GUARD_VOLTEDGE_PROCS :?= false
     .weak
 
       ; Created: 0.14
-      ; Updated: 0.14
+      ; Updated: 0.21
       procChapterTitle :?= address($9A814C)
         ; Inputs:
-        ;   wProcInput1: long pointer to chapter title dialogue
+        ;   aProcSystem.wInput1: long pointer to chapter title dialogue
         ; Creates the chapter title popup
         ; seen at the start of chapter events.
 
