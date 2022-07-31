@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
   GUARD_VOLTEDGE_EVENTS_CONDITIONS := true
 
   VoltEdge_Events_Conditions_Created = 0.03
-  VoltEdge_Events_Conditions_Updated = 0.20
+  VoltEdge_Events_Conditions_Updated = 0.21
 
   ; Event definition helper
 
@@ -182,10 +182,10 @@ GUARD_VOLTEDGE_EVENTS_CONDITIONS :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
+    ; Updated: 0.21
     TEST_FLAG_UNSET .segment Flag
       ; Returns true if:
-      ; The specified flag is set
+      ; The specified flag is unset
       .byte $0E
       .byte \Flag
     .endsegment

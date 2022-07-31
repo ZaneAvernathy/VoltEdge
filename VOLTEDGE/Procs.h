@@ -49,12 +49,13 @@ GUARD_VOLTEDGE_PROCS :?= false
   ; Proc helpers
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.21
     structProcInfo .struct Name, Init, OnCycle, Code
       Name
       .union
         .word $0000
-        .enc "none"
+        .enc "proc"
+          .cdef " ~", 32
         .text \Name
       .endunion
       Init    .word <>\Init
