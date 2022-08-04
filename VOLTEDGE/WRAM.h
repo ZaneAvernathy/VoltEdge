@@ -1272,6 +1272,13 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E496E
+
+    aPermanentEventFlags .fill len(bytes(%1 x 40)) ; $7E496E 0.21
+    aTemporaryEventFlags .fill len(bytes(%1 x 96)) ; $7E4973 0.21
+
+  .endvirtual
+
   .virtual $7E4E18
 
     ; These variables correspond to
