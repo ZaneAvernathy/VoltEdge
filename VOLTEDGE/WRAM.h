@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.21
+  VoltEdge_WRAM_Updated = 0.22
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -637,15 +637,32 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $000DDE
+    .virtual $000DDE
 
-    lUnknown000DDE .long ? ; $000DDE 0.01
-    lUnknown000DE1 .long ? ; $000DE1 0.01
-    lUnknown000DE4 .long ? ; $000DE4 0.01
-    wUnknown000DE7 .word ? ; $000DE7 0.01
-    wUnknown000DE9 .word ? ; $000DE9 0.01
+      aCurrentTilemapInfo .block ; $000DDE 0.22
 
-  .endvirtual
+        ; I don't know precisely where this begins.
+
+        lInfoPointer .long ?     ; $000DDE 0.22
+          ; This is a long pointer to a structTilemapInfo.
+          ; It's used to get the main info about the tilemap.
+
+        .fill (size(long) * 2)
+
+        wBaseTile .word ?        ; $000DE7 0.22
+          ; This is a TilemapEntry that gets added to entries
+          ; that are written to this tilemap. It's used to apply
+          ; things like starting tile indices, palettes, etc.
+        wFillTile .word ?        ; $000DE9 0.22
+          ; This is a TilemapEntry that is used for blank tiles.
+        wIgnoreTile .word ?      ; $000DEB 0.22
+          ; This is a TilemapEntry that is used to specify that
+          ; a TilemapEntry from the source should not overwrite
+          ; the corresponding entry in the destination.
+
+      .endblock
+
+    .endvirtual
 
   .virtual $000E05
 
@@ -1279,6 +1296,22 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E4DFA
+
+    wTradeWindowActionIndex .word ? ; $7E4DFA 0.22
+
+  .endvirtual
+
+  .virtual $7E4E12
+
+    wPrepItemsInventoryFlag .word ? ; $7E4E12 0.22
+
+    wInfoWindowTarget .word ? ; $7E4E14 0.22
+      ; This is normally the packed item that
+      ; an info window is being displayed for.
+
+  .endvirtual
+
   .virtual $7E4E18
 
     ; These variables correspond to
@@ -1360,6 +1393,23 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; 2 - Low volume
         ; 3 - Muted
     .endblock
+
+  .endvirtual
+
+  .virtual $7E4E6B
+
+    lWindowBackgroundPatternPointer .long ? ; $7E4E6B 0.22
+
+  .endvirtual
+
+  .virtual $7E4F39
+
+    lMenuAPressCallback .long ? ; $7E4F39 0.22
+      ; This is a pointer to a function
+      ; that gets called when the `A` button is pressed.
+    lMenuBPressCallback .long ? ; $7E4F3C 0.22
+      ; This is a pointer to a function
+      ; that gets called when the `B` button is pressed.
 
   .endvirtual
 
@@ -1765,6 +1815,12 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E99CB
+
+    aTradeWindowSavedPalette .dstruct Palette
+
+  .endvirtual
+
   .virtual $7EA937
 
     ; This block of WRAM gets reused for
@@ -1790,6 +1846,47 @@ GUARD_VOLTEDGE_WRAM :?= false
         .fill ($7EAF73 - *)
 
         aRangeMap .fill $600 ; $7EAF73 0.19
+      .endstruct
+
+      .struct
+
+        .fill ($7EACDE - *)
+
+        wTradeWindowTempTextBaseTile .word ? ; $7EACDE 0.22
+        wTradeWindowTempTextType     .word ? ; $7EACE0 0.22
+
+        aInventoryBuffers .block ; $7EACE2 0.22
+          Buffers .brept 2
+            .dstruct structInventoryBuffer
+          .endrept
+        .endblock
+
+        aTradeWindowIconIndexes .fill size(word) * 15 ; $7EAD02 0.22
+
+        .word ?
+
+        aTradeWindowItemTypes .fill size(word) * 15 ; $7EAD22 0.22
+          ; 0: movable
+          ; 2: unmovable
+
+        .word ?
+
+        wTradeWindowInventoryOffset       .word ? ; $7EAD42 0.22
+        wTradeWindowSelectedItemOffset    .word ? ; $7EAD44 0.22
+        wTradeWindowCursorOffset          .word ? ; $7EAD46 0.22
+        wTradeWindowCursorUnknownOffset   .word ? ; $7EAD48 0.22
+        wTradeWindowSelectedSideOffset    .word ? ; $7EAD4A 0.22
+          ; These are offsets into aInventoryBuffers.
+        wTradeWindowType                  .word ? ; $7EAD4C 0.22
+          ; 1: Stealing
+          ; 2: Trading
+        wTradeWindowInitiatorConstitution .word ? ; $7EAD4E 0.22
+          ; This is the initiator's Constitution,
+          ; used when stealing.
+        wTradeWindowCursorStartingOffset  .word ? ; $7EAD50 0.22
+        wTradeWindowTargetEmptySlotOffset .word ? ; $7EAD52 0.22
+          ; These are offsets into aInventoryBuffers.
+
       .endstruct
 
     .endunion

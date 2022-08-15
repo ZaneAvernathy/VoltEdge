@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
   GUARD_VOLTEDGE_CHARACTERS := true
 
   VoltEdge_Characters_Created = 0.01
-  VoltEdge_Characters_Updated = 0.21
+  VoltEdge_Characters_Updated = 0.22
 
   ; Character helpers
 
@@ -264,6 +264,14 @@ GUARD_VOLTEDGE_CHARACTERS :?= false
         .byte \LUK
         .byte \MOV
       .endif
+    .endstruct
+
+    ; Created: 0.22
+    ; Updated: 0.22
+    structInventoryBuffer .struct
+      Slots .brept 8
+        .word ?
+      .endrept
     .endstruct
 
 .endif ; GUARD_VOLTEDGE_CHARACTERS

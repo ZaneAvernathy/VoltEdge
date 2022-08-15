@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
   GUARD_VOLTEDGE_IO_REGISTERS := true
 
   VoltEdge_IORegisters_Created = 0.01
-  VoltEdge_IORegisters_Updated = 0.20
+  VoltEdge_IORegisters_Updated = 0.22
 
   ; Names, values, information, etc. are taken from fullsnes
   ; https://problemkaputt.de/fullsnes.htm
@@ -1369,7 +1369,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       ; or WRMPYA/WRMPYB.
 
     ; Created: 0.01
-    ; Updated: 0.02
+    ; Updated: 0.22
     JOY1 .word ? ; $004218
     JOY2 .word ? ; $00421A
     JOY3 .word ? ; $00421C
@@ -1380,19 +1380,19 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Bitmasks:
 
-      JOY_B      = bits(%1000000000000000)
-      JOY_Y      = bits(%0100000000000000)
-      JOY_Select = bits(%0010000000000000)
-      JOY_Start  = bits(%0001000000000000)
-      JOY_Up     = bits(%0000100000000000)
-      JOY_Down   = bits(%0000010000000000)
-      JOY_Left   = bits(%0000001000000000)
-      JOY_Right  = bits(%0000000100000000)
-      JOY_A      = bits(%0000000010000000)
-      JOY_X      = bits(%0000000001000000)
-      JOY_L      = bits(%0000000000100000)
-      JOY_R      = bits(%0000000000010000)
-      JOY_ID     = bits(%0000000000001111)
+      JOY_B      = bits(%10000000_00000000)
+      JOY_Y      = bits(%01000000_00000000)
+      JOY_Select = bits(%00100000_00000000)
+      JOY_Start  = bits(%00010000_00000000)
+      JOY_Up     = bits(%00001000_00000000)
+      JOY_Down   = bits(%00000100_00000000)
+      JOY_Left   = bits(%00000010_00000000)
+      JOY_Right  = bits(%00000001_00000000)
+      JOY_A      = bits(%00000000_10000000)
+      JOY_X      = bits(%00000000_01000000)
+      JOY_L      = bits(%00000000_00100000)
+      JOY_R      = bits(%00000000_00010000)
+      JOY_ID     = bits(%00000000_00001111)
 
       ; Helpers:
 

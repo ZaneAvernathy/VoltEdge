@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_TILES :?= false
   GUARD_VOLTEDGE_TILES := true
 
   VoltEdge_Tiles_Created = 0.01
-  VoltEdge_Tiles_Updated = 0.20
+  VoltEdge_Tiles_Updated = 0.22
 
   ; Tile constants
 
@@ -85,5 +85,31 @@ GUARD_VOLTEDGE_TILES :?= false
       ; into a tile index.
 
       C2I .sfunction Coordinates=(), Width=16, ((Coordinates[1] * Width) + Coordinates[0])
+
+    ; Created: 0.22
+    ; Updated: 0.22
+    structTilemapInfo .struct Size=?, Destination=?, Source=?
+      .if (\Size === ?)
+        Size .block
+          W .byte ?
+          H .byte ?
+        .endblock
+        Destination .block
+          Lo .word ?
+          Hi .word ?
+        .endblock
+        Source .long ?
+      .else ; (\Size === ?)
+        Size .block
+          W .byte \Size[0]
+          H .byte \Size[1]
+        .endblock
+        Destination .block
+          Lo .word <>\Destination
+          Hi .word `\Destination
+        .endblock
+        Source .long \Source
+      .endif ; (\Size === ?)
+    .endstruct ; structTilemapInfo
 
 .endif ; GUARD_VOLTEDGE_TILES

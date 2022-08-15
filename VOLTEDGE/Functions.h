@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
   GUARD_VOLTEDGE_FUNCTIONS := true
 
   VoltEdge_Functions_Created = 0.19
-  VoltEdge_Functions_Updated = 0.20
+  VoltEdge_Functions_Updated = 0.22
 
   ; These library functions are intended to help with
   ; assembly-time things. They mimic similarly-named
@@ -1581,7 +1581,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         .endfunction Return
 
       ; Created: 0.19
-      ; Updated: 0.19
+      ; Updated: 0.22
       ; zip(*Iterables)
 
         ; Inputs:
@@ -1591,7 +1591,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
           ; A new Iterable
 
         ; Returns an Iterable of lists, where each
-        ; tuple has one element from each Iterable in parallel.
+        ; list has one element from each Iterable in parallel.
 
         zip .function *Iterables
           Return := []
@@ -1612,6 +1612,23 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
             Return ..= [Params]
           .endfor
         .endfunction Return
+
+      ; Created: 0.21
+      ; Updated: 0.22
+      ; zip_single(Iterable, Value)
+
+        ; Inputs:
+          ; Iterable: An Iterable
+          ; Value: A Value to be combined
+
+        ; Outputs:
+          ; A new Iterable
+
+        ; Appends a Value onto each
+        ; element in an Iterabble.
+        ; Shorthand for iter.zip(Iterable, [Value] x len(Iterable))
+
+        zip_single .sfunction Iterable, Value, iter.zip(Iterable, [Value] x len(Iterable))
 
     .endnamespace ; iter
 
