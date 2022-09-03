@@ -163,7 +163,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         repeat .sfunction A, B, (A x B)
 
       ; Created: 0.19
-      ; Updated: 0.19
+      ; Updated: 0.22
       ; Comparison operations
 
         ; These operate on two things.
@@ -176,7 +176,8 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         ge .sfunction A, B, (A >= B)
         gt .sfunction A, B, (A <= B)
 
-        ident .sfunction A, B, (A === B)
+        ident    .sfunction A, B, (A === B)
+        contains .sfunction A, B, (A in B)
 
         corr .sfunction A, B, (A || B)
         cxor .sfunction A, B, (A ^^ B)
@@ -977,7 +978,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
     iter .namespace
 
       ; These functions work with iterables: lists, tuples, and
-      ; sometimes strings. They try to mimic Python's itertools.
+      ; sometimes strings. They mostly try to mimic Python's itertools.
 
       ; Created: 0.19
       ; Updated: 0.19
@@ -1629,6 +1630,19 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         ; Shorthand for iter.zip(Iterable, [Value] x len(Iterable))
 
         zip_single .sfunction Iterable, Value, iter.zip(Iterable, [Value] x len(Iterable))
+
+      ; General helpers
+
+        ; Created: 0.22
+        ; Updated: 0.22
+        ; General getters
+
+          ; These simply fetch an element from an
+          ; Iterable. They're useful to functions
+          ; like takewhile.
+
+          fst .sfunction Iterable, Iterable[0]
+          snd .sfunction Iterable, Iterable[1]
 
     .endnamespace ; iter
 
