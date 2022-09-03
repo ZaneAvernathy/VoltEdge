@@ -1815,6 +1815,19 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7EA7AF
+
+    ; This block of WRAM gets reused for
+    ; multiple different kinds of target/selection
+    ; lists and variables.
+
+    aStatusWindowTempLeaderList .fill size(word) * 6 ; $7EA7AF
+      ; This is a list of deployment number words.
+    aStatusWindowTempCountList .fill size(word) * 5 ; $7EA7BB
+      ; This is a list of faction member count words.
+
+  .endvirtual
+
   .virtual $7E99CB
 
     aTradeWindowSavedPalette .dstruct Palette
@@ -1889,6 +1902,28 @@ GUARD_VOLTEDGE_WRAM :?= false
 
       .endstruct
 
+      .struct
+
+        wStatusWindowIndex .word ?                         ; $7EA937 0.22
+          ; This is the currently-selected faction's index.
+        wStatusWindowCount .word ?                         ; $7EA939 0.22
+          ; This is the number of factions on the field.
+        aStatusWindowLeaders .fill size(sint) * 5          ; $7EA93B 0.22
+          ; This is an array of deployment number sints
+          ; for the faction leaders on the field. 
+        aStatusWindowLeaderCharacters .fill size(word) * 5 ; $7EA945 0.22
+          ; This is an array of character ID words
+          ; for the faction leaders on the field.
+        wStatusWindowCurrentLeader .word ?                 ; $7EA94F 0.22
+          ; This is the character ID word of the
+          ; currently-selected faction's leader. This is
+          ; set to None if there is no leader on the map.
+        aStatusWindowFactionCount .fill size(word) * 5     ; $7EA951 0.22
+          ; This is an array of faction member counts
+          ; for the factions on the field.
+
+      .endstruct
+
     .endunion
 
   .endvirtual
@@ -1937,6 +1972,20 @@ GUARD_VOLTEDGE_WRAM :?= false
     aBG1TilemapBuffer .fill $1000 ; $7EC77C 0.01
     aBG2TilemapBuffer .fill $1000 ; $7ED77C 0.01
     aBG3TilemapBuffer .fill $1000 ; $7EE77C 0.01
+
+  .endvirtual
+
+  .virtual $7F8614
+
+    aMenuTilemapBuffers .block ; $7F8614 0.22
+
+      ; These are temporary spaces for working with
+      ; flattened tilemap slices when building menus.
+
+      aBuffers .brept 3
+        .fill (32 * 24 * size(word))
+      .endrept
+    .endblock
 
   .endvirtual
 
@@ -1995,11 +2044,22 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $7FE1B7
+  .virtual $7FB0F5
+
+    ; The decompression buffer here seems like it
+    ; goes all the way until the end of RAM, and things are
+    ; free to use as much or as little as they want.
+
+    ; The battle animation system also uses some of the space
+    ; in here
 
     .union
 
+      aDecompressionBuffer .fill ($800000 - *)
+
       .struct
+
+        .fill ($7FE1B7 - *)
 
         ; These values are copied from aBattleAnimationUnit1Info
         ; and aBattleAnimationUnit2Info when filling in
@@ -2023,6 +2083,8 @@ GUARD_VOLTEDGE_WRAM :?= false
       .endstruct
 
       .struct
+
+        .fill ($7FE1B7 - *)
 
         ; These values will be copied into one of
         ; aBattleAnimationUnit1Data or
