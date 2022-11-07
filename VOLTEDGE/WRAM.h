@@ -637,10 +637,8 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-    .virtual $000DDE
   .virtual $000C6D
 
-      aCurrentTilemapInfo .block ; $000DDE 0.22
     aHDMASystem .block                   ; $000C6D 0.22
       wFlag .word ?                      ; $000C6D 0.22
         ; Presumably this is a flag that would disable the
@@ -718,29 +716,34 @@ GUARD_VOLTEDGE_WRAM :?= false
         .endrept
     .endblock
 
-        ; I don't know precisely where this begins.
   .endvirtual
 
-        lInfoPointer .long ?     ; $000DDE 0.22
-          ; This is a long pointer to a structTilemapInfo.
-          ; It's used to get the main info about the tilemap.
+  .virtual $000DDE
 
-        .fill (size(long) * 2)
+    aCurrentTilemapInfo .block ; $000DDE 0.22
 
-        wBaseTile .word ?        ; $000DE7 0.22
-          ; This is a TilemapEntry that gets added to entries
-          ; that are written to this tilemap. It's used to apply
-          ; things like starting tile indices, palettes, etc.
-        wFillTile .word ?        ; $000DE9 0.22
-          ; This is a TilemapEntry that is used for blank tiles.
-        wIgnoreTile .word ?      ; $000DEB 0.22
-          ; This is a TilemapEntry that is used to specify that
-          ; a TilemapEntry from the source should not overwrite
-          ; the corresponding entry in the destination.
+      ; I don't know precisely where this begins.
 
-      .endblock
+      lInfoPointer .long ?     ; $000DDE 0.22
+        ; This is a long pointer to a structTilemapInfo.
+        ; It's used to get the main info about the tilemap.
 
-    .endvirtual
+      .fill (size(long) * 2)
+
+      wBaseTile .word ?        ; $000DE7 0.22
+        ; This is a TilemapEntry that gets added to entries
+        ; that are written to this tilemap. It's used to apply
+        ; things like starting tile indices, palettes, etc.
+      wFillTile .word ?        ; $000DE9 0.22
+        ; This is a TilemapEntry that is used for blank tiles.
+      wIgnoreTile .word ?      ; $000DEB 0.22
+        ; This is a TilemapEntry that is used to specify that
+        ; a TilemapEntry from the source should not overwrite
+        ; the corresponding entry in the destination.
+
+    .endblock
+
+  .endvirtual
 
   .virtual $000E05
 
