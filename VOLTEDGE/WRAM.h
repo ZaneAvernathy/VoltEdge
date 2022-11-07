@@ -638,10 +638,88 @@ GUARD_VOLTEDGE_WRAM :?= false
   .endvirtual
 
     .virtual $000DDE
+  .virtual $000C6D
 
       aCurrentTilemapInfo .block ; $000DDE 0.22
+    aHDMASystem .block                   ; $000C6D 0.22
+      wFlag .word ?                      ; $000C6D 0.22
+        ; Presumably this is a flag that would disable the
+        ; HDMA system, much like the proc system, but this value
+        ; is only ever cleared and not read.
+      wOffset .word ?                    ; $000C6F 0.22
+        ; This is the offset of the currently running
+        ; HDMA entry.
+      lPointer .long ?                   ; $000C71 0.22
+        ; This is used to hold a pointer
+        ; to routines or HDMA entry code
+        ; used when initializing an HDMA entry,
+        ; running its on-cycle routine, or
+        ; running its HDMA entry code.
+      bPendingChannels .byte ?           ; $000C74 0.22
+        ; This holds the pending HDMA channels that
+        ; need to be transferred.
+      aTypeOffset .fill (size(word) * 8) ; $000C75 0.22
+        ; This is the lower word of the pointer
+        ; to an HDMA entry's info struct in the ROM.
+        ; A slot in the HDMA system is considered free
+        ; when this is zero.
+      aTypeBank .fill (size(word) * 8)   ; $000C85 0.22
+        ; This is the bank byte of the pointer
+        ; to an HDMA entry's info struct in the ROM.
+      aBitfield .fill (size(word) * 8)   ; $000C95 0.22
+        ; This is a status bitfield that controls
+        ; the HDMA entry. More research is needed.
+      aOnCycle .fill (size(word) * 8)    ; $000CA5 0.22
+        ; This is the lower word of a pointer to
+        ; an assembly routine to execute on every cycle
+        ; that the HDMA entry is active. The bank for the
+        ; routine is taken from aTypeBank.
+      aCodeOffset .fill (size(word) * 8) ; $000CB5 0.22
+        ; This is the lower word of a pointer
+        ; to the current HDMA entry code instruction
+        ; that will be executed while the HDMA entry is
+        ; active. The bank for the pointer is taken
+        ; from aTypeBank.
+      aSleepTimer .fill (size(word) * 8) ; $000CC5 0.22
+        ; This is a timer that ticks down once per
+        ; HDMA system cycle that prevents HDMA entry code
+        ; from being run while nonzero.
+      aTimer .fill (size(word) * 8)      ; $000CD5 0.22
+        ; This is a timer that is written to, read by, and
+        ; decremented by HDMA entry code.
+      aOffset .fill (size(word) * 8)     ; $000CE5 0.22
+        ; This is the lower word of a pointer to an HDMA table.
+        ; The format of the HDMA table depends on whether
+        ; the HDMA mode is Direct or Indirect. If Direct,
+        ; each entry in this table consists of an NTRL setting
+        ; byte and then the data to be transferred to the selected
+        ; register. In Indirect mode, each entry is an NTRL setting
+        ; followed by the lower word of a pointer to the data
+        ; to be transferred. The bank for the pointer is given
+        ; by aDMAPxAndIndirectBank.bIndirectBank.
+      aBankAndBBADx .brept 8             ; $000CF5 0.22
+        bBank .byte ?                    ; $000CF5 0.22
+          ; This is the bank of the HDMA table for the netry.
+          ; See aOffset.
+        bBBADx .byte ?                   ; $000CF6 0.22
+          ; This is the BBADx setting for the entry,
+          ; which is the lower byte of the address
+          ; of a PPU register to write to.
+        .endrept
+      aDMAPxAndIndirectBank .brept 8     ; $000D05 0.22
+        bDMAPx .byte ?                   ; $000D05 0.22
+          ; This is the DMAPx setting for the HDMA entry.
+          ; It seems like some HDMA entries are doing
+          ; weird things like setting the A-bus step.
+          ; Needs more research.
+        bIndirectBank .byte ?            ; $000D06 0.22
+          ; This is the bank byte of the pointers given by
+          ; HDMA table entries in Indirect mode.
+        .endrept
+    .endblock
 
         ; I don't know precisely where this begins.
+  .endvirtual
 
         lInfoPointer .long ?     ; $000DDE 0.22
           ; This is a long pointer to a structTilemapInfo.
