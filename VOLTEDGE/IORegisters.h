@@ -1380,26 +1380,26 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Bitmasks:
 
-      JOY_B      = bits(%10000000_00000000)
-      JOY_Y      = bits(%01000000_00000000)
-      JOY_Select = bits(%00100000_00000000)
-      JOY_Start  = bits(%00010000_00000000)
-      JOY_Up     = bits(%00001000_00000000)
-      JOY_Down   = bits(%00000100_00000000)
-      JOY_Left   = bits(%00000010_00000000)
-      JOY_Right  = bits(%00000001_00000000)
-      JOY_A      = bits(%00000000_10000000)
-      JOY_X      = bits(%00000000_01000000)
-      JOY_L      = bits(%00000000_00100000)
-      JOY_R      = bits(%00000000_00010000)
-      JOY_ID     = bits(%00000000_00001111)
+      JOY_B      = bits(%10000000_00000000) ; $8000
+      JOY_Y      = bits(%01000000_00000000) ; $4000
+      JOY_Select = bits(%00100000_00000000) ; $2000
+      JOY_Start  = bits(%00010000_00000000) ; $1000
+      JOY_Up     = bits(%00001000_00000000) ; $0800
+      JOY_Down   = bits(%00000100_00000000) ; $0400
+      JOY_Left   = bits(%00000010_00000000) ; $0200
+      JOY_Right  = bits(%00000001_00000000) ; $0100
+      JOY_A      = bits(%00000000_10000000) ; $0080
+      JOY_X      = bits(%00000000_01000000) ; $0040
+      JOY_L      = bits(%00000000_00100000) ; $0020
+      JOY_R      = bits(%00000000_00010000) ; $0010
+      JOY_ID     = bits(%00000000_00001111) ; $000F
 
       ; Helpers:
 
-      JOY_Directions = (JOY_Up | JOY_Down | JOY_Left | JOY_Right)
-      JOY_Shoulders  = (JOY_L | JOY_R)
-      JOY_ABXY       = (JOY_B | JOY_Y | JOY_A | JOY_X)
-      JOY_All        = (JOY_Directions | JOY_Shoulders | JOY_ABXY | JOY_Select | JOY_Start)
+      JOY_Directions = (JOY_Up | JOY_Down | JOY_Left | JOY_Right) ; $0F00
+      JOY_Shoulders  = (JOY_L | JOY_R) ; $0030
+      JOY_ABXY       = (JOY_B | JOY_Y | JOY_A | JOY_X) ; $C0C0
+      JOY_All        = (JOY_Directions | JOY_Shoulders | JOY_ABXY | JOY_Select | JOY_Start) ; $FFF0
 
   .endvirtual ; CPU_R_REG_BASE
 
