@@ -92,6 +92,7 @@ GUARD_VOLTEDGE :?= false
     .include "VOLTEDGE/Functions.h"
     .include "VOLTEDGE/HDMA.h"
     .include "VOLTEDGE/Items.h"
+    .include "VOLTEDGE/Menus.h"
     .include "VOLTEDGE/ObjectiveMarkers.h"
     .include "VOLTEDGE/Palettes.h"
     .include "VOLTEDGE/Procs.h"

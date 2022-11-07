@@ -484,6 +484,10 @@ GUARD_VOLTEDGE_WRAM :?= false
             ; sound system in order. This one is
             ; for multiple note (?) sounds.
 
+          .fill ($0004EA - *)
+
+          wStatus .word ? ; $0004EA 0.22
+
           .fill ($0004F0 - *)
 
           wUnknown0004F0 .word ? ; $0004F0 0.17
@@ -1383,6 +1387,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E4E00
+
+    wOptionsWindowActionIndex .word ? ; $7E4E00 0.22
+      ; This is the current index into the options window's
+      ; action table.
+
+  .endvirtual
+
   .virtual $7E4E12
 
     wPrepItemsInventoryFlag .word ? ; $7E4E12 0.22
@@ -1399,7 +1411,7 @@ GUARD_VOLTEDGE_WRAM :?= false
     ; the options menu settings.
 
     aOptions .block              ; $7E4E18 0.01
-      wWindow .word ?            ; $7E4E18 0.01
+      wBackground .word ?        ; $7E4E18 0.22
         ; This variable is the current
         ; window setting (0-4).
       aWindowColors .brept 5     ; $7E4E1A 0.01
@@ -1499,6 +1511,36 @@ GUARD_VOLTEDGE_WRAM :?= false
     wStaffInventoryOffset .word ? ; $7E4F4A 0.19
       ; This is the offset of a selected staff in
       ; a unit's inventory.
+
+  .endvirtual
+
+  .virtual $7E4F67
+
+    ; This is a temporary copy of the current menu
+    ; tint setting that's used while in the options menu.
+
+    aCurrentWindowColors .block ; $7E4F67 0.22
+      wUpperRed .word ?
+      wUpperGreen .word ?
+      wUpperBlue .word ?
+        ; These are the color settings
+        ; for each channel, with their
+        ; intensities subtracted from 24, i.e.
+        ; full intensity is 0 and zero
+        ; intensity is 24. These select
+        ; the color at the top of
+        ; the window.
+      wLowerRed .word ?
+      wLowerGreen .word ?
+      wLowerBlue .word ?
+        ; These are the color settings
+        ; for each channel, with their
+        ; intensities subtracted from 24, i.e.
+        ; full intensity is 0 and zero
+        ; intensity is 24. These select
+        ; the color at the bottom of
+        ; the window.
+    .endblock
 
   .endvirtual
 
@@ -1734,7 +1776,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $7EA1F9
+  .virtual $7EA1ED
+
+    wMenuLineScrollCount     .word ? ; $7EA1ED 0.22
+    wMenuMinimumLine         .word ? ; $7EA1EF 0.22
+    wMenuMaximumLine         .word ? ; $7EA1F1 0.22
+    wMenuUpScrollThreshold   .word ? ; $7EA1F3 0.22
+    wMenuDownScrollThreshold .word ? ; $7EA1F5 0.22
+    wMenuBottomThreshold     .word ? ; $7EA1F7 0.22
 
     ; These variables are used for usable items.
 
@@ -2002,6 +2051,100 @@ GUARD_VOLTEDGE_WRAM :?= false
         aStatusWindowFactionCount .fill size(word) * 5     ; $7EA951 0.22
           ; This is an array of faction member counts
           ; for the factions on the field.
+
+      .endstruct
+
+      .struct
+
+        aOptionsWindowTempMenuLine .structOptionsWindowLine     ; $7EA937 0.22
+          ; This is a temporary struct used when interpreting a
+          ; structOptionsWindowLine.
+        wOptionsMenuMenuLineOffset .word ?                      ; $7EA95D 0.22
+          ; This is the current offset into a list of short
+          ; pointers to structOptionsWindowLines
+        aOptionsWindowMenuLinePointers .fill size(addr) * 16    ; $7EA95F 0.22
+          ; This is a copy of the ROM version of the
+          ; list of short pointers to the menu's lines.
+        aOptionsWindowMenuLineSelections .fill size(word) * 16  ; $7EA97F 0.22
+          ; This is an array of position words for each
+          ; menu line's options.
+        wOptionsWindowMenuLineIndex .word ?                     ; $7EA99F 0.22
+          ; This is the current line number that is currently selected.
+        wOptionsWindowMenuLineFromIndex .word ?                 ; $7EA9A1 0.22
+          ; Names are hard. This is the line number that is
+          ; currently being scrolled off of when moving between
+          ; lines. Most of the time this is the same as wOptionsWindowMenuLineIndex
+        wOptionsWindowScrolledLines .word ?                     ; $7EA9A3 0.22
+          ; This is the number of lines that the screen is currently
+          ; scrolled down.
+        wOptionsWindowCursorYPosition .word ?                   ; $7EA9A5 0.22
+          ; This is the Y position of the cursor in pixels.
+        wOptionsWindowCursorXPosition .word ?                   ; $7EA9A7 0.22
+          ; This is the X position of the cursor in pixels.
+        wOptionsWindowScrollTimer .word ?                       ; $7EA9A9 0.22
+          ; This is a timer that ticks down while the
+          ; options window is scrolling.
+        wOptionsWindowTempTextCoordinates .block                ; $7EA9AB 0.22
+          ; These are the coordinates (in tiles) of the piece of
+          ; text currently being drawn to the options window.
+          X .byte ? ; $7EA9AB 0.22
+          Y .byte ? ; $7EA9AC 0.22
+          .endblock
+        aOptionsWindowUpperColorSliderYCoordinatesPixels .block ; $7EA9AD 0.22
+          ; These are the base Y coordinates (in pixels)
+          ; of the sliders on the menu background color
+          ; selectors.
+          wRed   .word ? ; $7EA9AD 0.22
+          wGreen .word ? ; $7EA9AF 0.22
+          wBlue  .word ? ; $7EA9B1 0.22
+          .endblock
+        aOptionsWindowLowerColorSliderYCoordinatesPixels .block ; $7EA9B3 0.22
+          ; These are the base Y coordinates (in pixels)
+          ; of the sliders on the menu background color
+          ; selectors.
+          wRed   .word ? ; $7EA9B3 0.22
+          wGreen .word ? ; $7EA9B5 0.22
+          wBlue  .word ? ; $7EA9B7 0.22
+          .endblock
+        wOptionsWindowSliderBarTilemapBufferBase .word ?        ; $7EA9B9 0.22
+          ; This is the base offset of the menu
+          ; background color selector bar tilemaps in
+          ; aBG2TilemapBuffer.
+        aOptionsWindowScrollPositionsHDMA .fill 13              ; $7EA9BB 0.22
+          ; TODO: make the size dependent on the ROM copy?
+          ; This is a copy of the HDMA stuff for the options
+          ; window that gets updated to match the screen's
+          ; scrolled position.
+        wOptionsWindowScrollPixels .word ?                      ; $7EA9C8 0.22
+          ; This is the amount that the screen has
+          ; scrolled in pixels.
+        aOptionsWindowUpperColorSliderYCoordinates .block       ; $7EA9CA 0.22
+          ; These are the base Y coordinates (in tiles) - 1
+          ; of the sliders on the menu background color
+          ; selectors.
+          wRed   .word ? ; $7EA9CA 0.22
+          wGreen .word ? ; $7EA9CC 0.22
+          wBlue  .word ? ; $7EA9CE 0.22
+          .endblock
+        aOptionsWindowLowerColorSliderYCoordinates .block       ; $7EA9D0 0.22
+          ; These are the base Y coordinates (in tiles) - 1
+          ; of the sliders on the menu background color
+          ; selectors.
+          wRed   .word ? ; $7EA9D0 0.22
+          wGreen .word ? ; $7EA9D2 0.22
+          wBlue  .word ? ; $7EA9D4 0.22
+          .endblock
+        wOptionsWindowLowerColorDefaultYCoordinate .word ?      ; $7EA9D6 0.22
+          ; This is the base Y coordinate (in tiles) - 1
+          ; of the `Default` option for the selected color setting.
+        wOptionsWindowColorModifiedFlag .sint ?                 ; $7EA9D8 0.22
+          ; This is zero if the color for the current menu
+          ; tile setting has been changed from its default,
+          ; otherwise it is -1. This is set to 1 briefly during
+          ; menu creation.
+        wOptionsWindowMaxScrollDistance .word ?                 ; $7EA9DA 0.22
+          ; This is the maximum amount that the options
+          ; window can scroll in pixels.
 
       .endstruct
 
