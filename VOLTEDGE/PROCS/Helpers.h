@@ -378,6 +378,16 @@ GUARD_VOLTEDGE_PROCS_HELPERS :?= false
 
     ; Created: 0.22
     ; Updated: 0.22
+    PROC_SET_BUTTON_TIMER .segment
+      ; 82/A088
+      ; This sets the timer for PROC_HALT_UNTIL_BUTTON_NEW_TIME
+      ; using the PROC_HALT_UNTIL_BUTTON_NEW_TIME's time field.
+      ; Must be immediately followed by PROC_HALT_UNTIL_BUTTON_NEW_TIME
+      .word <>rsProcCodeSetButtonTimer
+    .endsegment
+
+    ; Created: 0.22
+    ; Updated: 0.22
     PROC_HALT_UNTIL_BUTTON_NEW_TIME .segment Time, ButtonCombo
       ; 82/A09A
       ; This stalls proc code execution until

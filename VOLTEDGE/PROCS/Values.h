@@ -22,9 +22,9 @@ GUARD_VOLTEDGE_PROCS_VALUES :?= false
 
       ; Created: 0.22
       ; Updated: 0.22
-      rlProcEngineCreateProcByOffset :?= address($829C99)
+      rlProcEngineCreateProcByIndex :?= address($829C99)
         ; Inputs:
-        ;   A: offset into aProcSystem
+        ;   A: Index into aProcSystem
         ;   lR44: long pointer to proc info
         ; Outputs:
         ;   Carry clear if successful,
@@ -34,9 +34,9 @@ GUARD_VOLTEDGE_PROCS_VALUES :?= false
 
       ; Created: 0.22
       ; Updated: 0.22
-      rlProcEngineFreeProcByOffset :?= address($829CB8)
+      rlProcEngineFreeProcByIndex :?= address($829CB8)
         ; Inputs:
-        ;   A: offset into aProcSystem
+        ;   A: Index into aProcSystem
         ; Outputs:
         ;   Carry clear if successful,
         ;     set otherwise.
@@ -284,6 +284,14 @@ GUARD_VOLTEDGE_PROCS_VALUES :?= false
         ; Causes proc code execution to stall
         ; until the specified buttons are pressed
         ; at the same time.
+
+      ; Created: 0.22
+      ; Updated: 0.22
+      rsProcCodeSetButtonTimer :?= address($82A088)
+        ; Sets the the timer for
+        ; rsProcCodeHaltUntilButtonsNewPressedOrTime from
+        ; the rsProcCodeHaltUntilButtonsNewPressedOrTime's body.
+        ; Must be immediately followed by rsProcCodeHaltUntilButtonsNewPressedOrTime
 
       ; Created: 0.22
       ; Updated: 0.22
