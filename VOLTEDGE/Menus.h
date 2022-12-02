@@ -17,10 +17,15 @@ GUARD_VOLTEDGE_MENUS :?= false
       OnOpen       .addr ?
       OnClose      .addr ?
       IconVRAM     .word ?
-      Options .brept 6
+      OptionCount  .word ?
+      ; It seems like vanilla acts like there
+      ; can be 6 options but doesn't include
+      ; space for the last's width?
+      Options .brept 5
         Position .word ?
         Width    .word ?
-      .next ; 64tass throws a fit when I use .endrept here?
+      .endrept
+      .word ?
     .else ; (\Usability === ?)
       .word <>\Usability, <>\NameText, <>\OptionText, <>\SubtitleText, <>\OnOpen, <>\OnClose, \IconVRAM
       .word \OptionText._Count
