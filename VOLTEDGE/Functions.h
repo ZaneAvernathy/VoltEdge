@@ -1063,6 +1063,147 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
 
         .endfunction Return
 
+      ; Created: 0.22
+      ; Updated: 0.22
+      ; to_int(String, Base=10)
+
+        ; Inputs:
+          ; String: string to convert
+          ; Base: Numeric base
+
+        ; Outputs:
+          ; An int if able to be converted else ?
+
+        ; Tries to convert a string representing a number into an int.
+        ; A number in the form of the string can optionally begin with a sign,
+        ; followed by an optional prefix, then the actual number.
+
+        ; This function will return ? if it's unable to convert
+        ; the text.
+
+        ; Private helper values
+
+        _to_int .namespace
+
+          .enc "none"
+
+          ; These are the valid digit characters that make up
+          ; the body of a number.
+
+            BinaryCharacters = "01"
+            DecimalCharacters = (str(range(10)) .. ...)
+            HexadecimalCharacters = DecimalCharacters .. "abcdefABCDEF"
+
+            AllCharacters = BinaryCharacters .. DecimalCharacters .. HexadecimalCharacters
+
+          ; These are the valid prefix substrings for
+          ; each base.
+
+            BinaryPrefixes = ["0b", "%"]
+            DecimalPrefixes = []
+            HexadecimalPrefixes = ["0x", "$"]
+
+            AllPrefixes = BinaryPrefixes .. DecimalPrefixes .. HexadecimalPrefixes
+
+          ; These are the numeric vlues, in decimal, of
+          ; each digit character for all bases
+
+            BinaryConversions = {"0": 0, "1": 1}
+            DecimalConversions = {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9}
+            HexadecimalConversions = {"a": 10, "A": 10, "b": 11, "B": 11, "c": 12, "C": 12, "d": 13, "D": 13, "e": 14, "E": 14, "f": 15, "F": 15}
+
+            AllConversions = BinaryConversions .. DecimalConversions .. HexadecimalConversions
+
+          ; This dictionary gives the information needed for
+          ; each base.
+
+            ; {Base: (BodyCharacters, Prefixes)}
+            BaseInfo = {2: (BinaryCharacters, BinaryPrefixes), 10: (DecimalCharacters, DecimalPrefixes), 16: (HexadecimalCharacters, HexadecimalPrefixes)}
+
+        .endnamespace
+
+        to_int .function String, Base=10
+
+          .with zstr._to_int
+
+          .cerror !(Base in [2, 10, 16]), "Can only convert numbers with a base of 2, 10, or 16."
+          .cerror (len(String) == 0), "Cannot convert an empty string."
+
+          ; Strip whitespace from string.
+
+          String := zstr.strip(String)
+
+          BaseChars := iter.fst(BaseInfo[Base])
+          Prefixes  := iter.snd(BaseInfo[Base])
+
+          Return     := ""
+          Position   := 0
+          isNegative := false
+
+          ; Check for leading sign characters.
+
+          .switch String[Position]
+
+            .case "-"
+
+              isNegative := true
+              Position += 1
+
+            .case "+"
+
+              Position += 1
+
+            .default
+
+          .endswitch
+
+          ; Now, check for prefixes
+
+          .for Prefix in Prefixes
+
+            .if (zstr.startswith(String[Position:], Prefix))
+
+              Position += len(Prefix)
+              .break
+
+            .endif
+
+          .endfor
+
+          ; Now we can actually scan the numeric bits.
+
+          .while (Position < len(String))
+
+            Return *= Base
+
+            Character := String[Position]
+
+            .if !(Character in BaseChars)
+
+              ;.error format("Illegal character '%c' for integer with base %d", Character, Base)
+              Return := ?
+              .break
+
+            .else
+
+              Return += AllConversions[Character]
+
+            .endif
+
+            Position += 1
+
+          .endwhile
+
+          .if (!(Return === ?) && isNegative)
+
+            Return := -Return
+
+          .endif ; (!(Return === ?) && isNegative)
+
+          .endwith ; zstr._to_int
+
+        .endfunction Return
+
     .endnamespace ; zstr
 
     iter .namespace
