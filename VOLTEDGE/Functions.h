@@ -575,8 +575,8 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         ; It defaults to removing spaces if StripChars is not specified.
 
         lstrip .function String, StripChars=" "
-         .for Index, Character in iter.enumerate(String)
-           .breakif !(Character in StripChars)
+          .for Index, Character in iter.enumerate(String)
+            .breakif !(Character in StripChars)
           .endfor
         .endfunction String[Index:]
 
@@ -849,7 +849,7 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         .endfunction Return
 
       ; Created: 0.19
-      ; Updated: 0.19
+      ; Updated: 0.22
       ; rstrip(String, StripChars=" ")
 
         ; Inputs:
@@ -871,10 +871,15 @@ GUARD_VOLTEDGE_FUNCTIONS :?= false
         ; right side.
 
         rstrip .function String, StripChars=" "
-         .for Index, Character in iter.enumerate(iter.reversed(String))
-           .breakif !(Character in StripChars)
+          .for Index, Character in iter.enumerate(iter.reversed(String))
+            .breakif !(Character in StripChars)
           .endfor
-        .endfunction String[:-Index]
+          .if (Index == 0)
+            Return := String
+          .else
+            Return := String[:-Index]
+          .endif
+        .endfunction Return
 
       ; Created: 0.19
       ; Updated: 0.19
