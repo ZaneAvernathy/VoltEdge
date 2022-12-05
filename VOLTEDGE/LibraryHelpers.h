@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
   GUARD_VOLTEDGE_LIBRARY_HELPERS := true
 
   VoltEdge_LibraryHelpers_Created = 0.01
-  VoltEdge_LibraryHelpers_Updated = 0.19
+  VoltEdge_LibraryHelpers_Updated = 0.22
 
   ; Library helper values
 
@@ -150,7 +150,7 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
       .endmacro
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.22
     ; .checkfit Offset
 
       ; Inputs:
@@ -160,13 +160,13 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
         ; Error if assembly offset enters illegal space
         ; Error contains assembly offset.
 
-      ; Given some offset, throw an error if assembly
+      ; Given some offset, throw a warning if assembly
       ; passes that point. This is useful for
       ; inlined replacement code that needs
       ; to fit in a previously-occupied area.
 
       checkfit .macro Offset
-        .cerror (* > \Offset), format("$%06X", *)
+        .cwarn (* > \Offset), format("$%06X > $%06X", *, \Offset)
       .endmacro
 
     ; Created: 0.01
