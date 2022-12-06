@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
   GUARD_VOLTEDGE_LIBRARY_HELPERS := true
 
   VoltEdge_LibraryHelpers_Created = 0.01
-  VoltEdge_LibraryHelpers_Updated = 0.22
+  VoltEdge_LibraryHelpers_Updated = 0.23
 
   ; Library helper values
 
@@ -232,50 +232,6 @@ GUARD_VOLTEDGE_LIBRARY_HELPERS :?= false
       ; narrowbits(%10101, 3) = %101
 
       narrowbits .sfunction Value, Length, bits((%1 x Length) & Value)
-
-    ; Created: 0.01
-    ; Updated: 0.07
-    ; .crossbank "Filename"
-
-      ; Inputs:
-        ; Filename: binary file to include
-
-      ; Outputs:
-        ; .binary of Filename up to bank boundary
-        ; Remaining length of bytes in -
-
-      ; Given a Filename, binary include its data
-      ; until a bank boundary is reached. If no
-      ; boundary is reached, include the whole file.
-      ; If a boundary is reached, store the length
-      ; of the remaining bytes in the local label -
-      ; This is useful for including compressed files,
-      ; which may cross banks in vanilla FE5.
-
-      ; Example:
-
-      ; * := $007FF0
-      ; .logical mapped($007FF0)
-      ;
-      ;   ; Include the first $10 bytes of a file.
-      ;
-      ;   g4bppcTestGraphics .crossbank "Test.4bpp.comp"
-      ;
-      ; .here
-      ;
-      ; * := $008000
-      ; .logical mapped($008000)
-      ;
-      ;   ; Include the rest of it.
-      ;
-      ;   .binary "Test.4bpp.comp", -
-      ;
-      ; .here
-
-      crossbank .segment Filename
-        - := $10000 - (* & $FFFF)
-        .binary \Filename, 0, -
-      .endsegment
 
     ; Created: 0.01
     ; Updated: 0.07
