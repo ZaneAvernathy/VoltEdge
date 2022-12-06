@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_MENUS :?= false
   GUARD_VOLTEDGE_MENUS := true
 
   VoltEdge_Menus_Created = 0.22
-  VoltEdge_Menus_Updated = 0.22
+  VoltEdge_Menus_Updated = 0.23
 
   ; Created: 0.22
   ; Updated: 0.22
@@ -34,5 +34,19 @@ GUARD_VOLTEDGE_MENUS :?= false
       .endfor
     .endif ; (\Usability === ?)
   .endstruct
+
+  ; Created: 0.23
+  ; Updated: 0.23
+    structActiveMenu .struct
+      EnabledFlag .byte ?
+      Position .block
+        X .byte ?
+        Y .byte ?
+      .endblock
+      ShadingDisabledFlag .byte ?
+      MenuStructPointer .long ?
+      BG1Info .dstruct structTilemapInfo
+      BG3Info .dstruct structTilemapInfo
+    .endstruct
 
 .endif ; GUARD_VOLTEDGE_MENUS

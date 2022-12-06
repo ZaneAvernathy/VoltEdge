@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.22
+  VoltEdge_WRAM_Updated = 0.23
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -1491,7 +1491,17 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $7E4E6B
 
-    lWindowBackgroundPatternPointer .long ? ; $7E4E6B 0.22
+    lWindowBackgroundPatternPointer .long ?        ; $7E4E6B 0.22
+    lWindowBackgroundPatternPointerUnknown .long ? ; $7E4E6E 0.23
+    lActiveMenuTempBufferPointer .long ?           ; $7E4E71 0.23
+    aActiveMenuSlots .fill (5 * size(addr))        ; $7E4E74 0.23
+    aActiveMenuData .block                         ; $7E4E7E 0.23
+      aSlots .brept 4
+        .dstruct structActiveMenu
+      .endrept
+    .endblock
+    aActiveMenuTemp .dstruct structActiveMenu      ; $7E4EE2 0.23
+    wActiveMenuCurrentSlot .addr ?                 ; $7E4EFB 0.23
 
   .endvirtual
 
