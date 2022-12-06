@@ -5,7 +5,7 @@ GUARD_VOLTEDGE :?= false
 .if (!GUARD_VOLTEDGE)
   GUARD_VOLTEDGE := true
 
-  VoltEdge_Version = 0.22
+  VoltEdge_Version = 0.23
 
   .weak
 
@@ -37,6 +37,12 @@ GUARD_VOLTEDGE :?= false
       USE_FE5_ITEMS      :?= false
 
     .endif ; USE_FE5_DEFINITIONS
+
+    ; If your project uses the `-a` command line option
+    ; when running 64tass, you can enable this to gain
+    ; access to UTF-8 text functions.
+
+    USE_UTF8 :?= false
 
   .endweak
 
