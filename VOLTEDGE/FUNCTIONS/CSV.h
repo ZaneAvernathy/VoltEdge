@@ -59,8 +59,7 @@ GUARD_VOLTEDGE_FUNCTIONS_CSV :?= false
         ; parse(ByteString, Convert=true, Separator=?, LineEndings=?)
 
           ; Inputs:
-            ; ByteString: A table in the form of a byte string,
-              ; such as one given by binary() or x"".
+            ; Filename: A table filename.
             ; Convert: Enables or disables converting cell values
               ; into 64tass types. If false, all cells will be
               ; strings.
@@ -74,23 +73,53 @@ GUARD_VOLTEDGE_FUNCTIONS_CSV :?= false
             ; rows for the table, with elements in those
             ; row lists eing the cells within the row.
 
-          ; This function separates out a table (input as a string)
-          ; into a list of values that can be used by 64tass.
+          ; This function separates out a table into a list of
+          ; values that can be used by 64tass.
 
           ; It attempts to parse cells that contain only numbers as
           ; numbers, otherwise the cell is treated as a string.
 
           ; Example usage:
-          ; csv.parse(utf8.decode(binary("SomeFile.csv")))
+          ; csv.parse("SomeFile.csv")
 
-          parse .function ByteString, Convert=true, Separator=?, LineEndings=?
+          parse .sfunction Filename: binary, Convert=true, Separator=?, LineEndings=?, parse_bytestring(Filename, Convert, Separator, LineEndings)
+
+        ; Created: 0.22
+        ; Updated: 0.22
+        ; parse_bytestring(ByteString, Convert=true, Separator=?, LineEndings=?)
+
+          ; Inputs:
+            ; Bytestring: A table given as a 64tass bytestring
+            ; Convert: Enables or disables converting cell values
+              ; into 64tass types. If false, all cells will be
+              ; strings.
+            ; Separator: If specified, this is a string that
+              ; separates cells within the table.
+            ; LineEndings: If specified, this is a string that
+              ; separates lines within the table.
+
+          ; Outputs:
+            ; A list containing lists representing the
+            ; rows for the table, with elements in those
+            ; row lists eing the cells within the row.
+
+          ; This function separates out a table into a list of
+          ; values that can be used by 64tass.
+
+          ; It attempts to parse cells that contain only numbers as
+          ; numbers, otherwise the cell is treated as a string.
+
+          ; Example usage:
+          ; csv.parse(binary("SomeFile.csv"))
+
+          parse_bytestring .function Bytestring, Convert=true, Separator=?, LineEndings=?
 
             ; We originally pass the table in as a byte string
             ; despite needing it as a decoded UTF-8 string because
             ; 64tass will throw a fit if you try slicing/indexing a string
             ; that contains raw escape sequences.
 
-            Raw := utf8.decode(ByteString, true)
+            Raw := utf8.decode_bytestring(Bytestring, true)
 
             Processed := []
 

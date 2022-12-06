@@ -85,7 +85,32 @@ GUARD_VOLTEDGE_FUNCTIONS_UNICODE :?= false
 
       ; Created: 0.22
       ; Updated: 0.22
-      ; decode(ByteString, TranslateControls=false)
+      ; decode(Filename, TranslateControls=false)
+
+        ; Inputs:
+          ; Filename: file to decode
+          ; TranslateControls: Flag whether control codes like <0A> (newline)
+            ; should be translated into 64tass' "none" encoding equivalents,
+            ; i.e. "{lf}". This will allow strings with these characters
+            ; to be worked with more easily but may cause problems due to
+            ; their different lexigraphical length.
+
+        ; Outputs:
+          ; a 64tass string
+
+        ; Decodes a UTF-8 encoded file
+        ; into a 64tass string. Throws a very basic error if
+        ; the data passed happens to have invalid characters, so
+        ; it's up to the user to ensure that their text is valid.
+
+        ; For example:
+        ; utf8.decode("foo.txt")
+
+        decode .sfunction Filename: binary, TranslateControls=false, decode_bytestring(Filename, TranslateControls)
+
+      ; Created: 0.22
+      ; Updated: 0.22
+      ; decode_bytestring(ByteString, TranslateControls=false)
 
         ; Inputs:
           ; ByteString: data to decode in the form of a byte string
@@ -104,10 +129,10 @@ GUARD_VOLTEDGE_FUNCTIONS_UNICODE :?= false
         ; it's up to the user to ensure that their text is valid.
 
         ; For example:
-        ; utf8.decode(x"E79BB4") -> "直"
-        ; utf8.decode(binary("foo.txt"))
+        ; utf8.decode_bytestring(x"E79BB4") -> "直"
+        ; utf8.decode_bytestring(binary("foo.txt"))
 
-        decode .function ByteString, TranslateControls=false
+        decode_bytestring .function ByteString, TranslateControls=false
 
           .cerror !validate(ByteString), "Cannot decode, data malformed."
 
