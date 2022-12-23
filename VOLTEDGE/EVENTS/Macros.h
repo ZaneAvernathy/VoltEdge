@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
   GUARD_VOLTEDGE_EVENTS_MACROS := true
 
   VoltEdge_Events_Macros_Created = 0.03
-  VoltEdge_Events_Macros_Updated = 0.19
+  VoltEdge_Events_Macros_Updated = 0.23
 
   ; Condition macros
 
@@ -644,22 +644,22 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
+    ; Updated: 0.23
     macroASMCSetCharacterDataWordBitsIfCharacterDataWord .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
+      STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
+      STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
-      STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
-      STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCSetCharacterDataWordBitsIfCharacterDataWord
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
+    ; Updated: 0.23
     macroASMCUnsetCharacterDataWordBitsIfCharacterDataWord .segment CharacterDataField, Value, FieldToCheck, ValueToMatch
+      STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
+      STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
       STORE_WORD wEventEngineParameter1, structCharacterDataRAM.\CharacterDataField
       STORE_WORD wEventEngineParameter2, \Value
-      STORE_WORD wEventEngineCharacterTarget, \ValueToMatch
-      STORE_WORD wEventEngineCharacterStructParameter, structCharacterDataRAM.\FieldToCheck
       CALL_ASM_LOOP rlASMCUnsetCharacterDataWordBitsIfCharacterDataWord
     .endsegment
 
