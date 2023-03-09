@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
   GUARD_VOLTEDGE_IO_REGISTERS := true
 
   VoltEdge_IORegisters_Created = 0.01
-  VoltEdge_IORegisters_Updated = 0.22
+  VoltEdge_IORegisters_Updated = 0.23
 
   ; Names, values, information, etc. are taken from fullsnes
   ; https://problemkaputt.de/fullsnes.htm
@@ -1238,7 +1238,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
       MDMAEN_Setting .sfunction ChannelList, bits((1 << ChannelList) | ...)
 
     ; Created: 0.01
-    ; Updated: 0.07
+    ; Updated: 0.23
     HDMAEN .byte ? ; $00420C
 
       ; This register is like MDMAEN but
@@ -1246,7 +1246,7 @@ GUARD_VOLTEDGE_IO_REGISTERS :?= false
 
       ; Helpers:
 
-      HMDMAEN_Setting .sfunction ChannelList, bits((1 << ChannelList) | ...)
+      HDMAEN_Setting .sfunction ChannelList, bits((1 << ChannelList) | ...)
 
     ; Created: 0.01
     ; Updated: 0.07
