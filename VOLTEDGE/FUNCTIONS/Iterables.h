@@ -657,7 +657,7 @@ GUARD_VOLTEDGE_FUNCTIONS_ITERABLES :?= false
         ; A new Iterable
 
       ; Appends a Value onto each
-      ; element in an Iterabble.
+      ; element in an Iterable.
       ; Shorthand for iter.zip(Iterable, [Value] x len(Iterable))
 
       zip_single .sfunction Iterable, Value, iter.zip(Iterable, [Value] x len(Iterable))
