@@ -1764,7 +1764,7 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This map is filled with the
       ; terrain IDs of all tiles on
       ; the map.
-    aMapMetatileMap    .fill (size(word) * $600) ; 7E81C8 0.15
+    aMapMetatileMap    .fill (size(word) * $600) ; 7E81CB 0.23
     aVisibilityMap     .fill $600 ; $7E8DCB 0.15
     aTargetableUnitMap .fill $600 ; $7E93CB 0.15
     aThreatenedTileMap .fill $600 ; $7E99CB 0.15
