@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
   GUARD_VOLTEDGE_EVENTS_VALUES := true
 
   VoltEdge_Events_Values_Created = 0.03
-  VoltEdge_Events_Values_Updated = 0.19
+  VoltEdge_Events_Values_Updated = 0.23
 
   ; Useful vanilla pointers
 
@@ -96,12 +96,12 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; suffering from fatigue.
 
         ; Created: 0.13
-        ; Updated: 0.13
-        rlASMCSwapChapterMaps :?= address($849485)
+        ; Updated: 0.23
+        rlSetChapterVisionRange :?= address($849485)
           ; Inputs:
           ;   wCurrentChapter: target chapter ID
-          ; Loads and swaps to the map of the
-          ; chapter specified by wCurrentChapter.
+          ; Sets the vision range of a chapter to its
+          ; chapter data table's value.
 
         ; Created: 0.03
         ; Updated: 0.03
@@ -948,14 +948,14 @@ GUARD_VOLTEDGE_EVENTS_VALUES :?= false
           ; wEventEngineParameter1.
 
         ; Created: 0.05
-        ; Updated: 0.06
-        rlASMCUnsetCharacterDataWordBitsIfCharacterWord :?= address($8CB381)
+        ; Updated: 0.23
+        rlASMCUnsetCharacterDataWordBitsIfCharacterDataWord :?= address($8CB381)
           ; Inputs:
           ;   wEventEngineParameter1: character data word offset
           ;   wEventEngineParameter2: value to strip
           ;   wEventEngineCharacterTarget: value to check for
           ;   wEventEngineCharacterStructParameter: character data word offset to check
-          ; rlASMCUnsetCharacterDataWordBitsIfCharacterWord but
+          ; rlASMCSetCharacterDataWordBitsIfCharacterDataWord but
           ; instead unsets the bits.
 
         ; Created: 0.05

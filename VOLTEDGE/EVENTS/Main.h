@@ -722,7 +722,7 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.19
+    ; Updated: 0.23
     MOVE_TEMPORARY_CENTERED .segment Character, StartingCoordinates, Speed, Color, Movestring=None
       ; Same as MOVE_TEMPORARY but
       ; the camera follows the unit.
@@ -730,7 +730,7 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
       .word \Character
       .byte \StartingCoordinates
       .byte \Speed
-      .byte \Color
+      .byte \Color >> 6
       .long \Movestring
     .endsegment
 
