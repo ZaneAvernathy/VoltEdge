@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
   GUARD_VOLTEDGE_EVENTS_MAIN := true
 
   VoltEdge_Events_Main_Created = 0.03
-  VoltEdge_Events_Main_Updated = 0.19
+  VoltEdge_Events_Main_Updated = 0.23
 
   ; Psuedo-end code YIELD
 
@@ -569,14 +569,16 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    PLAY_SOUND_UNK .segment Sound
+    ; Updated: 0.23
+    PLAY_SOUND .segment NormalSFX
       ; Unused in vanilla.
-      ; Difference between this and
-      ; PLAY_SOUND_BYTE is unknown,
-      ; this uses the other sound queue.
+      ; This plays a normal sound effect
+      ; (one that you'd play with rlPlaySoundEffect ($808C87))
+      ; if events are not currently being skipped.
+      ; This does not play a sound if sound effects are disabled.
+      ; This provides $00 as the parameter for the sound system.
       .byte $32
-      .byte \Sound
+      .byte \NormalSFX
     .endsegment
 
     ; Created: 0.03
@@ -589,24 +591,26 @@ GUARD_VOLTEDGE_EVENTS_MAIN :?= false
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    PLAY_SOUND_BYTE .segment Sound
-      ; Plays a Sound if events
-      ; are not currently being skipped.
+    ; Updated: 0.23
+    PLAY_EXTENDED_SOUND .segment ExtendedSFX
+      ; This plays an extended sound effect
+      ; (one that you'd play with rlPlayExtendedSoundEffect ($808CDD))
+      ; if events are not currently being skipped.
       .byte $34
-      .byte \Sound
+      .byte \ExtendedSFX
     .endsegment
 
     ; Created: 0.03
-    ; Updated: 0.07
-    PLAY_SOUND_WORD .segment Sound
-      ; Plays a Sound if events
-      ; are not currently being skipped.
-      ; This is a different set of
-      ; sounds from PLAY_SOUND_BYTE.
-      ; I don't know much about the sound system.
+    ; Updated: 0.23
+    PLAY_SOUND_FORCED .segment NormalSFX, Parameter=None
+      ; This plays a sound even if sound effects
+      ; are disabled. This includes a parameter, unlike
+      ; `PLAY_SOUND`.
+      ; This plays a normal sound effect
+      ; (one that you'd play with rlPlaySoundEffectForced ($808C7D))
+      ; if events are not currently being skipped.
       .byte $35
-      .word \Sound
+      .byte \NormalSFX, \Parameter
     .endsegment
 
     ; Created: 0.03

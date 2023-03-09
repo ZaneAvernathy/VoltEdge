@@ -882,9 +882,9 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.16
+    ; Updated: 0.23
     macroDialogue .segment DialoguePointer
-      PLAY_SOUND_WORD $00F7 ; TODO: sound definitions
+      PLAY_SOUND_FORCED $00F7 ; TODO: sound definitions
 
       DIALOGUE \DialoguePointer
       YIELD
@@ -916,9 +916,9 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.06
-    ; Updated: 0.12
+    ; Updated: 0.23
     macroDestroyHouseByTileChangeID .segment TileChangeID, SoundID=$45
-      PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
+      PLAY_EXTENDED_SOUND \SoundID ; TODO: sound definitions
       macroTileChangeByID \TileChangeID
 
       PAUSE_SKIPPABLE 10
@@ -926,16 +926,16 @@ GUARD_VOLTEDGE_EVENTS_MACROS :?= false
     .endsegment
 
     ; Created: 0.12
-    ; Updated: 0.12
+    ; Updated: 0.23
     macroOpenDoorByTileChangeID .segment TileChangeID, SoundID=$6B
-      PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
+      PLAY_EXTENDED_SOUND \SoundID ; TODO: sound definitions
       macroTileChangeByID \TileChangeID
     .endsegment
 
     ; Created: 0.12
-    ; Updated: 0.12
+    ; Updated: 0.23
     macroOpenDrawbridgeByTileChangeID .segment TileChangeID, SoundID=$6E
-      PLAY_SOUND_BYTE \SoundID ; TODO: sound definitions
+      PLAY_EXTENDED_SOUND \SoundID ; TODO: sound definitions
       macroTileChangeByID \TileChangeID
     .endsegment
 
