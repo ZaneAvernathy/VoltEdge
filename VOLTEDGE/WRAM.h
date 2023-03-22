@@ -1351,6 +1351,37 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
+  .virtual $7E4498
+
+    wUnitWindowScrollPixels  .word ? ; $7E4498 0.23
+    wUnitWindowScrollRows    .word ? ; $7E449A 0.23
+    wUnitWindowCurrentRow    .word ? ; $7E449C 0.23
+    wUnitWindowCurrentColumn .word ? ; $7E449E 0.23
+
+    aUnitWindowDeploymentSlots .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7E44A0 0.23
+      ; These are short pointers to the deployment slots
+      ; of the units on the unit window.
+      ; The endcap slot should remain unused.
+
+    wUnitWindowMaxRows       .word ? ; $7E4508 0.23
+    wUnitWindowCurrentPage   .word ? ; $7E450A 0.23
+    wUnitWindowSortDirection .word ? ; $7E450C 0.23
+    wUnitWindowSortColumn    .word ? ; $7E450E 0.23
+
+    aUnitWindowUnknown7E4510 .macroUnitWindowSlots byte ; $7E4510 0.23
+
+    wUnitWindowUnknown7E4543 .word ? ; $7E4543 0.23
+
+    .fill ($7E454D - *)
+
+    bUnitWindowActive .char ? ; $7E454D 0.23
+      ; This is set to -1 when on the unit window and
+      ; -1 when leaving/not on it. This is initialized to 0
+      ; on chapter start.
+    aUnitWindowUnknown7E454E .macroUnitWindowSlots byte ; $7E454E 0.23
+
+    .endvirtual
+
   .virtual $7E45B2
 
     lDialogueWidthTablePointer .long ? ; $7E45B2 0.14
@@ -2158,6 +2189,14 @@ GUARD_VOLTEDGE_WRAM :?= false
 
       .endstruct
 
+      .struct
+
+        .fill $7EA943 - *
+
+        aUnitWindowFE4SkillIconTilemap .fill 32 * 64 * size(word) ; $7EA943 0.23
+
+      .endstruct
+
     .endunion
 
   .endvirtual
@@ -2278,18 +2317,20 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .endvirtual
 
-  .virtual $7FB0F5
-
-    ; The decompression buffer here seems like it
-    ; goes all the way until the end of RAM, and things are
-    ; free to use as much or as little as they want.
-
-    ; The battle animation system also uses some of the space
-    ; in here
+  .virtual $7FAB34
 
     .union
 
-      aDecompressionBuffer .fill ($800000 - *)
+      .struct
+
+        .fill $7FB0F5 - *
+
+        aDecompressionBuffer .fill ($800000 - *) ; $7FB0F5 0.23
+          ; The decompression buffer here seems like it
+          ; goes all the way until the end of RAM, and things are
+          ; free to use as much or as little as they want.
+
+      .endstruct
 
       .struct
 
@@ -2352,6 +2393,224 @@ GUARD_VOLTEDGE_WRAM :?= false
           bOverlayIndex .byte ?          ; $7FE1BD 0.03
           bPaletteIndex .byte ?          ; $7FE1BE 0.03
           bScriptIndex .byte ?           ; $7FE1BF 0.03
+        .endblock
+
+      .endstruct
+
+      .struct
+
+        aUnitWindowSlotsStrength     .macroUnitWindowSlots byte ; $7FAB34 0.23
+        aUnitWindowSlotsMight        .macroUnitWindowSlots byte ; $7FAB67 0.23
+        aUnitWindowSlotsMagic        .macroUnitWindowSlots byte ; $7FAB9A 0.23
+        aUnitWindowSlotsSkill        .macroUnitWindowSlots byte ; $7FABCD 0.23
+        aUnitWindowSlotsSpeed        .macroUnitWindowSlots byte ; $7FAC00 0.23
+        aUnitWindowSlotsLuck         .macroUnitWindowSlots byte ; $7FAC33 0.23
+        aUnitWindowSlotsDefense      .macroUnitWindowSlots byte ; $7FAC66 0.23
+        aUnitWindowSlotsConstitution .macroUnitWindowSlots byte ; $7FAC99 0.23
+        aUnitWindowSlotsHit          .macroUnitWindowSlots byte ; $7FACCC 0.23
+        aUnitWindowSlotsAvoid        .macroUnitWindowSlots byte ; $7FACFF 0.23
+        aUnitWindowSlotsSwordRank    .macroUnitWindowSlots byte ; $7FAD32 0.23
+        aUnitWindowSlotsLanceRank    .macroUnitWindowSlots byte ; $7FAD65 0.23
+        aUnitWindowSlotsAxeRank      .macroUnitWindowSlots byte ; $7FAD98 0.23
+        aUnitWindowSlotsBowRank      .macroUnitWindowSlots byte ; $7FADCB 0.23
+        aUnitWindowSlotsStaffRank    .macroUnitWindowSlots byte ; $7FADFE 0.23
+        aUnitWindowSlotsFireRank     .macroUnitWindowSlots byte ; $7FAE31 0.23
+        aUnitWindowSlotsThunderRank  .macroUnitWindowSlots byte ; $7FAE64 0.23
+        aUnitWindowSlotsWindRank     .macroUnitWindowSlots byte ; $7FAE97 0.23
+        aUnitWindowSlotsLightRank    .macroUnitWindowSlots byte ; $7FAECA 0.23
+        aUnitWindowSlotsDarkRank     .macroUnitWindowSlots byte ; $7FAEFD 0.23
+        aUnitWindowSlotsSkills1      .macroUnitWindowSlots byte ; $7FAF30 0.23
+        aUnitWindowSlotsSkills2      .macroUnitWindowSlots byte ; $7FAF63 0.23
+        aUnitWindowSlotsSkills3      .macroUnitWindowSlots byte ; $7FAF96 0.23
+
+        wUnitWindowAllegiance              .word ? ; $7FAFC9 0.23
+        wUnitWindowUnknown7FAFCB           .word ? ; $7FAFCB 0.23
+
+        .fill ($7FB10D - *)
+
+        wUnitWindowType                    .word ? ; $7FB10D 0.23
+          ; This tells how we arrived at the unit window, with:
+          ;   0 - Open the menu from a chapter map
+          ;   1 - Return to the menu from a unit on a chapter map
+          ;   2 - Open the menu from the preparations screen
+          ;   3 - Return to the menu from a unit on the preparations screen
+        wUnitWindowFE4CurrentLine          .word ? ; $7FB10F 0.23
+          ; In FE4, this is the currently-selected unit list line,
+          ; 1-indexed.
+        wUnitWindowFE4CurrentHighlightLine .word ? ; $7FB111 0.23
+          ; In FE4, this is the currently-selected highlighted unit
+          ; list line, 0-indexed.
+        wUnitWindowFE4ScrolledLines        .word ? ; $7FB113 0.23
+          ; In FE4, this is the number of lines currently scrolled
+          ; on the unit list.
+        ; FE4 puts its unit count for the window here.
+        wUnitWindowFE4SkippedUnitCount     .word ? ; $7FB115 0.23
+          ; In FE4, this is the number of units that have been
+          ; excluded from the unit list.
+        wUnitWindowCanScrollDownFlag    .word ? ; $7FB117 0.23
+          ; This is set to 1 when the player has more
+          ; units than what fits on a single screen and is 0 otherwise.
+
+        .fill size(word)
+
+        wUnitWindowFE4LastScrolledFlag  .sint ? ; $7FB11B 0.23
+          ; In FE4, this is set to -1 upon moving downward in the list
+          ; of units, and is 0 otherwise.
+        wUnitWindowUnknown7FB11D        .word ? ; $7FB11D 0.23
+        wUnitWindowFE4ScrollingStep     .word ? ; $7FB11F 0.23
+          ; In FE4, this is 0-2 based on progress when scrolling on
+          ; the list of units.
+        wUnitWindowFE4UnitListCursorYCoordinate .word ? ; $7FB121 0.23
+          ; In FE4, this is the Y coordinate of the cursor in pixels.
+          ; In FE5, it is initialized to its default position in FE4 but
+          ; is not touched afterwards.
+        wUnitWindowFE4ScrollingFlag     .sint ? ; $7FB123 0.23
+          ; In FE4, this is set to -1 while scrolling on the list of units,
+          ; and is 0 otherwise.
+        wUnitWindowFE4ScrollPixels      .word ? ; $7FB125 0.23
+          ; In FE4, this is how many pixels down the unit list is scrolled.
+        wUnitWindowFE4PageScrollFlag    .sint ? ; $7FB127 0.23
+          ; In FE4, this is set to -1 while changing pages left/right on
+          ; the list of units.
+        wUnitWindowFE4Action            .word ? ; $7FB129 0.23
+          ; In FE4, this is the action index for the unit window.
+          ; In FE5, this is set to 1 and doesn't handle actions.
+        wUnitWindowFE4SortTypeFlag      .word ? ; $7FB12B 0.23
+          ; TODO: values
+          ; In FE4, this is set to 1 when selecting a sort type and
+          ; is 0 otherwise.
+        wUnitWindowUnknown7FB12D        .word ? ; $7FB12D 0.23
+        wUnitWindowFE4CurrentColumn     .word ? ; $7FB12F 0.23
+          ; In FE4, this is the current sort column type.
+        wUnitWindowFE4UnitSwapStep      .word ? ; $7FB131 0.23
+          ; In FE4, this is 1-3 when swapping two units on the list
+          ; of units, and is 0 when not swapping.
+        wUnitWindowFE4UnitSwapStartSlot .word ? ; $7FB133 0.23
+          ; In FE4, this is the list position of the selected unit
+          ; when swapping units.
+        wUnitWindowFE4UnitSwapStartCursorYCoordinate .word ? ; $7FB135 0.23
+          ; In FE4, this is the Y coordinate of the cursor at the initial
+          ; unit being swapped.
+
+        .fill size(word) * 3
+
+        wUnitWindowFE4HightlightStep            .word ? ; $7FB13D 0.23
+          ; In FE4, this is the current step 0-31 for cycling the
+          ; unit highlight on theunit list.
+          ; In FE5, this does one step, although the highlight is not used.
+        wUnitWindowFE4HightlightCounter         .word ? ; $7FB13F 0.23
+          ; In FE4, this is a counter 0-5 that increments
+          ; wUnitWindowFE4HightlightStep when it loops.
+        aUnitWindowFE4HighlightColors           .block ; $7FB141 0.23
+          ; This is an array of unit list line higlight color information. In FE4,
+          ; this is used to perform color math on the highlighted line. In FE5, this
+          ; is initialized with color data but is never used.
+          _Colors .brept 16
+            .dstruct structUnitWindowFE4HighlightColor
+            .endrept
+          .endblock
+        aUnitWindowItemIconTileIndexes          .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB171 0.23
+          ; These are the tile indexes of the units' equipped weapons.
+          ; Units without weapons get $0000.
+        aUnitWindowMapSpriteIndexes             .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB1D9 0.23
+          ; These are the positions of the units' map sprites
+          ; within the currently-registered sprites in VRAM.
+          ; This value is not used in FE5 after it's initially written.
+        aUnitWindowFE4ReadyToPromoteFlags       .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB241 0.23
+          ; In FE4, these are set to 1 if the unit in the slot can promote,
+          ; and are 0 otherwise. This controls displaying the little `OK!` sprite.
+        wUnitWindowFE4CurrentNameLine           .word ? ; $7FB2A9 0.23
+          ; In FE4, this is the tile row, measured from the first unit's line,
+          ; of the unit being processed's name.
+        wUnitWindowUnknown7FB2AB                .word ? ; $7FB2AB 0.23
+        wUnitWindowUnknown7FB2AD                .word ? ; $7FB2AD 0.23
+        wUnitWindowFE4ProcessingHighlightLine   .word ? ; $7FB2AF 0.23
+          ; In FE4, this is the unit list line that the highlight system
+          ; is currently processing.
+        wUnitWindowFE4ProcessingHighlightOffset .word ? ; $7FB2B1 0.23
+          ; In FE4, this is the current offset into the highlight colors
+          ; that the highlight system is currently processing.
+        wUnitWindowFE4CurrentLineSlotOffset     .word ? ; $7FB2B3 0.23
+          ; In FE4, this is the offset of the currently-selected
+          ; unit's slot.
+        wUnitWindowUnknown7FB2B5                .word ? ; $7FB2B5 0.23
+        wUnitWindowUnknown7FB2B7                .word ? ; $7FB2B7 0.23
+        wUnitWindowFE4CurrentItemIconSlot       .word ? ; $7FB2B9 0.23
+          ; In FE4, this is the current number of item icons drawn
+          ; while drawing item icons to VRAM.
+        aUnitWindowCurrentSortScores            .macroUnitWindowSlots word ; $7FB2BB 0.23
+          ; This is an array of all of the current sort scores for the current
+          ; sort type.
+
+        .fill $7FDF0A - *
+
+        aUnitWindowFE4BG1VOFSHDMATable .block ; $7FDF0A 0.23
+
+          _Entries .brept 4
+
+            _NTRLSetting    .byte ?
+            _BG1VOFSSetting .word ?
+
+          .endrept
+
+        .endblock
+
+        aUnitWindowFE4BG2VOFSHDMATable .block ; $7FDF16 0.23
+
+          _Entries .brept 4
+
+            _NTRLSetting    .byte ?
+            _BG2VOFSSetting .word ?
+
+          .endrept
+
+        .endblock
+
+        aUnitWindowFE4BG3VOFSHDMATable .block ; $7FDF22 0.23
+
+          _Entries .brept 4
+
+            _NTRLSetting    .byte ?
+            _BG3VOFSSetting .word ?
+
+          .endrept
+
+        .endblock
+
+        aUnitWindowFE4HighlightHeights .block ; $7FDF2E 0.23
+
+          _Rows .brept 27
+            .byte ?
+          .endrept
+
+        .endblock
+
+        .fill $7FDF4C - *
+
+        aUnitWindowFE4HighlightPackedColors .block ; $7FDF4C 0.23
+
+          _Main .block ; $7FDF4C
+            _Colors .brept 16
+              .dstruct structUnitWindowFE4HighlightColor
+            .endrept
+          .endblock
+
+          _Unknown .block ; $7FDF7C
+            _Colors .brept 10
+              .dstruct structUnitWindowFE4HighlightColor
+            .endrept
+          .endblock
+
+        .endblock
+
+        .fill $7FDFA0 - *
+
+        aUnitWindowFE4HighlightUnpackedColors .block ; $7FDFA0 0.23
+
+          _Entries .brept 32
+            .dstruct structUnitWindowFE4HighlightColorUnpacked
+          .endrept
+
         .endblock
 
       .endstruct
