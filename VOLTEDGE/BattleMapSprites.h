@@ -117,6 +117,10 @@ GUARD_VOLTEDGE_BATTLE_MAPSPRITE_SCRIPT_HELPERS :?= false
       .word \Frame - \Direction + $0E
     .endmacro
 
+    MODE_IDLE .macro
+      .byte $22
+    .endmacro
+
     MODE_ATTACK .macro
       .byte $23
     .endmacro
