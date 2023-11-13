@@ -73,7 +73,9 @@ GUARD_VOLTEDGE_MENUS :?= false
           ColorData0 .byte ?
           ColorData1 .byte ?
         .else
-          .byte \Control, \ColorData0, \ColorData1
+          Control    .byte \Control
+          ColorData0 .byte \ColorData0
+          ColorData1 .byte \ColorData1
         .endif
       .endstruct
 
@@ -87,7 +89,7 @@ GUARD_VOLTEDGE_MENUS :?= false
 
     ; Created: 0.23
     ; Updated: 0.23
-      macroUnitWindowPageElement .macro XOffset, TextGetter, Renderer, BaseTile
+      structUnitWindowPageElement .struct XOffset, TextGetter, Renderer, BaseTile
         .if (\XOffset === ?)
           XOffset    .byte ?
           TextGetter .long ?
@@ -99,6 +101,6 @@ GUARD_VOLTEDGE_MENUS :?= false
           Renderer   .long \Renderer
           BaseTile   .word \BaseTile
         .endif
-      .endmacro
+      .endstruct
 
 .endif ; GUARD_VOLTEDGE_MENUS
