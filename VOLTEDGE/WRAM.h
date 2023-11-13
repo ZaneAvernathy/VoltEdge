@@ -1125,6 +1125,34 @@ GUARD_VOLTEDGE_WRAM :?= false
         ; unknown.
     .endblock
 
+    .word ? ; $001ACF 0.23
+
+    wTemporaryDeploymentInfo .word ? ; $001AD1 0.23
+      ; This is either a deployment number (during animations-on battles)
+      ; or a short pointer to a deployment slot (on the unit window)
+    lTemporaryNamePointer .long ? ; $001AD3 0.23
+      ; This holds a long pointer to menu text
+      ; when drawing character, class, and item
+      ; names on the unit window.
+    wTemporaryUnitWindowCounter .word ? ; $001AD6 0.23
+      ; This is a counter used when getting unit info
+      ; for the holdover FE4 unit window code.
+
+    .fill 6
+
+    wTemporaryUnitWindowSkillCounter .word ? ; $001ADE 0.23
+      ; This is used as a counter when getting/drawing
+      ; skills on the unit window.
+
+    aTemporaryUnitWindowSkillList .fill 22 * size(byte) ; $001AE0 0.23
+      ; This is a list of slots for skills drawn on the
+      ; unit window. The number of nonzero entries denotes
+      ; how many displayable skills a unit has.
+
+    wTemporaryUnitWindowItem .word ? ; $001AF6 0.23
+      ; This is an item ID used on the unit window
+      ; to draw a unit's equipped weapon.
+
   .endvirtual
 
   .virtual $001C00
@@ -1366,21 +1394,43 @@ GUARD_VOLTEDGE_WRAM :?= false
     wUnitWindowMaxRows       .word ? ; $7E4508 0.23
     wUnitWindowCurrentPage   .word ? ; $7E450A 0.23
     wUnitWindowSortDirection .word ? ; $7E450C 0.23
-    wUnitWindowSortColumn    .word ? ; $7E450E 0.23
+    wUnitWindowSortType      .word ? ; $7E450E 0.23
 
     aUnitWindowUnknown7E4510 .macroUnitWindowSlots byte ; $7E4510 0.23
 
     wUnitWindowUnknown7E4543 .word ? ; $7E4543 0.23
 
-    .fill ($7E454D - *)
+    .union
 
-    bUnitWindowActive .char ? ; $7E454D 0.23
-      ; This is set to -1 when on the unit window and
-      ; -1 when leaving/not on it. This is initialized to 0
-      ; on chapter start.
-    aUnitWindowUnknown7E454E .macroUnitWindowSlots byte ; $7E454E 0.23
+      .struct
 
-    .endvirtual
+        .fill ($7E454D - *)
+
+        bUnitWindowActive .char ? ; $7E454D 0.23
+          ; This is set to 1 when on the unit window and
+          ; -1 when leaving/not on it. This is initialized to 0
+          ; on chapter start.
+        aUnitWindowUnknown7E454E .macroUnitWindowSlots byte ; $7E454E 0.23
+
+      .endstruct
+
+      .struct
+
+        .fill ($7E4547 - *)
+
+          aUnitWindowFE4MapSpriteSlots .block ; $7E4547 0.23
+
+            aNormalMapSpriteSlots .fill (48 * size(sint)) ; $7E4547 0.23
+
+            aTallMapSpriteSlots .fill (24 * size(sint)) ; $7E45A7 0.23
+
+          .endblock
+
+      .endstruct
+
+    .endunion
+
+  .endvirtual
 
   .virtual $7E45B2
 
@@ -2228,6 +2278,8 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; This is the Y coordinate of
       ; the burst window's name text.
 
+    aPrepDeploymentSlots .fill (51 * size(word)) ; $7EB603 0.23
+
   .endvirtual
 
   .virtual $7EC1AF
@@ -2512,9 +2564,8 @@ GUARD_VOLTEDGE_WRAM :?= false
         aUnitWindowItemIconTileIndexes          .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB171 0.23
           ; These are the tile indexes of the units' equipped weapons.
           ; Units without weapons get $0000.
-        aUnitWindowMapSpriteIndexes             .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB1D9 0.23
-          ; These are the positions of the units' map sprites
-          ; within the currently-registered sprites in VRAM.
+        aUnitWindowFE4SpriteSlots               .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB1D9 0.23
+          ; These mark the order of various sprites in FE4?
           ; This value is not used in FE5 after it's initially written.
         aUnitWindowFE4ReadyToPromoteFlags       .macroUnitWindowSlots word, UnitWindowSlotCount+1 ; $7FB241 0.23
           ; In FE4, these are set to 1 if the unit in the slot can promote,
