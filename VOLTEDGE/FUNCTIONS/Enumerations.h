@@ -12,7 +12,7 @@ GUARD_VOLTEDGE_FUNCTIONS_ENUMERATIONS :?= false
   enum .namespace
 
     ; Created: 0.19
-    ; Updated: 0.20
+    ; Updated: 0.23
     ; enum(Init=?, Increment=EnumDefaultIncrement)
 
       ; Inputs:
@@ -47,8 +47,8 @@ GUARD_VOLTEDGE_FUNCTIONS_ENUMERATIONS :?= false
       .if (Init === ?)
         enum.EnumIndex += enum.EnumIncrement
       .else
-        enum.EnumIndex := Init
-        enum.EnumIncrement := Increment
+        enum.EnumIndex ::= Init
+        enum.EnumIncrement ::= Increment
       .endif
     .endfunction enum.EnumIndex
 
