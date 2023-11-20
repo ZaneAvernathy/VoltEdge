@@ -4,7 +4,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   GUARD_VOLTEDGE_WRAM := true
 
   VoltEdge_WRAM_Created = 0.01
-  VoltEdge_WRAM_Updated = 0.23
+  VoltEdge_WRAM_Updated = 0.24
 
   ; This is a work-in-progress RAM map of FE5.
 
@@ -1465,6 +1465,7 @@ GUARD_VOLTEDGE_WRAM :?= false
   .virtual $7E4DFA
 
     wTradeWindowActionIndex .word ? ; $7E4DFA 0.22
+    wShopWindowActionIndex  .word ? ; $7E4DFC 0.24
 
   .endvirtual
 
@@ -2244,6 +2245,86 @@ GUARD_VOLTEDGE_WRAM :?= false
         .fill $7EA943 - *
 
         aUnitWindowFE4SkillIconTilemap .fill 32 * 64 * size(word) ; $7EA943 0.23
+
+      .endstruct
+
+      .struct
+
+        wShopWindowUnitFlag .word ?         ; $7EA937 0.24
+          ; This is size(word) when the items displayed in a
+          ; shop are a unit's inventory.
+        wShopWindowReadyFlag .word ?        ; $7EA939 0.24
+          ; This is negative when the shop is
+          ; not yet displaying items.
+        wShopWindowConfirmOffset .word ?    ; $7EA93B 0.24
+        lShopWindowInventoryPointer .long ? ; $7EA93D 0.24
+
+        ; These arrays are used for items shown in shops.
+
+        aShopWindowItemIconArray .block          ; $7EA940 0.24
+          ; This is an unused array of item icon ID words.
+          Icons .brept 7                         ; $7EA940 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA94E 0.24
+          .endblock
+        aShopWindowItemIDArray .block            ; $7EA950 0.24
+          ; This is an array of packed item ID/durability
+          ; words.
+          IDs .brept 7                           ; $7EA950 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA95E 0.24
+          .endblock
+        aShopWindowItemTextBaseArray .block      ; $7EA960 0.24
+          ; This is an array of text base tilemap entries
+          ; used to color unselectable items.
+          ; Technically, these aren't text bases, but
+          ; rather that the durability drawing function
+          ; passes in 0 or 2 through aCurrentTilemapInfo.wBaseTile
+          ; for blue/gray.
+          Bases .brept 7                         ; $7EA960 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA96E 0.24
+          .endblock
+        aShopWindowItemDurabilityArray .block    ; $7EA970 0.24
+          ; This is an array of item durabilities.
+          Durabilities .brept 7                  ; $7EA970 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA97E 0.24
+          .endblock
+        aShopWindowItemPriceArray .block         ; $7EA980 0.24
+          ; This is an array of prices.
+          Prices .brept 7                        ; $7EA980 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA98E 0.24
+          .endblock
+        aShopWindowItemSelectabilityArray .block ; $7EA990 0.24
+          ; This is an array where nonselectable items will
+          ; have a nonzero value.
+          Selectabilities .brept 7               ; $7EA990 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA99E 0.24
+          .endblock
+        aShopWindowItemOffsetArray .block        ; $7EA9A0 0.24
+          ; This is an array that maps an item to sell
+          ; to its offset within a unit's inventory.
+          Offsets .brept 7                       ; $7EA9A0 0.24
+            .word ?
+          .endrept
+          Terminator .word ?                     ; $7EA9AE 0.24
+          .endblock
+
+        wShopWindowCurrentRowOffset .word ? ; $7EA9B0 0.24
+          ; This is the offset of the current item into the
+          ; above arrays.
+        wShopWindowMaxRowOffset .word ?     ; $7EA9B2 0.24
+          ; This is the next offset value after the end of
+          ; the item list.
 
       .endstruct
 
