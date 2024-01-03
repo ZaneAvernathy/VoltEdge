@@ -1464,8 +1464,9 @@ GUARD_VOLTEDGE_WRAM :?= false
 
   .virtual $7E4DFA
 
-    wTradeWindowActionIndex .word ? ; $7E4DFA 0.22
-    wShopWindowActionIndex  .word ? ; $7E4DFC 0.24
+    wTradeWindowActionIndex  .word ? ; $7E4DFA 0.22
+    wShopWindowActionIndex   .word ? ; $7E4DFC 0.24
+    wConvoyWindowActionIndex .word ? ; $7E4DFE 0.24
 
   .endvirtual
 
@@ -1474,6 +1475,22 @@ GUARD_VOLTEDGE_WRAM :?= false
     wOptionsWindowActionIndex .word ? ; $7E4E00 0.22
       ; This is the current index into the options window's
       ; action table.
+
+  .endvirtual
+
+  .virtual $7E4E0A
+
+    wPrepItemsActionIndex .word ? ; $7E4E0A 0.24
+      ; This is the current index into the prep screen item window's
+      ; action table.
+
+  .endvirtual
+
+  .virtual $7E4E0E
+
+    wConvoyWindowItemListSortSetting .word ? ; $7E4E0E 0.24
+      ; This is 0 when sorting the convoy item list by
+      ; item type and size(word) when sorting by kana.
 
   .endvirtual
 
@@ -1710,6 +1727,13 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; of a unit defeated during combat, if there
       ; is one.
     bUnknown7E4FCF                .byte ? ; $7E4FCF 0.18
+    aConvoy .block                        ; $7E4FD0 0.24
+      ; This is a list of packed item IDs/durabilities
+      ; in the player's convoy.
+      Items .brept 128                    ; $7E4FD0 0.24
+        .word ?
+      .endrept
+    .endblock
 
   .endvirtual
 
@@ -2126,6 +2150,83 @@ GUARD_VOLTEDGE_WRAM :?= false
 
       .struct
 
+        wConvoyWindowItemListScrolledRowOffset .word ? ; $7EA937 0.24
+          ; This is the number of rows scrolled * size(word).
+        wConvoyWindowItemListScrolledRow .word ?       ; $7EA939 0.24
+          ; This is the number of rows scrolled.
+        wConvoyWindowItemListSelectedSide .word ?      ; $7EA93B 0.24
+          ; This is 0 when the left-side item is selected and
+          ; size(word) when the right-side item is selected.
+        wConvoyWindowItemListSelectedRow .word ?       ; $7EA93D 0.24
+          ; This is the row number of the currently-selected item.
+        wConvoyWindowDiscardOffset .word ?             ; $7EA93F 0.24
+          ; This is the offset of the item being discarded.
+        wConvoyWindowUnitItemOffset .word ?            ; $7EA941 0.24
+          ; This is the offset of the currently-selected item within
+          ; the unit's inventory.
+        wConvoyWindowUnitMaxItemOffset .word ?         ; $7EA943 0.24
+          ; This is the offset of the last item in the unit's
+          ; inventory.
+        aConvoyWindowOFSHDMATable .block               ; $7EA945 0.24
+          ; This is a table of H/VOFS positions for BG2/3.
+
+          Entries .brept 4                             ; $7EA945 0.24
+            NTRLSetting .byte ?
+            HOFS        .word ?
+            VOFS        .word ?
+            .endrept
+
+          Terminator .byte ?                           ; $7EA959 0.24
+          .endblock
+
+        .word ?
+
+        wConvoyWindowSourceSelectionSetting .word ?    ; $7EA95C 0.24
+          ; This is the currently-selected option within the
+          ; center window in the convoy when selecting what
+          ; to do. Possible values:
+          ;   0 * size(word): hovering over 'take'
+          ;   2 * size(word): hovering over 'give'
+          ;   4 * size(word): hovering over 'discard'
+
+        .union
+
+          .struct
+
+            aMapConvoyWindowBG1VOFSHDMATable .block ; $7EA95E 0.24
+              ; This is a table of VOFS positions for BG1, used by the
+              ; map convoy window..
+
+              Entries .brept 4                      ; $7EA95E 0.24
+                NTRLSetting .byte ?
+                HOFS        .word ?
+                VOFS        .word ?
+                .endrept
+
+              Terminator .byte ?                    ; $7EA972 0.24
+              .endblock
+
+          .endstruct
+
+          .struct
+
+            .fill $7EA968 - *
+
+            aConvoyWindowSortWeightList .block ; $7EA968 0.24
+              ; This is a list of weights used to sort the convoy item list.
+              Items .rept 128
+                .word ?
+                .endrept
+              .endblock
+
+          .endstruct
+
+        .endunion
+
+      .endstruct
+
+      .struct
+
         wStatusWindowIndex .word ?                         ; $7EA937 0.22
           ; This is the currently-selected faction's index.
         wStatusWindowCount .word ?                         ; $7EA939 0.22
@@ -2360,6 +2461,40 @@ GUARD_VOLTEDGE_WRAM :?= false
       ; the burst window's name text.
 
     aPrepDeploymentSlots .fill (51 * size(word)) ; $7EB603 0.23
+
+  .endvirtual
+
+  .virtual $7EB6C3
+
+    wPrepDeploymentSlotsOffset .word ?           ; $7EB6C3 0.24
+    wPrepUnitListColumn .word ?                  ; $7EB6C5 0.24
+    wPrepUnitListRow .word ?                     ; $7EB6C7 0.24
+    wPrepMinimumDeployableUnits .word ?          ; $7EB6C9 0.24
+    wPrepMaximumDeployableUnits .word ?          ; $7EB6CB 0.24
+    wPrepSelectedDeployableUnits .word ?         ; $7EB6CD 0.24
+    wPrepTotalDeployableUnits .word ?            ; $7EB6CF 0.24
+
+  .endvirtual
+
+  .virtual $7EB6DB
+
+    wPrepUnitListTextCoordinateBase .word ?    ; $7EB6DB 0.24
+    wPrepUnitListSpriteVerticalOffset .word ?  ; $7EB6DD 0.24
+    wPrepUnitListMovingFlag .word ?            ; $7EB6DF 0.24
+
+    .word ? ; $7EB6E1 ; 0.24
+
+    wPrepScrollDirectionIncrement .word ?      ; $7EB6E3 0.24
+    wPrepScrollDirectionStep .word ?           ; $7EB6E5 0.24
+    wPrepListCursorXCoordinate .word ?         ; $7EB6E7 0.24
+    wPrepListCursorYCoordinate .word ?         ; $7EB6E9 0.24
+    wPrepItemsSelectedOption .word ?           ; $7EB6EB 0.24
+    wPrepItemsDiscardOffset .word ?            ; $7EB6ED 0.24
+    wPrepItemsDiscardLength .word ?            ; $7EB6EF 0.24
+    wPrepUnitListLastSelectedColumn .word ?    ; $7EB6F1 0.24
+    wPrepUnitListLastSelectedRow .word ?       ; $7EB6F3 0.24
+    wPrepUnitListLastScrollOffset .word ?      ; $7EB6F5 0.24
+    wPrepUnitListLastScrolledMenuLine .word ?  ; $7EB6F7 0.24
 
   .endvirtual
 
