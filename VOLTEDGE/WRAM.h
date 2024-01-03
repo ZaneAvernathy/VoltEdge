@@ -2375,9 +2375,18 @@ GUARD_VOLTEDGE_WRAM :?= false
 
     ; These are buffers for each tilemap layer.
 
-    aBG1TilemapBuffer .fill $1000 ; $7EC77C 0.01
-    aBG2TilemapBuffer .fill $1000 ; $7ED77C 0.01
-    aBG3TilemapBuffer .fill $1000 ; $7EE77C 0.01
+    aBG1TilemapBuffer .block             ; $7EC77C 0.24
+      Page0 .fill (32 * 32 * size(word)) ; $7EC77C 0.24
+      Page1 .fill (32 * 32 * size(word)) ; $7ECF7C 0.24
+      .endblock
+    aBG2TilemapBuffer .block             ; $7ED77C 0.24
+      Page0 .fill (32 * 32 * size(word)) ; $7ED77C 0.24
+      Page1 .fill (32 * 32 * size(word)) ; $7EDF7C 0.24
+      .endblock
+    aBG3TilemapBuffer .block             ; $7EE77C 0.24
+      Page0 .fill (32 * 32 * size(word)) ; $7EE77C 0.24
+      Page1 .fill (32 * 32 * size(word)) ; $7EEF7C 0.24
+      .endblock
 
   .endvirtual
 
