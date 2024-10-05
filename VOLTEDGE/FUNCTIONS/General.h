@@ -36,7 +36,7 @@ GUARD_VOLTEDGE_FUNCTIONS_GENERAL :?= false
     ;
     ;   ; Include the first $10 bytes of a file.
     ;
-    ;   g4bppcTestGraphics .crossbank.start *, "TestFile.4bpp.comp"
+    ;   g4bppcTestGraphics .crossbank.start "TestFile.4bpp.comp"
     ;
     ; .endlogical
     ;
@@ -50,16 +50,20 @@ GUARD_VOLTEDGE_FUNCTIONS_GENERAL :?= false
     ; .endlogical
 
     ; Created: 0.23
-    ; Updated: 0.23
+    ; Updated: 0.25
 
     crossbank .namespace
 
       Remainder := b""
 
-      start .function Address, Filename: binary
+      start .function Filename: binary, Address=None
 
-        Remainder ::= Filename[$10000 - (* & $FFFF):]
-        .text Filename[:$10000 - (* & $FFFF)]
+        .if ( Address == None )
+          Address := *
+        .endif
+
+        Remainder ::= Filename[$10000 - (Address & $FFFF):]
+        .text Filename[:$10000 - (Address & $FFFF)]
 
       .endfunction
 
